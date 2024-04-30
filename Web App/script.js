@@ -5,11 +5,10 @@
  * - CR is un-accounted for
  * - Crafting divisor is just set to one because it's currently impossible to tell which crafter a given recipe is using
  * - the UI is completely un-implemented
- * - data validation / error handling is garbo
+ * - if recipe is validated within id validation method, the calling method will be unknown
  *
  * Added:
- * - added explicit differentiation between URPS resulting from input vs URPS resulting from output.
- * - accounted for parent of production tree in calculateProduction method.
+ * - more robust data validation system; still a few kinks to work out though
  */
 
 //- Using a function pointer:
@@ -26,7 +25,7 @@ function getRecipes() {
 
     output = {};
 
-    calculateProduction("tank", 60, recipes, output);
+    calculateProduction("rocket-silo", 1, recipes, output);
 
     // runs for every ingredient
     for (let outputKey in output) {
@@ -47,7 +46,9 @@ function getRecipes() {
  * @param {object} output - The output dictionary to store calculated URPS for each child ingredient.
  */
 function calculateProduction(parentID, parentURPS, recipes, output) {
-  validateInput(parentID, parentURPS, recipes, output);
+  validateID(parentID, recipes);
+  validateURPS(parentURPS);
+  validateOutput(output);
 
   tryAddToOutput(parentID, recipes, output);
 
@@ -68,7 +69,9 @@ function calculateProduction(parentID, parentURPS, recipes, output) {
  * @returns {void} This function does not return a value explicitly, but updates the output dictionary with calculated URPS.
  */
 function calculateChildrenURPS(parentID, parentURPS, recipes, output) {
-  validateInput(parentID, parentURPS, recipes, output);
+  validateID(parentID, recipes);
+  validateURPS(parentURPS);
+  validateOutput(output);
 
   let parent = recipes[parentID];
   let parentType = parent["Type"];
@@ -113,15 +116,8 @@ function calculateCR() {
  * @returns {boolean} Whether the addition was succesful.
  */
 function tryAddToOutput(toAddID, recipes, output) {
-  if (toAddID == null || recipes == null || output == null) {
-    throw "No input values can be null";
-  }
-  if (toAddID == "") {
-    throw "id cannot be empty";
-  }
-  if (!recipes.hasOwnProperty(toAddID)) {
-    throw "Recipe with id '" + id + "' not found in recipesDict...1";
-  }
+  validateID(toAddID, recipes);
+  validateOutput(output);
 
   // adds ingredient representation to output if it doesn't already exist.
   if (!output.hasOwnProperty(toAddID)) {
@@ -165,5 +161,73 @@ function validateInput(id, urps, recipes, output) {
   }
   if (!recipes.hasOwnProperty(id)) {
     throw "Recipe with id '" + id + "' not found in recipesDict...2";
+  }
+}
+
+/**
+ * Capable of validating a given id using a given set of recipes; also handles validating the recipes in the process.
+ * 
+ * @param {string} id - The ID of the recipe to validate.
+ * @param {dictionary} recipes - The recipes used to validate the ID.
+ * @throws {string} Throws error if any input value is null, the ID is empty, or the recipe corresponding to given id does not exist.
+ */
+function validateID(id, recipes) {
+  let callerName = arguments.callee.caller.name;
+
+  validateRecipes(recipes);
+
+  if (id == null) {
+    throw "ID cannot be null, @ " + callerName;
+  }
+  if (id == "") {
+    throw "id cannot be empty, @ " + callerName;
+  }
+  if (!recipes.hasOwnProperty(id)) {
+    throw "Recipe with id '" + id + "' not found in recipesDict, @ " + callerName;
+  }
+}
+
+/**
+ * Capable of validating a given set of recipes.
+ *
+ * @param {dictionary} recipes - The recipes to validate.
+ * @throws {string} Throws error if the given dictionary is null.
+ */
+function validateRecipes(recipes) {
+  let callerName = arguments.callee.caller.name;
+
+  if (recipes == null) {
+    throw "Recipes cannot be null, @ " + callerName;
+  }
+}
+
+/**
+ * Capable of validating a URPS value.
+ *
+ * @param {decimal} urps - The URPS to validate.
+ * @throws {string} Throws error if the given URPS is null, or less than or equal to 0.
+ */
+function validateURPS(urps) {
+  let callerName = arguments.callee.caller.name;
+
+  if (urps == null) {
+    throw "URPS cannot be null, @ " + callerName;
+  }
+  if (urps <= 0) {
+    throw "URPS must be greater than 0, @ " + callerName;
+  }
+}
+
+/**
+ * Capable of validating a set of output.
+ *
+ * @param {dictionary} output - The output to validate.
+ * @throws {string} Throws error if the given output is null.
+ */
+function validateOutput(output) {
+  let callerName = arguments.callee.caller.name;
+
+  if (output == null) {
+    throw "Output cannot be null, @ " + callerName;
   }
 }
