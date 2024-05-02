@@ -5,10 +5,12 @@
  * - CR is un-accounted for
  * - Crafting divisor is just set to one because it's currently impossible to tell which crafter a given recipe is using
  * - the UI is completely un-implemented
- * - if recipe is validated within id validation method, the calling method will be unknown
- *
+ * - output can get screwed up if errors occur in the middle of a calculation
+ * - URPS values will still be added to the dictionary even if the CR calculations are messed up
  * Added:
- * - more robust data validation system; still a few kinks to work out though
+ * - (3) encapsulated output printing to its own method
+ * - (2) updated calculateProduction to return an updated copy of the provided input dictionary if successful, otherwise returns null
+ * - (1) updated calculateProduction to accept negative URPS; this represents a removal of input URPS from the given parent 
  */
 
 //- Using a function pointer:
@@ -20,40 +22,97 @@ function getRecipes() {
       console.log("Error cannot load json\n" + err);
       return;
     }
-
     var recipes = json;
 
-    output = {};
-
-    calculateProduction("rocket-silo", 1, recipes, output);
-
-    // runs for every ingredient
-    for (let outputKey in output) {
-      outputVal = output[outputKey];
-      outputURPS = outputVal["Output URPS"];
-
-      console.log(outputKey + " : " + outputURPS);
+    let output = {};
+    let temp = calculateProduction("rocket-silo", 200, recipes, output);
+    if (temp != null) {
+      output = temp;
     }
+    console.log(output);
+    printOutput(output);
+    temp = calculateProduction("rocket-silo", -190, recipes, output);
+    if (temp != null) {
+      output = temp;
+    }
+    console.log(output);
+    printOutput(output);
   });
 }
 
 /**
- * Calculates the required production rate per second (URPS) of all the ingredients required to craft a given recipe as well as the crafter counts required per ingredient.
+ * Calculates the required production stats of all the ingredients required to craft the given recipe at the given units per second.
+ *
+ * @param {string} parentID - The ID of the parent recipe.
+ * @param {number} parentURPS - The Units Required Per Second (URPS) of the parent recipe, has range (URPS < 0 || URPS > 0)
+ * @param {dictionary} recipes - The dictionary containing all recipes.
+ * @param {dictionary} output - The output dictionary to store the newly calculated required values for each child ingredient.
+ * @returns {dictionary} Returns an updated copy of the given dictionary if the calculations were successful, otherwise returns null.
+ */
+function calculateProduction(parentID, parentURPS, recipes, output) {
+  try {
+    validateID(parentID, recipes);
+    validateURPS(parentURPS);
+    validateOutput(output);
+  } catch (error) {
+    console.log("Initial parent input invalid: " + error);
+    return null;
+  }
+
+  // used to prevent corruption of output so that output can be maintained and continously added to
+  // courtesy of https://stackoverflow.com/questions/43963518/to-copy-the-values-from-one-dictionary-to-other-dictionary-in-javascript
+  var outputCopy = { ...output };
+
+  try {
+    addURPSToOutput(parentID, parentURPS, recipes, outputCopy);
+  } catch (error) {
+    console.log("Error during URPS calculations: " + error);
+    return null;
+  }
+
+  return outputCopy;
+}
+
+/**
+ * Adds the required URPS of the given parent recipe to the output, as well as the URPS of all the ingredients required to meet said URPS (can "add" a negative URPS in order to remove existing URPS).
  *
  * @param {string} parentID - The ID of the parent recipe.
  * @param {number} parentURPS - The Units Required Per Second (URPS) of the parent recipe.
  * @param {object} recipes - The dictionary containing all recipes.
  * @param {object} output - The output dictionary to store calculated URPS for each child ingredient.
+ * @returns {void} This function does not return a value explicitly, but updates the output dictionary with calculated URPS.
+ * @throws {string} Throws an error if attempting to remove URPS from parent output that doesn't already exist, or if attempting to remove too much URPS from pre-existing parent output. 
  */
-function calculateProduction(parentID, parentURPS, recipes, output) {
+function addURPSToOutput(parentID, parentURPS, recipes, output) {
   validateID(parentID, recipes);
   validateURPS(parentURPS);
   validateOutput(output);
 
-  tryAddToOutput(parentID, recipes, output);
+  let funcName = arguments.callee.name;
+
+  // handles case where attempting to remove URPS
+  if (parentURPS < 0) {
+    if (output.hasOwnProperty(parentID)) {
+      parent = output[parentID];
+      existingParentURPS = parent["Input URPS"];
+
+      // attempting to remove more URPS than the parent output has
+      if (parentURPS < (existingParentURPS * -1)) {
+        throw new "Cannot remove more input URPS than the parent already has, so must be greater than or equal to " + (existingParentURPS * -1) + " @ " + funcName;
+      }
+    }
+    // attempting to remove URPS from non-existant parent output
+    else {
+      throw new "Cannot remove URPS from parent output that doesn't already exist @ " + funcName;
+    }
+  }
+  // handles case where attempting to add URPS
+  else {
+    // code block accounts for parent production stats in output
+    tryAddToOutput(parentID, recipes, output);
+  }
 
   parent = output[parentID];
-
   parent["Input URPS"] += parentURPS;
 
   calculateChildrenURPS(parentID, parentURPS, recipes, output);
@@ -140,28 +199,19 @@ function tryAddToOutput(toAddID, recipes, output) {
   return false;
 }
 
-/**
- * Capable of validating two commonly used input signature within the program.
- * 
- * @param {string} id - The ID of the recipe.
- * @param {number} urps - The Units Required Per Second (URPS) for the recipe.
- * @param {object} recipes - The dictionary containing all recipes.
- * @param {object} output - The output dictionary.
- * @throws {string} Throws error if any input value is null, URPS is less than or equal to 0, ID is empty, or            * recipe corresponding to given id does not exist.
- */
-function validateInput(id, urps, recipes, output) {
-  if (id == null || recipes == null || output == null || urps == null) {
-    throw "No input values can be null";
+
+function printOutput(output) {
+  console.log("print begun");
+
+  // runs for every ingredient
+  for (let outputKey in output) {
+    outputVal = output[outputKey];
+    outputURPS = outputVal["Output URPS"];
+
+    console.log(outputKey + " : " + outputURPS);
   }
-  if (urps <= 0) {
-    throw "URPS must be greater than 0.";
-  }
-  if (id == "") {
-    throw "id cannot be empty";
-  }
-  if (!recipes.hasOwnProperty(id)) {
-    throw "Recipe with id '" + id + "' not found in recipesDict...2";
-  }
+
+  console.log("print finished");
 }
 
 /**
@@ -174,16 +224,21 @@ function validateInput(id, urps, recipes, output) {
 function validateID(id, recipes) {
   let callerName = arguments.callee.caller.name;
 
-  validateRecipes(recipes);
+  try {
+    validateRecipes(recipes);
+  } catch (error) {
+    throw "(" + error + ") -> Recipe Error @ " + callerName;
+  }
+
 
   if (id == null) {
-    throw "ID cannot be null, @ " + callerName;
+    throw "ID cannot be null @ " + callerName;
   }
   if (id == "") {
-    throw "id cannot be empty, @ " + callerName;
+    throw "id cannot be empty @ " + callerName;
   }
   if (!recipes.hasOwnProperty(id)) {
-    throw "Recipe with id '" + id + "' not found in recipesDict, @ " + callerName;
+    throw "Recipe with id '" + id + "' not found in recipesDict @ " + callerName;
   }
 }
 
@@ -197,7 +252,7 @@ function validateRecipes(recipes) {
   let callerName = arguments.callee.caller.name;
 
   if (recipes == null) {
-    throw "Recipes cannot be null, @ " + callerName;
+    throw "Recipes cannot be null @ " + callerName;
   }
 }
 
@@ -211,10 +266,10 @@ function validateURPS(urps) {
   let callerName = arguments.callee.caller.name;
 
   if (urps == null) {
-    throw "URPS cannot be null, @ " + callerName;
+    throw "URPS cannot be null @ " + callerName;
   }
-  if (urps <= 0) {
-    throw "URPS must be greater than 0, @ " + callerName;
+  if (urps == 0) {
+    throw "URPS cannot be 0 @ " + callerName;
   }
 }
 
@@ -228,6 +283,6 @@ function validateOutput(output) {
   let callerName = arguments.callee.caller.name;
 
   if (output == null) {
-    throw "Output cannot be null, @ " + callerName;
+    throw "Output cannot be null @ " + callerName;
   }
 }
