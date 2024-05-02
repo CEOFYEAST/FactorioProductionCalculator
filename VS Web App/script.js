@@ -5,12 +5,16 @@
  * - CR is un-accounted for
  * - Crafting divisor is just set to one because it's currently impossible to tell which crafter a given recipe is using
  * - the UI is completely un-implemented
- * - output can get screwed up if errors occur in the middle of a calculation
- * - URPS values will still be added to the dictionary even if the CR calculations are messed up
+ * - there is some weird interplay between addURPSToOutput and calculateChildrenURPS where they both update the output
+ * - its not explicitly mentioned that calculateProduction returns a copy of the output that then must be assigned to the output if not null (null suggests an error occurred during calculations)
+ * - I've tried my best to ensure correctness of the program, or atleast prevent bad updates to the output, by using invariants,conditions,etc. but the correctness of the program isn't verfied, and there aren't any tests.
+ 
  * Added:
- * - (3) encapsulated output printing to its own method
- * - (2) updated calculateProduction to return an updated copy of the provided input dictionary if successful, otherwise returns null
- * - (1) updated calculateProduction to accept negative URPS; this represents a removal of input URPS from the given parent 
+ * - (1) updated calculateProduction to accept negative URPS; this represents a removal of input URPS from the given parent
+ * - (2) added preliminary method (addURPSToOutput) before calculating URPS to ensure that no bad additions/subtractions occur
+ * - (3) updated calculateProduction to return an updated copy of the provided input dictionary if successful, otherwise returns null
+ * - (4) calculateProduction is now solely responsible for maintaining/updating/returning copy of output as well reporting errors in the program when they arise
+ * - (5) encapsulated output printing to its own method
  */
 
 //- Using a function pointer:
@@ -25,13 +29,7 @@ function getRecipes() {
     var recipes = json;
 
     let output = {};
-    let temp = calculateProduction("rocket-silo", 200, recipes, output);
-    if (temp != null) {
-      output = temp;
-    }
-    console.log(output);
-    printOutput(output);
-    temp = calculateProduction("rocket-silo", -190, recipes, output);
+    let temp = calculateProduction("inserter", 1, recipes, output);
     if (temp != null) {
       output = temp;
     }
@@ -46,8 +44,8 @@ function getRecipes() {
  * @param {string} parentID - The ID of the parent recipe.
  * @param {number} parentURPS - The Units Required Per Second (URPS) of the parent recipe, has range (URPS < 0 || URPS > 0)
  * @param {dictionary} recipes - The dictionary containing all recipes.
- * @param {dictionary} output - The output dictionary to store the newly calculated required values for each child ingredient.
- * @returns {dictionary} Returns an updated copy of the given dictionary if the calculations were successful, otherwise returns null.
+ * @param {dictionary} output - The output dictionary whose copy will store the newly calculated required values for each child ingredient.
+ * @returns {dictionary} Returns an updated copy of the given dictionary containing the calculations if they were successful, otherwise returns null.
  */
 function calculateProduction(parentID, parentURPS, recipes, output) {
   try {
