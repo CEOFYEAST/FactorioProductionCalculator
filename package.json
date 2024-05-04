@@ -1,0 +1,15 @@
+{
+  "name": "factorio-ratio-calculator",
+  "version": "1.0.0",
+  "description": "A ratio calculator for factorio built in google sheets; includes images and documents detailing the design process.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
