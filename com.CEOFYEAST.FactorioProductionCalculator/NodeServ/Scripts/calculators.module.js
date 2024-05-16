@@ -24,16 +24,17 @@ function getRecipes() {
 }
 
 /**
- * Calculates the required production stats of all the ingredients required to craft the given recipe at the given units per second.
+ * Updates the given output object with all the production stats required to meet the given input URPS of the given input item.
  *
- * @param {string} parentID - The ID of the parent recipe.
- * @param {number} inputURPS - The Units Required Per Second (URPS) of the parent recipe, has range (URPS < 0 || URPS > 0)
- * @param {dictionary} recipes - The dictionary containing all recipes.
- * @param {dictionary} output - The output dictionary whose copy will store the newly calculated required values for each child ingredient.
+ * @param {string} inputID The ID of the input recipe.
+ * @param {number} inputURPS The Units Required Per Second (URPS) of the input recipe, must be greater than zero.
+ * @param {boolean} isSubtractingURPS Whether the input URPS is being removed from the output.
+ * @param {dictionary} recipes The dictionary containing all recipes.
+ * @param {dictionary} output The output dictionary whose copy will store the newly calculated required values for every required ingredient.
  * @returns {dictionary} Returns an updated copy of the given dictionary containing the calculations if they were successful, otherwise returns null.
  */
-function UpdateProduction(parentID, inputURPS, isSubtractingURPS, recipes, output) {
-  validateID(parentID, recipes);
+function updateProduction(inputID, inputURPS, isSubtractingURPS, recipes, output) {
+  validateID(inputID, recipes);
   validateNumber(inputURPS);
   validateBool(isSubtractingURPS);
   validateOutput(output);
@@ -47,24 +48,26 @@ function UpdateProduction(parentID, inputURPS, isSubtractingURPS, recipes, outpu
   // courtesy of https://stackoverflow.com/questions/43963518/to-copy-the-values-from-one-dictionary-to-other-dictionary-in-javascript
   var outputCopy = { ...output };
 
-  addURPSToOutput(parentID, parentURPS, recipes, outputCopy);
+  updateProductionURPS(inputID, inputURPS, recipes, outputCopy);
 
   return outputCopy;
 }
 
 /**
- * Adds the required URPS of the given parent recipe to the output, as well as the URPS of all the ingredients required to meet said URPS (can "add" a negative URPS in order to remove existing URPS).
+ * Updates the given output object with the URPS stats of all the ingredients required to make the given input URPS of the given input item.
  *
- * @param {string} parentID - The ID of the parent recipe.
- * @param {number} parentURPS - The Units Required Per Second (URPS) of the parent recipe.
+ * @param {string} inputID The ID of the input recipe.
+ * @param {number} inputURPS The Units Required Per Second (URPS) of the input recipe, must be greater than zero.
+ * @param {boolean} isSubtractingURPS Whether the input URPS is being removed from the output.
  * @param {object} recipes - The dictionary containing all recipes.
- * @param {object} output - The output dictionary to store calculated URPS for each child ingredient.
+ * @param {dictionary} output The output dictionary whose copy will store the newly calculated required values for every required ingredient.
  * @returns {void} This function does not return a value explicitly, but updates the output dictionary with calculated URPS.
  * @throws {string} Throws an error if attempting to remove URPS from parent output that doesn't already exist, or if attempting to remove too much URPS from pre-existing parent output. 
  */
-function addURPSToOutput(parentID, parentURPS, recipes, output) {
-  validateID(parentID, recipes);
+function updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, output) {
+  validateID(inputID, recipes);
   validateNumber(inputURPS);
+  validateBool(isSubtractingURPS);
   validateOutput(output);
   if(inputURPS <= 0)
   {
@@ -73,51 +76,49 @@ function addURPSToOutput(parentID, parentURPS, recipes, output) {
   }
 
   // handles case where attempting to remove URPS
-  if (parentURPS < 0) {
-    if (output.hasOwnProperty(parentID)) {
-      parent = output[parentID];
-      existingParentURPS = parent["Input URPS"];
+  if (isSubtractingURPS) {
+    if (output.hasOwnProperty(inputID)) {
+      inputItem = output[inputID];
+      existingInputURPS = inputItem["Input URPS"];
 
-      // attempting to remove more URPS than the parent output has
-      if (parentURPS < (existingParentURPS * -1)) {
-        let err = Error("Cannot remove more input URPS than the parent already has, so must be greater than or equal to " + (existingParentURPS * -1) + "\n");
+      // attempting to remove more input URPS than the input item already has
+      if (inputURPS > existingInputURPS) {
+        let err = Error("Cannot remove more input URPS than the item already has, so must be less than or equal to " + existingInputURPS + "\n");
         throw err.stack;
       }
     }
-    // attempting to remove URPS from non-existant parent output
+    // attempting to remove URPS from input item that doesn't yet exist in output (its not already required)
     else {
-      let err = Error("Cannot remove URPS from parent output that doesn't already exist\n");
+      let err = Error("Cannot remove URPS from input item that doesn't already exist\n");
       throw err.stack;
     }
   }
   // handles case where attempting to add URPS
   else {
-    // code block accounts for parent production stats in output
-    tryAddToOutput(parentID, recipes, output);
+    // code block accounts for input item production stats in output
+    tryAddToOutput(inputID, recipes, output);
   }
 
-  parent = output[parentID];
-  parent["Input URPS"] += parentURPS;
-
-  calculateChildrenURPS(parentID, parentURPS, recipes, output);
+  if(isSubtractingURPS){ inputURPS *= -1; }
+  inputItem = output[inputID];
+  inputItem["Input URPS"] += inputURPS;
+  calculateChildrenURPS(inputID, inputURPS, recipes);
 }
 
 /**
  * Recursively calculates the Units Required Per Second (URPS) of all the ingredients required to produce the given URPS of the given parent.
  * 
- * @param {string} parentID - The ID of the parent recipe.
+ * @param {string} inputID - The ID of the parent recipe.
  * @param {number} inputURPS - The Units Required Per Second (URPS) of the parent recipe.
  * @param {object} recipes - The dictionary containing all recipes.
- * @param {object} output - The output dictionary to store calculated URPS for each child ingredient.
- * @returns {void} This function does not return a value explicitly, but updates the output dictionary with calculated URPS.
+ * @returns {object} Contains the URPS of all the ingredients required to produce the given input URPS of the given input item.
  */
-function calculateChildrenURPS(parentID, inputURPS, recipes, output) {
+function calculateChildrenURPS(parentID, parentURPS, recipes) {
   validateID(parentID, recipes);
-  validateNumber(inputURPS);
-  validateOutput(output);
-  if(inputURPS == 0)
+  validateNumber(parentURPS);
+  if(parentURPS == 0)
     {
-      let err = Error("Input URPS caanot be zero\n");
+      let err = Error("Parent URPS caanot be zero\n");
       throw err.stack;
     }
 
@@ -184,7 +185,11 @@ function tryAddToOutput(toAddID, recipes, output) {
   return false;
 }
 
-
+/**
+ * Prints out the given output object.  
+ * 
+ * @param {object} output 
+ */
 function printOutput(output) {
   console.log("print begun");
 
