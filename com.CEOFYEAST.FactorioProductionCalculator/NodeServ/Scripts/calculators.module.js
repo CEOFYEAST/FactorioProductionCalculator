@@ -48,7 +48,7 @@ function updateProduction(inputID, inputURPS, isSubtractingURPS, recipes, output
   // courtesy of https://stackoverflow.com/questions/43963518/to-copy-the-values-from-one-dictionary-to-other-dictionary-in-javascript
   var outputCopy = { ...output };
 
-  updateProductionURPS(inputID, inputURPS, recipes, outputCopy);
+  updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, outputCopy);
 
   return outputCopy;
 }
@@ -102,20 +102,24 @@ function updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, ou
   if(isSubtractingURPS){ inputURPS *= -1; }
   inputItem = output[inputID];
   inputItem["Input URPS"] += inputURPS;
-  calculateChildrenURPS(inputID, inputURPS, recipes);
+
+  let calculations = {};
+  calculateChildrenURPS(inputID, inputURPS, calculations, recipes);
 }
 
 /**
  * Recursively calculates the Units Required Per Second (URPS) of all the ingredients required to produce the given URPS of the given parent.
  * 
- * @param {string} inputID - The ID of the parent recipe.
- * @param {number} inputURPS - The Units Required Per Second (URPS) of the parent recipe.
- * @param {object} recipes - The dictionary containing all recipes.
- * @returns {object} Contains the URPS of all the ingredients required to produce the given input URPS of the given input item.
+ * @param {string} parentID The ID of the parent recipe.
+ * @param {number} parentURPS The Units Required Per Second (URPS) of the parent recipe.
+ * @param {object} calculations Stores the calculations as a set of key-value pairs, with keys being item IDs and vals being their associated URPS.
+ * @param {object} recipes The dictionary containing all recipes.
+ * @returns {void} The calculations object stores the output of the function.
  */
-function calculateChildrenURPS(parentID, parentURPS, recipes) {
+function calculateChildrenURPS(parentID, parentURPS, calculations, recipes) {
   validateID(parentID, recipes);
   validateNumber(parentURPS);
+  validateObject(calculations);
   if(parentURPS == 0)
     {
       let err = Error("Parent URPS caanot be zero\n");
@@ -132,23 +136,23 @@ function calculateChildrenURPS(parentID, parentURPS, recipes) {
 
   let parentRecipe = parent["recipe"];
   let parentUPPC = parentRecipe["yield"];
-  let parentCRPS = inputURPS / parentUPPC;
+  let parentCRPS = parentURPS / parentUPPC;
   let parentIngredients = parentRecipe["ingredients"];
 
-  // runs for every ingredient
+  // runs for every child ingredient
   for (let ingredientKey in parentIngredients) {
-    let ingredientDict = parentIngredients[ingredientKey];
-    let childID = ingredientDict["id"];
-
-    tryAddToOutput(childID, recipes, output);
-
-    let childURPC = ingredientDict["amount"];
+    let childIngredientDict = parentIngredients[ingredientKey];
+    let childID = childIngredientDict["id"];
+    let childURPC = childIngredientDict["amount"];
     let childURPS = childURPC * parentCRPS;
-    let childOutput = output[childID];
 
-    childOutput["Output URPS"] += childURPS;
+    if(!(calculations.hasOwnProperty(childID))){
+      calculations[childID] = 0;
+    }
 
-    calculateChildrenURPS(childID, childURPS, recipes, output);
+    calculations[childID] += childURPS;
+
+    calculateChildrenURPS(childID, childURPS, calculations, recipes);
   }
 }
 
@@ -259,16 +263,7 @@ function validateID(id, recipes) {
  */
 function validateRecipes(recipes) {
   ensureNonNullish(recipes);
-
-  if(!(typeof recipes === 'object')){
-    let err = Error("Recipes is not of type Object\n");
-    throw err.stack;
-  }
-
-  if(!(recipes)){
-    let err = Error("Recipes is empty\n");
-    throw err.stack;
-  }
+  validateObject(recipes);
 }
 
 /**
@@ -279,9 +274,20 @@ function validateRecipes(recipes) {
  */
 function validateOutput(output) {
   ensureNonNullish(output);
+  validateObject(output);
+}
 
-  if(!(typeof output === 'object')){
-    let err = Error("Output is not of type Object\n");
+/**
+ * Ensures the given value is a boolean.
+ * 
+ * @param {object} val The value to validate.
+ * @throws {string} If the supplied value is not an object.
+ */
+function validateObject(val){
+  ensureNonNullish(val);
+
+  if(!(typeof val === 'object')){
+    let err = Error("Value is not of type object\n");
     throw err.stack;
   }
 }
@@ -290,6 +296,7 @@ function validateOutput(output) {
  * Ensures the given value is a boolean.
  * 
  * @param {boolean} val The value to validate.
+ * @throws {string} If the supplied value is not a boolean.
  */
 function validateBool(val) {
   ensureNonNullish(val);
@@ -303,7 +310,8 @@ function validateBool(val) {
 /**
  * Ensures the given value is a number.
  * 
- * @param {boolean} val The value value to validate.
+ * @param {number} val The value value to validate.
+ * @throws {string} If the supplied value is not a number.
  */
 function validateNumber(val) {
   ensureNonNullish(val);

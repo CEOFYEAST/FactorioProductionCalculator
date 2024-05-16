@@ -1,1 +1,9 @@
-{"electronic-circuit":{"Input URPS":0,"Output URPS":5,"CR":0},"copper-cable":{"Input URPS":0,"Output URPS":15,"CR":0},"copper-plate":{"Input URPS":0,"Output URPS":7.5,"CR":0},"copper-ore":{"Input URPS":0,"Output URPS":7.5,"CR":0},"iron-plate":{"Input URPS":0,"Output URPS":20,"CR":0},"iron-ore":{"Input URPS":0,"Output URPS":20,"CR":0},"iron-gear-wheel":{"Input URPS":0,"Output URPS":5,"CR":0}}
+{
+    "electronic-circuit": 5,
+    "copper-cable": 15,
+    "copper-plate": 7.5,
+    "copper-ore": 7.5,
+    "iron-plate": 20,
+    "iron-ore": 20,
+    "iron-gear-wheel": 5
+}
