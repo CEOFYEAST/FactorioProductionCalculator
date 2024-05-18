@@ -1,114 +1,15 @@
 /**
- * Factorio Production 
- * Author: Benton Diebold (CEOFYEAST)
- * Current Problems:
- * - CR is un-accounted for
- * - Crafting divisor is just set to one because it's currently impossible to tell which crafter a given recipe is using
- * - the UI is completely un-implemented
- * - there is some weird interplay between addURPSToOutput and calculateChildrenURPS where they both update the output
- * - its not explicitly mentioned that calculateProduction returns a copy of the output that then must be assigned to the output if not null (null suggests an error occurred during calculations)
- * - I've tried my best to ensure correctness of the program, or atleast prevent bad updates to the output, by using invariants,conditions,etc. but the correctness of the program isn't verfied, and there aren't any tests.
- 
- * Added:
- * - (1) updated calculateProduction to accept negative URPS; this represents a removal of input URPS from the given parent
- * - (2) added preliminary method (addURPSToOutput) before calculating URPS to ensure that no bad additions/subtractions occur
- * - (3) updated calculateProduction to return an updated copy of the provided input dictionary if successful, otherwise returns null
- * - (4) calculateProduction is now solely responsible for maintaining/updating/returning copy of output as well reporting errors in the program when they arise
- * - (5) encapsulated output printing to its own method
+ * Contains functions that do all the calculations required to produce the program's output.
+ * 
+ * @module calculators
+ * @author Benton Diebold (CEOFYEAST)
  */
 
 const fs = require('fs');
-
-function getRecipes() {
-  return JSON.parse(fs.readFileSync('com.CEOFYEAST.FactorioProductionCalculator\\NodeServ\\Data\\recipes.json', 'utf8'));
-}
+const { validateID, validateNumber, validateBool, validateOutput, validateObject } = require('./validators.module.js');
 
 /**
- * Updates the given output object with all the production stats required to meet the given input URPS of the given input item.
- *
- * @param {string} inputID The ID of the input recipe.
- * @param {number} inputURPS The Units Required Per Second (URPS) of the input recipe, must be greater than zero.
- * @param {boolean} isSubtractingURPS Whether the input URPS is being removed from the output.
- * @param {dictionary} recipes The dictionary containing all recipes.
- * @param {dictionary} output The output dictionary whose copy will store the newly calculated required values for every required ingredient.
- * @returns {dictionary} Returns an updated copy of the given dictionary containing the calculations if they were successful, otherwise returns null.
- */
-function updateProduction(inputID, inputURPS, isSubtractingURPS, recipes, output) {
-  validateID(inputID, recipes);
-  validateNumber(inputURPS);
-  validateBool(isSubtractingURPS);
-  validateOutput(output);
-  if(inputURPS <= 0)
-  {
-    let err = Error("Input URPS must be greater than zero\n");
-    throw err.stack;
-  }
-
-  // used to prevent corruption of output so that output can be maintained and continously added to
-  // courtesy of https://stackoverflow.com/questions/43963518/to-copy-the-values-from-one-dictionary-to-other-dictionary-in-javascript
-  var outputCopy = { ...output };
-
-  updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, outputCopy);
-
-  return outputCopy;
-}
-
-/**
- * Updates the given output object with the URPS stats of all the ingredients required to make the given input URPS of the given input item.
- *
- * @param {string} inputID The ID of the input recipe.
- * @param {number} inputURPS The Units Required Per Second (URPS) of the input recipe, must be greater than zero.
- * @param {boolean} isSubtractingURPS Whether the input URPS is being removed from the output.
- * @param {object} recipes - The dictionary containing all recipes.
- * @param {dictionary} output The output dictionary whose copy will store the newly calculated required values for every required ingredient.
- * @returns {void} This function does not return a value explicitly, but updates the output dictionary with calculated URPS.
- * @throws {string} Throws an error if attempting to remove URPS from parent output that doesn't already exist, or if attempting to remove too much URPS from pre-existing parent output. 
- */
-function updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, output) {
-  validateID(inputID, recipes);
-  validateNumber(inputURPS);
-  validateBool(isSubtractingURPS);
-  validateOutput(output);
-  if(inputURPS <= 0)
-  {
-    let err = Error("Input URPS must be greater than zero\n");
-    throw err.stack;
-  }
-
-  // handles case where attempting to remove URPS
-  if (isSubtractingURPS) {
-    if (output.hasOwnProperty(inputID)) {
-      inputItem = output[inputID];
-      existingInputURPS = inputItem["Input URPS"];
-
-      // attempting to remove more input URPS than the input item already has
-      if (inputURPS > existingInputURPS) {
-        let err = Error("Cannot remove more input URPS than the item already has, so must be less than or equal to " + existingInputURPS + "\n");
-        throw err.stack;
-      }
-    }
-    // attempting to remove URPS from input item that doesn't yet exist in output (its not already required)
-    else {
-      let err = Error("Cannot remove URPS from input item that doesn't already exist\n");
-      throw err.stack;
-    }
-  }
-  // handles case where attempting to add URPS
-  else {
-    // code block accounts for input item production stats in output
-    tryAddToOutput(inputID, recipes, output);
-  }
-
-  if(isSubtractingURPS){ inputURPS *= -1; }
-  inputItem = output[inputID];
-  inputItem["Input URPS"] += inputURPS;
-
-  let calculations = {};
-  calculateChildrenURPS(inputID, inputURPS, calculations, recipes);
-}
-
-/**
- * Recursively calculates the Units Required Per Second (URPS) of all the ingredients required to produce the given URPS of the given parent.
+ * Recursively calculates the Units Required Per Second (URPS) of all the ingredients required to produce the given URPS of the given parent; also maintains the portions of the child URPS that come from each parent.
  * 
  * @param {string} parentID The ID of the parent recipe.
  * @param {number} parentURPS The Units Required Per Second (URPS) of the parent recipe.
@@ -116,15 +17,15 @@ function updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, ou
  * @param {object} recipes The dictionary containing all recipes.
  * @returns {void} The calculations object stores the output of the function.
  */
-function calculateChildrenURPS(parentID, parentURPS, calculations, recipes) {
+function calculateChildrenURPS(parentID, parentURPS, calculations, recipes) 
+{
   validateID(parentID, recipes);
   validateNumber(parentURPS);
   validateObject(calculations);
-  if(parentURPS == 0)
-    {
-      let err = Error("Parent URPS caanot be zero\n");
-      throw err.stack;
-    }
+  if(parentURPS == 0) {
+    let err = Error("Parent URPS caanot be zero\n");
+    throw err.stack;
+  }
 
   let parent = recipes[parentID];
   let parentType = parent["Type"];
@@ -146,183 +47,58 @@ function calculateChildrenURPS(parentID, parentURPS, calculations, recipes) {
     let childURPC = childIngredientDict["amount"];
     let childURPS = childURPC * parentCRPS;
 
-    if(!(calculations.hasOwnProperty(childID))){
-      calculations[childID] = 0;
-    }
+    // maintains total URPS of child ingredient
+    tryAddChildToCalculations(childID, calculations);
+    calculations[childID]["URPS"] += childURPS;
 
-    calculations[childID] += childURPS;
+    console.log(calculations[childID]);
+
+    // maintains parent-child relationships, including portions of child URPS that come from each parent
+    tryAddParentItemToChild(childID, parentID, calculations);
+    calculations[childID]['Parent Items'][parentID]["Child URPS"] += childURPS;
 
     calculateChildrenURPS(childID, childURPS, calculations, recipes);
   }
-}
 
-/**
- * Tries to add the item/resource associated with the given ID to the output dictionary.
- * 
- * @param {number} toAddID - The ID of the item/resource being added; this is the only information necessary to add the item.
- * @param {dictionary} recipes - The dictionary containing all recipes.
- * @param {dictionary} output - The dictionary to add the fresh item/resource representation to.
- * @returns {boolean} Whether the addition was succesful.
- */
-function tryAddToOutput(toAddID, recipes, output) {
-  validateID(toAddID, recipes);
-  validateOutput(output);
-
-  // adds ingredient representation to output if it doesn't already exist.
-  if (!output.hasOwnProperty(toAddID)) {
-    let outputVals = {
-      "Input URPS": 0,
-      "Output URPS": 0,
-      "CR": 0
-    };
-
-    let toAddType = recipes[toAddID]["Type"];
-    if (toAddType == "Resource" || toAddType == "Liquid") {
-      delete outputVals["CR"];
+  /**
+   * Attempts to add the given child ingredient to the calculations object.
+   * 
+   * @param {*} childID The ID of the child ingredient.
+   * @param {*} calculations The set of calculations to be updated.
+   */
+  function tryAddChildToCalculations(childID, calculations) 
+  {
+    if(!(calculations.hasOwnProperty(childID))){
+      let childOutline = {
+        "URPS": 0,
+        "Parent Items": {}
+      };
+      calculations[childID] = childOutline;
     }
-
-    output[toAddID] = outputVals;
-
-    return true;
   }
 
-  return false;
-}
-
-/**
- * Prints out the given output object.  
- * 
- * @param {object} output 
- */
-function printOutput(output) {
-  console.log("print begun");
-
-  // runs for every ingredient
-  for (let outputKey in output) {
-    outputVal = output[outputKey];
-    outputURPS = outputVal["Output URPS"];
-
-    console.log(outputKey + " : " + outputURPS);
-  }
-
-  console.log("print finished");
-}
-
-/**
- * Throws an error if the given value is nullish.
- * 
- * @param {*} val The value to check for nullishness.
- * @throws {string} if the given val is nullish; a unique error is thrown depending on if the value if undefined or null.
- */
-function ensureNonNullish(val, func)
-{
-  if(val === undefined)
+  /**
+   * Attempts to add the given parent item to the list of parent items that require the child ingredient. 
+   * This information is used to maintain the parent-child relationships inherent in the recipe tree.
+   * 
+   * @param {*} childID The ID of the child ingredient.
+   * @param {*} parentID The ID of the parent item.
+   * @param {*} calculations The set of calculations to be updated.
+   */
+  function tryAddParentItemToChild(childID, parentID, calculations)
   {
-    let err = Error("Value is undefined\n");
-    throw err.stack;
-  }
-  else if(val === null)
-  {
-    let err = Error("Value is null\n");
-    throw err.stack;
-  }
-}
+    console.log(calculations[childID]);
 
-/**
- * Capable of validating a given id using a given set of recipes; also handles validating the recipes in the process.
- * 
- * @param {string} id - The ID of the recipe to validate.
- * @param {dictionary} recipes - The recipes used to validate the ID.
- * @throws {string} Throws error if any input value is null, the ID is empty, or the recipe corresponding to given id does not exist.
- */
-function validateID(id, recipes) {
-  ensureNonNullish(id);
-
-  if (!(typeof id === 'string')) {
-    let err = Error("ID must be of type string\n");
-    throw err.stack;
-  }
-
-  validateRecipes(recipes);
-
-  if (id == "") {
-    let err = Error("id cannot be empty\n");
-    throw err.stack;
-  }
-  if (!recipes.hasOwnProperty(id)) {
-    let err = Error("Recipe with id '" + id + "' not found in recipesDict\n");
-    throw err.stack;
-  }
-}
-
-/**
- * Capable of validating a given set of recipes.
- *
- * @param {dictionary} recipes - The recipes to validate.
- * @throws {string} Throws error if the given dictionary is null.
- */
-function validateRecipes(recipes) {
-  ensureNonNullish(recipes);
-  validateObject(recipes);
-}
-
-/**
- * Capable of validating a set of output.
- *
- * @param {dictionary} output - The output to validate.
- * @throws {string} Throws error if the given output is null.
- */
-function validateOutput(output) {
-  ensureNonNullish(output);
-  validateObject(output);
-}
-
-/**
- * Ensures the given value is a boolean.
- * 
- * @param {object} val The value to validate.
- * @throws {string} If the supplied value is not an object.
- */
-function validateObject(val){
-  ensureNonNullish(val);
-
-  if(!(typeof val === 'object')){
-    let err = Error("Value is not of type object\n");
-    throw err.stack;
-  }
-}
-
-/**
- * Ensures the given value is a boolean.
- * 
- * @param {boolean} val The value to validate.
- * @throws {string} If the supplied value is not a boolean.
- */
-function validateBool(val) {
-  ensureNonNullish(val);
-
-  if(!(typeof value === 'boolean')) {
-    let err = Error("Value is not of type boolean\n");
-    throw err.stack;
-  }
-}
-
-/**
- * Ensures the given value is a number.
- * 
- * @param {number} val The value value to validate.
- * @throws {string} If the supplied value is not a number.
- */
-function validateNumber(val) {
-  ensureNonNullish(val);
-
-  if(!(typeof val === 'number' && !isNaN(val))) {
-    let err = Error("Value is not a number\n");
-    throw err.stack;
+    if(!(calculations[childID]["Parent Items"].hasOwnProperty(parentID))){
+      let parentOutline = {
+        "ID": parentID,
+        "Child URPS": 0
+      };
+      calculations[childID]["Parent Items"][parentID] = parentOutline;
+    }
   }
 }
 
 module.exports = {
-  getRecipes,
   calculateChildrenURPS
 };

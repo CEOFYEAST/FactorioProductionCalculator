@@ -1,6 +1,12 @@
-const { getRecipes, calculateChildrenURPS } = require('./calculators.module.js');
-const { writeObj } = require('./data-write.module.js');
-const { mostComplicatedRecipe } = require('./fun-calculators.module.js')
+/**
+ * Acts as the entrypoint for the node server.
+ * 
+ * @module index
+ * @author Benton Diebold (CEOFYEAST)
+ */
+
+const { calculateChildrenURPS } = require('./calculators.module.js');
+const { getRecipes, writeObj } = require('./utility.module.js');
 
 var recipes = getRecipes();
 

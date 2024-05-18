@@ -1,25 +1,281 @@
 {
-    "accumulator": 500,
-    "battery": 2500,
-    "copper-plate": 38937.5,
-    "copper-ore": 38937.5,
-    "iron-plate": 62175,
-    "iron-ore": 62175,
-    "sulfuric-acid": 52500,
-    "sulfur": 5250,
-    "petroleum-gas": 123750,
-    "water": 183750,
-    "low-density-structure": 500,
-    "plastic-bar": 4500,
-    "coal": 2250,
-    "steel-plate": 7500,
-    "processing-unit": 500,
-    "advanced-circuit": 1000,
-    "copper-cable": 62875,
-    "electronic-circuit": 19625,
-    "radar": 25,
-    "iron-gear-wheel": 125,
-    "rocket-fuel": 250,
-    "solid-fuel": 2500,
-    "solar-panel": 500
+    "accumulator": {
+        "URPS": 500,
+        "Parent Items": {
+            "satellite": {
+                "ID": "satellite",
+                "Child URPS": 500
+            }
+        }
+    },
+    "battery": {
+        "URPS": 2500,
+        "Parent Items": {
+            "accumulator": {
+                "ID": "accumulator",
+                "Child URPS": 2500
+            }
+        }
+    },
+    "copper-plate": {
+        "URPS": 38937.5,
+        "Parent Items": {
+            "battery": {
+                "ID": "battery",
+                "Child URPS": 2500
+            },
+            "low-density-structure": {
+                "ID": "low-density-structure",
+                "Child URPS": 2500
+            },
+            "copper-cable": {
+                "ID": "copper-cable",
+                "Child URPS": 31437.5
+            },
+            "solar-panel": {
+                "ID": "solar-panel",
+                "Child URPS": 2500
+            }
+        }
+    },
+    "copper-ore": {
+        "URPS": 38937.5,
+        "Parent Items": {
+            "copper-plate": {
+                "ID": "copper-plate",
+                "Child URPS": 38937.5
+            }
+        }
+    },
+    "iron-plate": {
+        "URPS": 62175,
+        "Parent Items": {
+            "battery": {
+                "ID": "battery",
+                "Child URPS": 2500
+            },
+            "sulfuric-acid": {
+                "ID": "sulfuric-acid",
+                "Child URPS": 1050
+            },
+            "accumulator": {
+                "ID": "accumulator",
+                "Child URPS": 1000
+            },
+            "steel-plate": {
+                "ID": "steel-plate",
+                "Child URPS": 37500
+            },
+            "electronic-circuit": {
+                "ID": "electronic-circuit",
+                "Child URPS": 19625
+            },
+            "iron-gear-wheel": {
+                "ID": "iron-gear-wheel",
+                "Child URPS": 250
+            },
+            "radar": {
+                "ID": "radar",
+                "Child URPS": 250
+            }
+        }
+    },
+    "iron-ore": {
+        "URPS": 62175,
+        "Parent Items": {
+            "iron-plate": {
+                "ID": "iron-plate",
+                "Child URPS": 62175
+            }
+        }
+    },
+    "sulfuric-acid": {
+        "URPS": 52500,
+        "Parent Items": {
+            "battery": {
+                "ID": "battery",
+                "Child URPS": 50000
+            },
+            "processing-unit": {
+                "ID": "processing-unit",
+                "Child URPS": 2500
+            }
+        }
+    },
+    "sulfur": {
+        "URPS": 5250,
+        "Parent Items": {
+            "sulfuric-acid": {
+                "ID": "sulfuric-acid",
+                "Child URPS": 5250
+            }
+        }
+    },
+    "petroleum-gas": {
+        "URPS": 123750,
+        "Parent Items": {
+            "sulfur": {
+                "ID": "sulfur",
+                "Child URPS": 78750
+            },
+            "plastic-bar": {
+                "ID": "plastic-bar",
+                "Child URPS": 45000
+            }
+        }
+    },
+    "water": {
+        "URPS": 183750,
+        "Parent Items": {
+            "sulfur": {
+                "ID": "sulfur",
+                "Child URPS": 78750
+            },
+            "sulfuric-acid": {
+                "ID": "sulfuric-acid",
+                "Child URPS": 105000
+            }
+        }
+    },
+    "low-density-structure": {
+        "URPS": 500,
+        "Parent Items": {
+            "satellite": {
+                "ID": "satellite",
+                "Child URPS": 500
+            }
+        }
+    },
+    "plastic-bar": {
+        "URPS": 4500,
+        "Parent Items": {
+            "low-density-structure": {
+                "ID": "low-density-structure",
+                "Child URPS": 2500
+            },
+            "advanced-circuit": {
+                "ID": "advanced-circuit",
+                "Child URPS": 2000
+            }
+        }
+    },
+    "coal": {
+        "URPS": 2250,
+        "Parent Items": {
+            "plastic-bar": {
+                "ID": "plastic-bar",
+                "Child URPS": 2250
+            }
+        }
+    },
+    "steel-plate": {
+        "URPS": 7500,
+        "Parent Items": {
+            "low-density-structure": {
+                "ID": "low-density-structure",
+                "Child URPS": 5000
+            },
+            "solar-panel": {
+                "ID": "solar-panel",
+                "Child URPS": 2500
+            }
+        }
+    },
+    "processing-unit": {
+        "URPS": 500,
+        "Parent Items": {
+            "satellite": {
+                "ID": "satellite",
+                "Child URPS": 500
+            }
+        }
+    },
+    "advanced-circuit": {
+        "URPS": 1000,
+        "Parent Items": {
+            "processing-unit": {
+                "ID": "processing-unit",
+                "Child URPS": 1000
+            }
+        }
+    },
+    "copper-cable": {
+        "URPS": 62875,
+        "Parent Items": {
+            "advanced-circuit": {
+                "ID": "advanced-circuit",
+                "Child URPS": 4000
+            },
+            "electronic-circuit": {
+                "ID": "electronic-circuit",
+                "Child URPS": 58875
+            }
+        }
+    },
+    "electronic-circuit": {
+        "URPS": 19625,
+        "Parent Items": {
+            "advanced-circuit": {
+                "ID": "advanced-circuit",
+                "Child URPS": 2000
+            },
+            "processing-unit": {
+                "ID": "processing-unit",
+                "Child URPS": 10000
+            },
+            "radar": {
+                "ID": "radar",
+                "Child URPS": 125
+            },
+            "solar-panel": {
+                "ID": "solar-panel",
+                "Child URPS": 7500
+            }
+        }
+    },
+    "radar": {
+        "URPS": 25,
+        "Parent Items": {
+            "satellite": {
+                "ID": "satellite",
+                "Child URPS": 25
+            }
+        }
+    },
+    "iron-gear-wheel": {
+        "URPS": 125,
+        "Parent Items": {
+            "radar": {
+                "ID": "radar",
+                "Child URPS": 125
+            }
+        }
+    },
+    "rocket-fuel": {
+        "URPS": 250,
+        "Parent Items": {
+            "satellite": {
+                "ID": "satellite",
+                "Child URPS": 250
+            }
+        }
+    },
+    "solid-fuel": {
+        "URPS": 2500,
+        "Parent Items": {
+            "rocket-fuel": {
+                "ID": "rocket-fuel",
+                "Child URPS": 2500
+            }
+        }
+    },
+    "solar-panel": {
+        "URPS": 500,
+        "Parent Items": {
+            "satellite": {
+                "ID": "satellite",
+                "Child URPS": 500
+            }
+        }
+    }
 }
