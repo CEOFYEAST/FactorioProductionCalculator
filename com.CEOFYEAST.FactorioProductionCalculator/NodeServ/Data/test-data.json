@@ -3,8 +3,7 @@
         "URPS": 500,
         "Parent Items": {
             "satellite": {
-                "ID": "satellite",
-                "Child URPS": 500
+                "CURPS": 500
             }
         }
     },
@@ -12,8 +11,7 @@
         "URPS": 2500,
         "Parent Items": {
             "accumulator": {
-                "ID": "accumulator",
-                "Child URPS": 2500
+                "CURPS": 2500
             }
         }
     },
@@ -21,20 +19,16 @@
         "URPS": 38937.5,
         "Parent Items": {
             "battery": {
-                "ID": "battery",
-                "Child URPS": 2500
+                "CURPS": 2500
             },
             "low-density-structure": {
-                "ID": "low-density-structure",
-                "Child URPS": 2500
+                "CURPS": 2500
             },
             "copper-cable": {
-                "ID": "copper-cable",
-                "Child URPS": 31437.5
+                "CURPS": 31437.5
             },
             "solar-panel": {
-                "ID": "solar-panel",
-                "Child URPS": 2500
+                "CURPS": 2500
             }
         }
     },
@@ -42,8 +36,7 @@
         "URPS": 38937.5,
         "Parent Items": {
             "copper-plate": {
-                "ID": "copper-plate",
-                "Child URPS": 38937.5
+                "CURPS": 38937.5
             }
         }
     },
@@ -51,32 +44,25 @@
         "URPS": 62175,
         "Parent Items": {
             "battery": {
-                "ID": "battery",
-                "Child URPS": 2500
+                "CURPS": 2500
             },
             "sulfuric-acid": {
-                "ID": "sulfuric-acid",
-                "Child URPS": 1050
+                "CURPS": 1050
             },
             "accumulator": {
-                "ID": "accumulator",
-                "Child URPS": 1000
+                "CURPS": 1000
             },
             "steel-plate": {
-                "ID": "steel-plate",
-                "Child URPS": 37500
+                "CURPS": 37500
             },
             "electronic-circuit": {
-                "ID": "electronic-circuit",
-                "Child URPS": 19625
+                "CURPS": 19625
             },
             "iron-gear-wheel": {
-                "ID": "iron-gear-wheel",
-                "Child URPS": 250
+                "CURPS": 250
             },
             "radar": {
-                "ID": "radar",
-                "Child URPS": 250
+                "CURPS": 250
             }
         }
     },
@@ -84,8 +70,7 @@
         "URPS": 62175,
         "Parent Items": {
             "iron-plate": {
-                "ID": "iron-plate",
-                "Child URPS": 62175
+                "CURPS": 62175
             }
         }
     },
@@ -93,12 +78,10 @@
         "URPS": 52500,
         "Parent Items": {
             "battery": {
-                "ID": "battery",
-                "Child URPS": 50000
+                "CURPS": 50000
             },
             "processing-unit": {
-                "ID": "processing-unit",
-                "Child URPS": 2500
+                "CURPS": 2500
             }
         }
     },
@@ -106,8 +89,7 @@
         "URPS": 5250,
         "Parent Items": {
             "sulfuric-acid": {
-                "ID": "sulfuric-acid",
-                "Child URPS": 5250
+                "CURPS": 5250
             }
         }
     },
@@ -115,12 +97,10 @@
         "URPS": 123750,
         "Parent Items": {
             "sulfur": {
-                "ID": "sulfur",
-                "Child URPS": 78750
+                "CURPS": 78750
             },
             "plastic-bar": {
-                "ID": "plastic-bar",
-                "Child URPS": 45000
+                "CURPS": 45000
             }
         }
     },
@@ -128,12 +108,10 @@
         "URPS": 183750,
         "Parent Items": {
             "sulfur": {
-                "ID": "sulfur",
-                "Child URPS": 78750
+                "CURPS": 78750
             },
             "sulfuric-acid": {
-                "ID": "sulfuric-acid",
-                "Child URPS": 105000
+                "CURPS": 105000
             }
         }
     },
@@ -141,8 +119,7 @@
         "URPS": 500,
         "Parent Items": {
             "satellite": {
-                "ID": "satellite",
-                "Child URPS": 500
+                "CURPS": 500
             }
         }
     },
@@ -150,12 +127,10 @@
         "URPS": 4500,
         "Parent Items": {
             "low-density-structure": {
-                "ID": "low-density-structure",
-                "Child URPS": 2500
+                "CURPS": 2500
             },
             "advanced-circuit": {
-                "ID": "advanced-circuit",
-                "Child URPS": 2000
+                "CURPS": 2000
             }
         }
     },
@@ -163,8 +138,7 @@
         "URPS": 2250,
         "Parent Items": {
             "plastic-bar": {
-                "ID": "plastic-bar",
-                "Child URPS": 2250
+                "CURPS": 2250
             }
         }
     },
@@ -172,12 +146,10 @@
         "URPS": 7500,
         "Parent Items": {
             "low-density-structure": {
-                "ID": "low-density-structure",
-                "Child URPS": 5000
+                "CURPS": 5000
             },
             "solar-panel": {
-                "ID": "solar-panel",
-                "Child URPS": 2500
+                "CURPS": 2500
             }
         }
     },
@@ -185,8 +157,7 @@
         "URPS": 500,
         "Parent Items": {
             "satellite": {
-                "ID": "satellite",
-                "Child URPS": 500
+                "CURPS": 500
             }
         }
     },
@@ -194,8 +165,7 @@
         "URPS": 1000,
         "Parent Items": {
             "processing-unit": {
-                "ID": "processing-unit",
-                "Child URPS": 1000
+                "CURPS": 1000
             }
         }
     },
@@ -203,12 +173,10 @@
         "URPS": 62875,
         "Parent Items": {
             "advanced-circuit": {
-                "ID": "advanced-circuit",
-                "Child URPS": 4000
+                "CURPS": 4000
             },
             "electronic-circuit": {
-                "ID": "electronic-circuit",
-                "Child URPS": 58875
+                "CURPS": 58875
             }
         }
     },
@@ -216,20 +184,16 @@
         "URPS": 19625,
         "Parent Items": {
             "advanced-circuit": {
-                "ID": "advanced-circuit",
-                "Child URPS": 2000
+                "CURPS": 2000
             },
             "processing-unit": {
-                "ID": "processing-unit",
-                "Child URPS": 10000
+                "CURPS": 10000
             },
             "radar": {
-                "ID": "radar",
-                "Child URPS": 125
+                "CURPS": 125
             },
             "solar-panel": {
-                "ID": "solar-panel",
-                "Child URPS": 7500
+                "CURPS": 7500
             }
         }
     },
@@ -237,8 +201,7 @@
         "URPS": 25,
         "Parent Items": {
             "satellite": {
-                "ID": "satellite",
-                "Child URPS": 25
+                "CURPS": 25
             }
         }
     },
@@ -246,8 +209,7 @@
         "URPS": 125,
         "Parent Items": {
             "radar": {
-                "ID": "radar",
-                "Child URPS": 125
+                "CURPS": 125
             }
         }
     },
@@ -255,8 +217,7 @@
         "URPS": 250,
         "Parent Items": {
             "satellite": {
-                "ID": "satellite",
-                "Child URPS": 250
+                "CURPS": 250
             }
         }
     },
@@ -264,8 +225,7 @@
         "URPS": 2500,
         "Parent Items": {
             "rocket-fuel": {
-                "ID": "rocket-fuel",
-                "Child URPS": 2500
+                "CURPS": 2500
             }
         }
     },
@@ -273,8 +233,7 @@
         "URPS": 500,
         "Parent Items": {
             "satellite": {
-                "ID": "satellite",
-                "Child URPS": 500
+                "CURPS": 500
             }
         }
     }

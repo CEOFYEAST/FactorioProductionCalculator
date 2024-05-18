@@ -51,11 +51,9 @@ function calculateChildrenURPS(parentID, parentURPS, calculations, recipes)
     tryAddChildToCalculations(childID, calculations);
     calculations[childID]["URPS"] += childURPS;
 
-    console.log(calculations[childID]);
-
     // maintains parent-child relationships, including portions of child URPS that come from each parent
     tryAddParentItemToChild(childID, parentID, calculations);
-    calculations[childID]['Parent Items'][parentID]["Child URPS"] += childURPS;
+    calculations[childID]["Parent Items"][parentID]["CURPS"] += childURPS;
 
     calculateChildrenURPS(childID, childURPS, calculations, recipes);
   }
@@ -63,8 +61,8 @@ function calculateChildrenURPS(parentID, parentURPS, calculations, recipes)
   /**
    * Attempts to add the given child ingredient to the calculations object.
    * 
-   * @param {*} childID The ID of the child ingredient.
-   * @param {*} calculations The set of calculations to be updated.
+   * @param {string} childID The ID of the child ingredient.
+   * @param {object} calculations The set of calculations to be updated.
    */
   function tryAddChildToCalculations(childID, calculations) 
   {
@@ -81,20 +79,19 @@ function calculateChildrenURPS(parentID, parentURPS, calculations, recipes)
    * Attempts to add the given parent item to the list of parent items that require the child ingredient. 
    * This information is used to maintain the parent-child relationships inherent in the recipe tree.
    * 
-   * @param {*} childID The ID of the child ingredient.
-   * @param {*} parentID The ID of the parent item.
-   * @param {*} calculations The set of calculations to be updated.
+   * @param {string} childID The ID of the child ingredient.
+   * @param {string} parentID The ID of the parent item.
+   * @param {object} calculations The set of calculations to be updated.
    */
   function tryAddParentItemToChild(childID, parentID, calculations)
   {
     console.log(calculations[childID]);
 
     if(!(calculations[childID]["Parent Items"].hasOwnProperty(parentID))){
-      let parentOutline = {
-        "ID": parentID,
-        "Child URPS": 0
+      let childOutline = {
+        "CURPS": 0
       };
-      calculations[childID]["Parent Items"][parentID] = parentOutline;
+      calculations[childID]["Parent Items"][parentID] = childOutline;
     }
   }
 }
