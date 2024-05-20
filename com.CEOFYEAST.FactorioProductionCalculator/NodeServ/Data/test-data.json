@@ -1,65 +1,7 @@
 {
     "inserter": {
-        "Input URPS": 5,
+        "Input URPS": 0,
         "Output URPS": 0,
-        "Parent Items": {}
-    },
-    "electronic-circuit": {
-        "Input URPS": 0,
-        "Output URPS": 5,
-        "Parent Items": {}
-    },
-    "copper-cable": {
-        "Input URPS": 0,
-        "Output URPS": 15,
-        "Parent Items": {
-            "electronic-circuit": {
-                "CURPS": 15
-            }
-        }
-    },
-    "copper-plate": {
-        "Input URPS": 0,
-        "Output URPS": 7.5,
-        "Parent Items": {
-            "copper-cable": {
-                "CURPS": 7.5
-            }
-        }
-    },
-    "copper-ore": {
-        "Input URPS": 0,
-        "Output URPS": 7.5,
-        "Parent Items": {
-            "copper-plate": {
-                "CURPS": 7.5
-            }
-        }
-    },
-    "iron-plate": {
-        "Input URPS": 0,
-        "Output URPS": 20,
-        "Parent Items": {
-            "electronic-circuit": {
-                "CURPS": 5
-            },
-            "iron-gear-wheel": {
-                "CURPS": 10
-            }
-        }
-    },
-    "iron-ore": {
-        "Input URPS": 0,
-        "Output URPS": 20,
-        "Parent Items": {
-            "iron-plate": {
-                "CURPS": 20
-            }
-        }
-    },
-    "iron-gear-wheel": {
-        "Input URPS": 0,
-        "Output URPS": 5,
         "Parent Items": {}
     }
 }

@@ -11,9 +11,9 @@ const { updateProduction, updateProductionURPS, tryAddToOutput, printOutput } = 
 
 var recipes = getJSON(recipesLoc);
 
-//let output = getJSON(testDataLoc);
-let output = {};
-updateProductionURPS('inserter', 5, false, recipes, output);
+let output = getJSON(testDataLoc);
+//let output = {};
+updateProductionURPS('inserter', 2, true, recipes, output);
 writeObj(output);
 
 /**

@@ -60,13 +60,13 @@ function updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, ou
     throw err.stack;
   }
   validateURPSSubtraction(inputID, inputURPS, isSubtractingURPS, recipes, output);
-  
-  // code block updates URPS of input item in output
-  tryAddToOutput(inputID, recipes, output);
-  inputItem = output[inputID]["Input URPS"] += inputURPS;
 
   // ensures the newly calculated URPS vals are removed from the existing output vals.
   if(isSubtractingURPS){inputURPS *= -1;}
+  
+  // code block updates URPS of input item in output
+  tryAddToOutput(inputID, recipes, output);
+  output[inputID]["Input URPS"] += inputURPS;
 
   // code block updates output with calculations from calculateChildrenURPS
   let calculations = {};
@@ -81,10 +81,10 @@ function updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, ou
       delete output[key];
     } else {
         // same as above, but instead updates portions of URPS that come from each parent 
-      for (let parentKey in calculations) {
+      for (let parentKey in calculations[key]["Parent Items"]) {
         // ensures parent item is added to output if it doesn't already exist
         if(!(output[key]["Parent Items"].hasOwnProperty(parentKey))) {
-          output[key]["Parent Items"][parentKey] = calculations[key]["Parent Items"][parentKey];
+          output[key]["Parent Items"][parentKey] = { ...calculations[key]["Parent Items"][parentKey] };
         }
         else {
           output[key]["Parent Items"][parentKey]["CURPS"] += calculations[key]["Parent Items"][parentKey]["CURPS"];
