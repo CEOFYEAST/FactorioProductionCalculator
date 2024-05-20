@@ -10,7 +10,15 @@ const { getJSON, writeObj, recipesLoc, testDataLoc } = require('./utility.module
 const { updateProduction, updateProductionURPS, tryAddToOutput, printOutput } = require('./output.module.js');
 
 var recipes = getJSON(recipesLoc);
-var output = getJSON(testDataLoc);
-updateProductionURPS('inserter', 5, true, recipes, output);
+
+//let output = getJSON(testDataLoc);
+let output = {};
+updateProductionURPS('inserter', 5, false, recipes, output);
 writeObj(output);
+
+/**
+let calculations = {};
+calculateChildrenURPS('inserter', 5, calculations, recipes);
+writeObj(calculations);
+*/
 
