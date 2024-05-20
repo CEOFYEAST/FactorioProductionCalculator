@@ -85,8 +85,6 @@ function calculateChildrenURPS(parentID, parentURPS, calculations, recipes)
    */
   function tryAddParentItemToChild(childID, parentID, calculations)
   {
-    console.log(calculations[childID]);
-
     if(!(calculations[childID]["Parent Items"].hasOwnProperty(parentID))){
       let childOutline = {
         "CURPS": 0

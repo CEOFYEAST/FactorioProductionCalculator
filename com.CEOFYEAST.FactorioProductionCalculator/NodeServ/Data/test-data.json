@@ -1,240 +1,53 @@
 {
-    "accumulator": {
-        "URPS": 500,
-        "Parent Items": {
-            "satellite": {
-                "CURPS": 500
-            }
-        }
+    "inserter": {
+        "Input URPS": 0,
+        "Output URPS": 0,
+        "Parent Items": {}
     },
-    "battery": {
-        "URPS": 2500,
+    "electronic-circuit": {
+        "Input URPS": 0,
+        "Output URPS": 0,
+        "Parent Items": {}
+    },
+    "copper-cable": {
+        "Input URPS": 0,
+        "Output URPS": 0,
         "Parent Items": {
-            "accumulator": {
-                "CURPS": 2500
-            }
+            "electronic-circuit": "[object Object][object Object]"
         }
     },
     "copper-plate": {
-        "URPS": 38937.5,
+        "Input URPS": 0,
+        "Output URPS": 0,
         "Parent Items": {
-            "battery": {
-                "CURPS": 2500
-            },
-            "low-density-structure": {
-                "CURPS": 2500
-            },
-            "copper-cable": {
-                "CURPS": 31437.5
-            },
-            "solar-panel": {
-                "CURPS": 2500
-            }
+            "copper-cable": "[object Object][object Object]"
         }
     },
     "copper-ore": {
-        "URPS": 38937.5,
+        "Input URPS": 0,
+        "Output URPS": 0,
         "Parent Items": {
-            "copper-plate": {
-                "CURPS": 38937.5
-            }
+            "copper-plate": "[object Object][object Object]"
         }
     },
     "iron-plate": {
-        "URPS": 62175,
+        "Input URPS": 0,
+        "Output URPS": 0,
         "Parent Items": {
-            "battery": {
-                "CURPS": 2500
-            },
-            "sulfuric-acid": {
-                "CURPS": 1050
-            },
-            "accumulator": {
-                "CURPS": 1000
-            },
-            "steel-plate": {
-                "CURPS": 37500
-            },
-            "electronic-circuit": {
-                "CURPS": 19625
-            },
-            "iron-gear-wheel": {
-                "CURPS": 250
-            },
-            "radar": {
-                "CURPS": 250
-            }
+            "electronic-circuit": "[object Object][object Object]",
+            "iron-gear-wheel": "[object Object][object Object]"
         }
     },
     "iron-ore": {
-        "URPS": 62175,
+        "Input URPS": 0,
+        "Output URPS": 0,
         "Parent Items": {
-            "iron-plate": {
-                "CURPS": 62175
-            }
-        }
-    },
-    "sulfuric-acid": {
-        "URPS": 52500,
-        "Parent Items": {
-            "battery": {
-                "CURPS": 50000
-            },
-            "processing-unit": {
-                "CURPS": 2500
-            }
-        }
-    },
-    "sulfur": {
-        "URPS": 5250,
-        "Parent Items": {
-            "sulfuric-acid": {
-                "CURPS": 5250
-            }
-        }
-    },
-    "petroleum-gas": {
-        "URPS": 123750,
-        "Parent Items": {
-            "sulfur": {
-                "CURPS": 78750
-            },
-            "plastic-bar": {
-                "CURPS": 45000
-            }
-        }
-    },
-    "water": {
-        "URPS": 183750,
-        "Parent Items": {
-            "sulfur": {
-                "CURPS": 78750
-            },
-            "sulfuric-acid": {
-                "CURPS": 105000
-            }
-        }
-    },
-    "low-density-structure": {
-        "URPS": 500,
-        "Parent Items": {
-            "satellite": {
-                "CURPS": 500
-            }
-        }
-    },
-    "plastic-bar": {
-        "URPS": 4500,
-        "Parent Items": {
-            "low-density-structure": {
-                "CURPS": 2500
-            },
-            "advanced-circuit": {
-                "CURPS": 2000
-            }
-        }
-    },
-    "coal": {
-        "URPS": 2250,
-        "Parent Items": {
-            "plastic-bar": {
-                "CURPS": 2250
-            }
-        }
-    },
-    "steel-plate": {
-        "URPS": 7500,
-        "Parent Items": {
-            "low-density-structure": {
-                "CURPS": 5000
-            },
-            "solar-panel": {
-                "CURPS": 2500
-            }
-        }
-    },
-    "processing-unit": {
-        "URPS": 500,
-        "Parent Items": {
-            "satellite": {
-                "CURPS": 500
-            }
-        }
-    },
-    "advanced-circuit": {
-        "URPS": 1000,
-        "Parent Items": {
-            "processing-unit": {
-                "CURPS": 1000
-            }
-        }
-    },
-    "copper-cable": {
-        "URPS": 62875,
-        "Parent Items": {
-            "advanced-circuit": {
-                "CURPS": 4000
-            },
-            "electronic-circuit": {
-                "CURPS": 58875
-            }
-        }
-    },
-    "electronic-circuit": {
-        "URPS": 19625,
-        "Parent Items": {
-            "advanced-circuit": {
-                "CURPS": 2000
-            },
-            "processing-unit": {
-                "CURPS": 10000
-            },
-            "radar": {
-                "CURPS": 125
-            },
-            "solar-panel": {
-                "CURPS": 7500
-            }
-        }
-    },
-    "radar": {
-        "URPS": 25,
-        "Parent Items": {
-            "satellite": {
-                "CURPS": 25
-            }
+            "iron-plate": "[object Object][object Object]"
         }
     },
     "iron-gear-wheel": {
-        "URPS": 125,
-        "Parent Items": {
-            "radar": {
-                "CURPS": 125
-            }
-        }
-    },
-    "rocket-fuel": {
-        "URPS": 250,
-        "Parent Items": {
-            "satellite": {
-                "CURPS": 250
-            }
-        }
-    },
-    "solid-fuel": {
-        "URPS": 2500,
-        "Parent Items": {
-            "rocket-fuel": {
-                "CURPS": 2500
-            }
-        }
-    },
-    "solar-panel": {
-        "URPS": 500,
-        "Parent Items": {
-            "satellite": {
-                "CURPS": 500
-            }
-        }
+        "Input URPS": 0,
+        "Output URPS": 0,
+        "Parent Items": {}
     }
 }

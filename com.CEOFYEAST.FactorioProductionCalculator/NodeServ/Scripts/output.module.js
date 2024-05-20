@@ -5,6 +5,9 @@
  * @author Benton Diebold (CEOFYEAST)
  */
 
+const { calculateChildrenURPS } = require('./calculators.module.js');
+const { validateID, validateNumber, validateBool, validateOutput, validateObject } = require('./validators.module.js');
+
 /**
  * Updates the given output object with all the production stats required to meet the given input URPS of the given input item.
  *
@@ -47,46 +50,62 @@ function updateProduction(inputID, inputURPS, isSubtractingURPS, recipes, output
  * @throws {string} Throws an error if attempting to remove URPS from parent output that doesn't already exist, or if attempting to remove too much URPS from pre-existing parent output. 
  */
 function updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, output) {
-    validateID(inputID, recipes);
-    validateNumber(inputURPS);
-    validateBool(isSubtractingURPS);
-    validateOutput(output);
-    if(inputURPS <= 0)
-    {
-      let err = Error("Input URPS must be greater than zero\n");
-      throw err.stack;
-    }
-  
-    // handles case where attempting to remove URPS
-    if (isSubtractingURPS) {
-      if (output.hasOwnProperty(inputID)) {
-        inputItem = output[inputID];
-        existingInputURPS = inputItem["Input URPS"];
-  
-        // attempting to remove more input URPS than the input item already has
-        if (inputURPS > existingInputURPS) {
-          let err = Error("Cannot remove more input URPS than the item already has, so must be less than or equal to " + existingInputURPS + "\n");
-          throw err.stack;
-        }
-      }
-      // attempting to remove URPS from input item that doesn't yet exist in output (its not already required)
-      else {
-        let err = Error("Cannot remove URPS from input item that doesn't already exist\n");
+  validateID(inputID, recipes);
+  validateNumber(inputURPS);
+  validateBool(isSubtractingURPS);
+  validateOutput(output);
+  if(inputURPS <= 0)
+  {
+    let err = Error("Input URPS must be greater than zero\n");
+    throw err.stack;
+  }
+
+  // code block santizes input to ensure an improper removal of URPS doesn't take place
+  if (isSubtractingURPS) { // handles case where attempting to remove URPS
+    if (output.hasOwnProperty(inputID)) {
+      inputItem = output[inputID];
+      existingInputURPS = inputItem["Input URPS"];
+
+      // attempting to remove more input URPS than the input item already has
+      if (inputURPS > existingInputURPS) {
+        let err = Error("Cannot remove more input URPS than the item already has, so must be less than or equal to " + existingInputURPS + "\n");
         throw err.stack;
       }
     }
-    // handles case where attempting to add URPS
+    // attempting to remove URPS from input item that doesn't yet exist in output (its not already required)
     else {
-      // code block accounts for input item production stats in output
-      tryAddToOutput(inputID, recipes, output);
+      let err = Error("Cannot remove URPS from input item that doesn't already exist\n");
+      throw err.stack;
     }
-  
-    if(isSubtractingURPS){ inputURPS *= -1; }
-    inputItem = output[inputID];
-    inputItem["Input URPS"] += inputURPS;
-  
-    let calculations = {};
-    calculateChildrenURPS(inputID, inputURPS, calculations, recipes);
+    
+    // ensures the newly calculated URPS vals are removed from the existing output vals.
+    inputURPS *= -1;
+  }
+
+  // code block updates URPS of input item in output
+  tryAddToOutput(inputID, recipes, output);
+  inputItem = output[inputID]["Input URPS"] += inputURPS;
+
+  // code block updates output using calculations from calculateChildrenURPS
+  let calculations = {};
+  calculateChildrenURPS(inputID, inputURPS, calculations, recipes);
+  for (let key in calculations) {
+    tryAddToOutput(key, recipes, output);
+
+    // updates URPS in output of each item updated via calculations
+    output[key]["Output URPS"] += calculations[key]["URPS"];
+
+    // same as above, but instead updates portions of URPS that come from each parent 
+    for (let parentKey in calculations) {
+      // ensures parent item is added to output if it doesn't already exist
+      if(!(output[key]["Parent Items"].hasOwnProperty(parentKey))) {
+        output[key]["Parent Items"][parentKey] = calculations[key]["Parent Items"][parentKey];
+      }
+      else {
+        output[key]["Parent Items"][parentKey] += calculations[key]["Parent Items"][parentKey];
+      }
+    }
+  }
 }
 
 /**
@@ -95,7 +114,6 @@ function updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, ou
  * @param {number} toAddID - The ID of the item/resource being added; this is the only information necessary to add the item.
  * @param {dictionary} recipes - The dictionary containing all recipes.
  * @param {dictionary} output - The dictionary to add the fresh item/resource representation to.
- * @returns {boolean} Whether the addition was succesful.
  */
 function tryAddToOutput(toAddID, recipes, output) {
     validateID(toAddID, recipes);
@@ -106,20 +124,10 @@ function tryAddToOutput(toAddID, recipes, output) {
       let outputVals = {
         "Input URPS": 0,
         "Output URPS": 0,
-        "CR": 0
+        "Parent Items": {}
       };
-  
-      let toAddType = recipes[toAddID]["Type"];
-      if (toAddType == "Resource" || toAddType == "Liquid") {
-        delete outputVals["CR"];
-      }
-  
       output[toAddID] = outputVals;
-  
-      return true;
     }
-  
-    return false;
 }
 
 /**
@@ -145,5 +153,5 @@ module.exports = {
     updateProduction,
     updateProductionURPS,
     tryAddToOutput,
-    printOutput,
+    printOutput
 };

@@ -7,13 +7,17 @@
 
 var fs = require('fs');
 
+const recipesLoc = "com.CEOFYEAST.FactorioProductionCalculator\\NodeServ\\Data\\recipes.json";
+const testDataLoc = "com.CEOFYEAST.FactorioProductionCalculator\\NodeServ\\Data\\test-data.json";
+
 /**
- * Reads and returns the recipes from the JSON file.
+ * Reads and returns the JSON located within the file at the given location.
  *
- * @returns {object} The dictionary containing all the recipes.
+ * @param {string} jsonLoc The location of the JSON file to read.
+ * @returns {object} The read JSON object.
  */
-function getRecipes() {
-    return JSON.parse(fs.readFileSync('com.CEOFYEAST.FactorioProductionCalculator\\NodeServ\\Data\\recipes.json', 'utf8'));
+function getJSON(jsonLoc) {
+    return JSON.parse(fs.readFileSync(jsonLoc, 'utf8'));
 }
 
 /**
@@ -22,14 +26,16 @@ function getRecipes() {
  * @param {object} toWrite - The object to write to the file.
  */
 function writeObj(toWrite) {
-    fs.writeFile('com.CEOFYEAST.FactorioProductionCalculator\\NodeServ\\Data\\test-data.json', JSON.stringify(toWrite, null, 4), function (err) {
+    fs.writeFile(testDataLoc, JSON.stringify(toWrite, null, 4), function (err) {
         if (err) throw err;
         console.log('Saved!');
     });
 }
 
 module.exports = {
-    getRecipes,
-    writeObj
+    getJSON,
+    writeObj,
+    recipesLoc,
+    testDataLoc
 };
 
