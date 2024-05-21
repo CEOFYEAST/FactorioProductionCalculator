@@ -68,6 +68,11 @@ function updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, ou
   tryAddToOutput(inputID, recipes, output);
   output[inputID]["Input URPS"] += inputURPS;
 
+  // removes input item from output if it's no longer required in any capacity
+  if(output[inputID]["Input URPS"] == 0 && output[inputID]["Output URPS"] == 0) {
+    delete output[inputID];
+  }
+
   // code block updates output with calculations from calculateChildrenURPS
   let calculations = {};
   calculateChildrenURPS(inputID, inputURPS, calculations, recipes);

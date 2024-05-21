@@ -26,10 +26,6 @@ function getJSON(jsonLoc) {
  * @param {object} toWrite - The object to write to the file.
  */
 function writeObj(toWrite) {
-    fs.writeFile(testDataLoc, JSON.stringify(toWrite, null, 4), function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
 }
 
 module.exports = {
