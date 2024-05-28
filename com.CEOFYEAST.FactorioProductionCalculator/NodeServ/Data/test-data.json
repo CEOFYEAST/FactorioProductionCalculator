@@ -1,268 +1,116 @@
 {
-    "satellite": {
-        "Input URPS": 5,
-        "Output URPS": 0,
-        "Parent Items": {}
-    },
-    "accumulator": {
-        "Input URPS": 0,
-        "Output URPS": 500,
+    "inserter": {
+        "Input URPS": 1,
+        "Output URPS": 1,
         "Parent Items": {
-            "satellite": {
-                "CURPS": 500
-            }
-        }
-    },
-    "battery": {
-        "Input URPS": 0,
-        "Output URPS": 2500,
-        "Parent Items": {
-            "accumulator": {
-                "CURPS": 2500
-            }
-        }
-    },
-    "copper-plate": {
-        "Input URPS": 0,
-        "Output URPS": 38937.5,
-        "Parent Items": {
-            "battery": {
-                "CURPS": 2500
-            },
-            "low-density-structure": {
-                "CURPS": 2500
-            },
-            "copper-cable": {
-                "CURPS": 31437.5
-            },
-            "solar-panel": {
-                "CURPS": 2500
-            }
-        }
-    },
-    "copper-ore": {
-        "Input URPS": 0,
-        "Output URPS": 38937.5,
-        "Parent Items": {
-            "copper-plate": {
-                "CURPS": 38937.5
-            }
-        }
-    },
-    "iron-plate": {
-        "Input URPS": 20,
-        "Output URPS": 62175,
-        "Parent Items": {
-            "battery": {
-                "CURPS": 2500
-            },
-            "sulfuric-acid": {
-                "CURPS": 1050
-            },
-            "accumulator": {
-                "CURPS": 1000
-            },
-            "steel-plate": {
-                "CURPS": 37500
-            },
-            "electronic-circuit": {
-                "CURPS": 19625
-            },
-            "iron-gear-wheel": {
-                "CURPS": 250
-            },
-            "radar": {
-                "CURPS": 250
-            }
-        }
-    },
-    "iron-ore": {
-        "Input URPS": 0,
-        "Output URPS": 62195,
-        "Parent Items": {
-            "iron-plate": {
-                "CURPS": 62195
-            }
-        }
-    },
-    "sulfuric-acid": {
-        "Input URPS": 0,
-        "Output URPS": 52500,
-        "Parent Items": {
-            "battery": {
-                "CURPS": 50000
-            },
-            "processing-unit": {
-                "CURPS": 2500
-            }
-        }
-    },
-    "sulfur": {
-        "Input URPS": 0,
-        "Output URPS": 5250,
-        "Parent Items": {
-            "sulfuric-acid": {
-                "CURPS": 5250
-            }
-        }
-    },
-    "petroleum-gas": {
-        "Input URPS": 0,
-        "Output URPS": 123750,
-        "Parent Items": {
-            "sulfur": {
-                "CURPS": 78750
-            },
-            "plastic-bar": {
-                "CURPS": 45000
-            }
-        }
-    },
-    "water": {
-        "Input URPS": 0,
-        "Output URPS": 183750,
-        "Parent Items": {
-            "sulfur": {
-                "CURPS": 78750
-            },
-            "sulfuric-acid": {
-                "CURPS": 105000
-            }
-        }
-    },
-    "low-density-structure": {
-        "Input URPS": 0,
-        "Output URPS": 500,
-        "Parent Items": {
-            "satellite": {
-                "CURPS": 500
-            }
-        }
-    },
-    "plastic-bar": {
-        "Input URPS": 0,
-        "Output URPS": 4500,
-        "Parent Items": {
-            "low-density-structure": {
-                "CURPS": 2500
-            },
-            "advanced-circuit": {
-                "CURPS": 2000
-            }
-        }
-    },
-    "coal": {
-        "Input URPS": 0,
-        "Output URPS": 2250,
-        "Parent Items": {
-            "plastic-bar": {
-                "CURPS": 2250
-            }
-        }
-    },
-    "steel-plate": {
-        "Input URPS": 0,
-        "Output URPS": 7500,
-        "Parent Items": {
-            "low-density-structure": {
-                "CURPS": 5000
-            },
-            "solar-panel": {
-                "CURPS": 2500
-            }
-        }
-    },
-    "processing-unit": {
-        "Input URPS": 0,
-        "Output URPS": 500,
-        "Parent Items": {
-            "satellite": {
-                "CURPS": 500
-            }
-        }
-    },
-    "advanced-circuit": {
-        "Input URPS": 0,
-        "Output URPS": 1000,
-        "Parent Items": {
-            "processing-unit": {
-                "CURPS": 1000
-            }
-        }
-    },
-    "copper-cable": {
-        "Input URPS": 0,
-        "Output URPS": 62875,
-        "Parent Items": {
-            "advanced-circuit": {
-                "CURPS": 4000
-            },
-            "electronic-circuit": {
-                "CURPS": 58875
+            "long-handed-inserter": {
+                "CURPS": 1
             }
         }
     },
     "electronic-circuit": {
         "Input URPS": 0,
-        "Output URPS": 19625,
+        "Output URPS": 2.6,
         "Parent Items": {
-            "advanced-circuit": {
-                "CURPS": 2000
+            "inserter": {
+                "CURPS": 2
             },
-            "processing-unit": {
-                "CURPS": 10000
-            },
-            "radar": {
-                "CURPS": 125
-            },
-            "solar-panel": {
-                "CURPS": 7500
+            "assembling-machine-1": {
+                "CURPS": 0.6000000000000001
             }
         }
     },
-    "radar": {
+    "copper-cable": {
         "Input URPS": 0,
-        "Output URPS": 25,
+        "Output URPS": 7.800000000000001,
         "Parent Items": {
-            "satellite": {
-                "CURPS": 25
+            "electronic-circuit": {
+                "CURPS": 7.800000000000001
+            }
+        }
+    },
+    "copper-plate": {
+        "Input URPS": 0,
+        "Output URPS": 4.9,
+        "Parent Items": {
+            "copper-cable": {
+                "CURPS": 3.9000000000000004
+            },
+            "automation-science-pack": {
+                "CURPS": 1
+            }
+        }
+    },
+    "copper-ore": {
+        "Input URPS": 0,
+        "Output URPS": 4.9,
+        "Parent Items": {
+            "copper-plate": {
+                "CURPS": 4.9
+            }
+        }
+    },
+    "iron-plate": {
+        "Input URPS": 0,
+        "Output URPS": 17.4,
+        "Parent Items": {
+            "electronic-circuit": {
+                "CURPS": 2.6
+            },
+            "iron-gear-wheel": {
+                "CURPS": 10
+            },
+            "inserter": {
+                "CURPS": 2
+            },
+            "long-handed-inserter": {
+                "CURPS": 1
+            },
+            "assembling-machine-1": {
+                "CURPS": 1.8
+            }
+        }
+    },
+    "iron-ore": {
+        "Input URPS": 0,
+        "Output URPS": 17.4,
+        "Parent Items": {
+            "iron-plate": {
+                "CURPS": 17.4
             }
         }
     },
     "iron-gear-wheel": {
         "Input URPS": 0,
-        "Output URPS": 125,
+        "Output URPS": 5,
         "Parent Items": {
-            "radar": {
-                "CURPS": 125
+            "inserter": {
+                "CURPS": 2
+            },
+            "long-handed-inserter": {
+                "CURPS": 1
+            },
+            "automation-science-pack": {
+                "CURPS": 1
+            },
+            "assembling-machine-1": {
+                "CURPS": 1
             }
         }
     },
-    "rocket-fuel": {
-        "Input URPS": 0,
-        "Output URPS": 250,
-        "Parent Items": {
-            "satellite": {
-                "CURPS": 250
-            }
-        }
+    "long-handed-inserter": {
+        "Input URPS": 1,
+        "Output URPS": 0,
+        "Parent Items": {}
     },
-    "solid-fuel": {
-        "Input URPS": 0,
-        "Output URPS": 2500,
-        "Parent Items": {
-            "rocket-fuel": {
-                "CURPS": 2500
-            }
-        }
+    "automation-science-pack": {
+        "Input URPS": 1,
+        "Output URPS": 0,
+        "Parent Items": {}
     },
-    "solar-panel": {
-        "Input URPS": 0,
-        "Output URPS": 500,
-        "Parent Items": {
-            "satellite": {
-                "CURPS": 500
-            }
-        }
+    "assembling-machine-1": {
+        "Input URPS": 0.2,
+        "Output URPS": 0,
+        "Parent Items": {}
     }
 }

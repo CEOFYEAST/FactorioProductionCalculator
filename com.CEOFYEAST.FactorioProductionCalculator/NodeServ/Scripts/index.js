@@ -14,32 +14,24 @@ const fsPromises = require('fs').promises;
 var recipes = getJSON(recipesLoc);
 
 let output = {};
-updateProductionURPS('inserter', 35, false, recipes, output);
+updateProductionURPS('inserter', 1, false, recipes, output);
 fsPromises.writeFile(testDataLoc, JSON.stringify(output, null, 4))
     .then(() => {
         console.log("File has been written successfully");
     })
     .then(() => {
         output = getJSON(testDataLoc);
-        updateProductionURPS('inserter', 34, true, recipes, output);
+        updateProductionURPS('long-handed-inserter', 1, false, recipes, output);
         return fsPromises.writeFile(testDataLoc, JSON.stringify(output, null, 4))
     })
     .then(() => {
-        console.log("File has been altered successfully");
         output = getJSON(testDataLoc);
-        updateProductionURPS('inserter', 1, true, recipes, output);
+        updateProductionURPS('automation-science-pack', 1, false, recipes, output);
         return fsPromises.writeFile(testDataLoc, JSON.stringify(output, null, 4))
     })
     .then(() => {
-        console.log("File has been altered successfully");
         output = getJSON(testDataLoc);
-        updateProductionURPS('satellite', 5, false, recipes, output);
-        return fsPromises.writeFile(testDataLoc, JSON.stringify(output, null, 4))
-    })
-    .then(() => {
-        console.log("File has been altered successfully");
-        output = getJSON(testDataLoc);
-        updateProductionURPS('iron-plate', 20, false, recipes, output);
+        updateProductionURPS('assembling-machine-1', 0.2, false, recipes, output);
         return fsPromises.writeFile(testDataLoc, JSON.stringify(output, null, 4))
     })
     .catch((err) => {

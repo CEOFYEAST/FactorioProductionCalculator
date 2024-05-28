@@ -3650,9 +3650,9 @@
         ]
       }
     },
-    "science-pack-1": {
-      "id": "science-pack-1",
-      "name": "Science pack 1",
+    "automation-science-pack": {
+      "id": "automation-science-pack",
+      "name": "Automation science pack",
       "type": "Science pack",
       "wiki_link": "https://wiki.factorio.com/Science_pack_1",
       "category": "Intermediate product",
