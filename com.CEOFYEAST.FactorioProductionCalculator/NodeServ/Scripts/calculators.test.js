@@ -1,8 +1,10 @@
-const  calculateChildrenURPS = require('production-calc.module.js');
+const fs = require('fs');
+const { getClient } = require('./db.module.js');
 
-const recipes = JSON.parse(fs.readFileSync('recipes.json', 'utf8'));
-
-
+test('ensures client is returned', () => {
+    expect(getClient()).not.toBeNull();
+    //expect(sum(1, 2)).toEqual(3);
+  });
 
 
 
