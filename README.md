@@ -12,7 +12,7 @@ The main functionality of the app centers around production chains. Users will b
 Lots of apps like this already exist, such as this wonderful website: 
 https://kirkmcdonald.github.io/calc.html#data=1-1-110&items=advanced-circuit:f:1
 
-However, I plan to implement user profiles; this will allow users to continue modeling the production chains of their factories as they grow over time.
+However, I plan to implement user profiles; this will allow users to continue modeling the production chains of their factories as they grow over time. Also, I've put alot of work into modeling processes with code that other websites don't cover such as train throughput.
 
 ## Keep up with updates
 
