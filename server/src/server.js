@@ -50,11 +50,12 @@ app.register(require('@fastify/swagger'), {})
 app.register(require('@fastify/swagger-ui'), {})
 app.register(require('./routes/items.js'))
 
-const PORT = process.env.PORT || 3000
-const HOST = '0.0.0.0'
+const PORT = process.env.PORT || 3000;
+//const HOST = 'factorio-production-calculator.com'
+const HOST = 'localhost'
 
 // Start listening.
-app.listen({ port: PORT, host: HOST }, (err, address) => {
+app.listen({ port: PORT, host: HOST}, (err, address) => {
     if (err) {
       console.error(err);
       throw err;

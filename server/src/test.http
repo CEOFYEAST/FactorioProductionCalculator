@@ -1,5 +1,8 @@
+### GET BUILD FILES
+GET http://factorio-production-calculator.com/ HTTP/1.1
+
 ### GET ALL ITEMS
-GET http://localhost:5000/items HTTP/1.1
+GET http://factorio-production-calculator.com/items HTTP/1.1
 
 ### GET SINGLE ITEM
 GET http://localhost:5000/items/1 HTTP/1.1
