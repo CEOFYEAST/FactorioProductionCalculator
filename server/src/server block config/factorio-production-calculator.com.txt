@@ -1,0 +1,33 @@
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name factorio-production-calculator.com www.factorio-production-calculator.com;
+
+        # The only request that shouldn't be proxied is a direct request to the root
+        # The order matters here; if the request is /, then it will just use whatver location block comes first to my understanding
+        location / {
+
+                index index.html index.htm index.nginx-debian.html;
+
+                root /home/ubuntu/FactorioProductionCalculator/client/dist;
+
+                try_files $uri $uri/ @proxy;
+        }
+
+        # every other request should be proxied
+        location @proxy {
+
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;  # Forward client's IP
+
+                proxy_set_header Host $host;  # Forward the Host header
+
+                proxy_pass http://127.0.0.1:3000;  # Proxy to the backend service
+
+                proxy_http_version 1.1;  # Use HTTP/1.1 for proxied requests
+
+                proxy_set_header Upgrade $http_upgrade;  # Handle WebSocket upgrades
+
+                proxy_set_header Connection "upgrade";  # Upgrade connection for WebSockets
+        }
+}
