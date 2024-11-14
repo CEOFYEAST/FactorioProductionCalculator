@@ -19,6 +19,7 @@ app.register(require('@fastify/cors'), {})
 app.register(require('@fastify/swagger'), {})
 app.register(require('@fastify/swagger-ui'), {})
 app.register(require('./routes/items.js'))
+app.register(require('./routes/users.js'))
 
 const PORT = process.env.PORT || 3000;
 const HOST = 'localhost'

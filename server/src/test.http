@@ -15,3 +15,6 @@ Content-Type: application/json
     "name": "New Item"
 }
 
+### GET USER
+GET http://localhost:3000/users HTTP/1.1
+
