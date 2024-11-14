@@ -1,7 +1,7 @@
 <template>
     <div class="root">
 
-        <form id="account-creation-form" class="flex column">
+        <form id="account-creation-form" action="/users" method="post" class="flex column">
             <p id="create-account-pointer">Creating an account allows you to store production vals. for up to three factories across sessions.</p>
             <input type="email" placeholder="Email" id="user-email" name="userEmail" required><br>
             <input type="password" placeholder="Password" id="user-password" name="userPassword" required><br>
@@ -22,7 +22,7 @@
 import TopNav from '@/components/TopNav.vue'
 
 export default {
-    name: 'sign in form',
+    name: 'account creation form',
     components: {
         TopNav
     }

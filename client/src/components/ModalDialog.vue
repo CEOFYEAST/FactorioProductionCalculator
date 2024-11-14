@@ -54,4 +54,8 @@ export default {
         height: 25px;
         width: 25px;
     }
+
+    #close-button:hover {
+        background-color: lightgray;
+    }
 </style>

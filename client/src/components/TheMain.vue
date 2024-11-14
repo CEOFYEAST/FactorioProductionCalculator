@@ -2,7 +2,11 @@
     <div class="root">
 
         <main>
-            <ModalDialog v-if="this.showSignInModal" @toggle-show-modal="this.$emit('toggleShowModal')">
+            <ModalDialog v-if="this.showAccountCreationModal" @toggle-show-modal="this.$emit('toggleShowAccountCreationModal')">
+                <AccountCreationForm></AccountCreationForm>
+            </ModalDialog>
+
+            <ModalDialog v-if="this.showSignInModal" @toggle-show-modal="this.$emit('toggleShowSignInModal')">
                 <SignInForm></SignInForm>
             </ModalDialog>
         </main>
@@ -17,7 +21,8 @@ import SignInForm from './SignInForm.vue'
 export default {
     name: 'the main',
     props: [
-        'showSignInModal'
+        'showSignInModal',
+        `showAccountCreationModal`
     ],
     components: {
         ModalDialog,
