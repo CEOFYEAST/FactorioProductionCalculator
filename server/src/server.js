@@ -2,11 +2,9 @@
 
 'use strict'
 
-// Read the .env file.
-//require('dotenv').config()
-
 // Require the framework
 const Fastify = require('fastify')
+const path = require('node:path')
 
 // Instantiate Fastify with some config
 const app = Fastify({
@@ -14,13 +12,15 @@ const app = Fastify({
   pluginTimeout: 10000
 })
 
+app.register(require('@fastify/static'), {
+  root: 'C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/client/dist',
+})
 app.register(require('@fastify/cors'), {})
 app.register(require('@fastify/swagger'), {})
 app.register(require('@fastify/swagger-ui'), {})
 app.register(require('./routes/items.js'))
 
 const PORT = process.env.PORT || 3000;
-//const HOST = 'factorio-production-calculator.com'
 const HOST = 'localhost'
 
 // Start listening.
