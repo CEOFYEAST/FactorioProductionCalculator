@@ -1,0 +1,10 @@
+Vue Considerations
+- Using the proper channels when dealing with communication between parent and child, sibling and sibling, etc.
+- Seperating systems involved in business logic and ui logic
+  * for example, using an event bus based on the component tree for the UI, and an event bus seperated from it for the business logi
+    - the component tree event bus can be based off the root component, or off a parent component; multiple different busses can exist
+    - could use a store for the business logi; however, stores for spa component logic are a bad idea
+- Coupling can get very out of hand with Vue if I'm not careful
+  
+
+  
