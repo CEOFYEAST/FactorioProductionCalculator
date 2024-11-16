@@ -6,6 +6,9 @@ Vue Considerations
     - could use a store for the business logi; however, stores for spa component logic are a bad idea
 - Coupling can get very out of hand with Vue 
 - Seperation of concerns; should have reusable components purely used to interact with the user, and parent components used to organize these components as well as handle the business logic
+- There should no communication between presentational components from different subtrees, with each tree being defined by it's root application component
+  * for example, the nav bar from my app application component shouldn't communicate with the presentational component child of a nested application component such as TheMain
+- If I want to design a large, complex website, I have to treat it with the respect and attention it deserves
   
 
   
