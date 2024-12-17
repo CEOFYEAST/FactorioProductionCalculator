@@ -22,7 +22,7 @@
 import TopNav from '@/components/TopNav.vue'
 
 export default {
-    name: 'sign in form',
+    name: 'account access form',
     components: {
         TopNav
     }

@@ -1,33 +1,29 @@
 <template>
     <div class="root">
-
-        <main>
-            <ModalDialog v-if="this.showAccountCreationModal" @toggle-show-modal="this.$emit('toggleShowAccountCreationModal')">
-                <AccountCreationForm></AccountCreationForm>
-            </ModalDialog>
-
-            <ModalDialog v-if="this.showSignInModal" @toggle-show-modal="this.$emit('toggleShowSignInModal')">
-                <SignInForm></SignInForm>
-            </ModalDialog>
-        </main>
-        
+        <ModalDialog v-show="showAccountGetModal">
+            <AccountAccessForm></AccountAccessForm>
+        </ModalDialog>
+        <ModalDialog v-show="showAccountPostModal">
+            <AccountCreationForm></AccountCreationForm>
+        </ModalDialog>
     </div>
 </template>
 
 <script>
+import AccountAccessForm from './AccountAccessForm.vue';
+import AccountCreationForm from './AccountCreationForm.vue';
 import ModalDialog from './ModalDialog.vue';
-import SignInForm from './SignInForm.vue'
-
 export default {
     name: 'the main',
-    props: [
-        'showSignInModal',
-        `showAccountCreationModal`
-    ],
     components: {
-        ModalDialog,
-        SignInForm
-    }
+        AccountAccessForm, 
+        AccountCreationForm,
+        ModalDialog
+    },
+    props: {
+        showAccountGetModal: Boolean,
+        showAccountPostModal: Boolean
+    },
 }
 </script>
 
