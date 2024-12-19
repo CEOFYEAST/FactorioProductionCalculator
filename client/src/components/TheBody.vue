@@ -1,11 +1,14 @@
 <template>
     <div class="root">
       <TheNav class="flex center">
-        <button @click="this.displayModal(this.accountPostModalName)">Create Account</button>
-        <button @click="this.displayModal(this.accountGetModalName)">Sign In</button>
+        <button @click="showModal(modalEnums.ACCOUNT_POST_MODAL)">Create Account</button>
+        <button @click="showModal(modalEnums.ACCOUNT_GET_MODAL)">Sign In</button>
         <button @click="route">Route</button>
       </TheNav>
-      <TheMain :showAccountGetModal="showAccountGetModal" :showAccountPostModal="showAccountPostModal"/>
+      <TheMain 
+        @toggle-account-get-modal="hideModals()" @toggle-account-post-modal="hideModals()"
+        :showAccountGetModal="modalControllers.showAccountGetModal" :showAccountPostModal="modalControllers.showAccountPostModal"
+      />
     </div>
   </template>
   
@@ -23,20 +26,27 @@
     },
     data() {
       return {
-        showAccountGetModal: false,
-        showAccountPostModal: false,
-        accountGetModalName: "account-get-modal",
-        accountPostModalName: "account-post-modal"
+        modalEnums: {
+          ACCOUNT_GET_MODAL: "showAccountGetModal",
+          ACCOUNT_POST_MODAL: "showAccountPostModal"
+        },
+        modalControllers: {
+          showAccountGetModal: false,
+          showAccountPostModal: false
+        }
       }
     },
     methods: {
-      displayModal(toDisplay)
+      showModal(modalEnum)
       {
-        this.showAccountGetModal = false;
-        this.showAccountPostModal = false;
-  
-        if(toDisplay == this.accountGetModalName) this.showAccountGetModal = true;
-        else if(toDisplay == this.accountPostModalName) this.showAccountPostModal = true;
+        this.hideModals();
+        this.modalControllers[modalEnum] = true;
+      },
+      hideModals()
+      {
+        for (let key in this.modalControllers) {
+          this.modalControllers[key] = false;
+        }
       },
       async route() {
         try {

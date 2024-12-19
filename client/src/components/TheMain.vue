@@ -1,9 +1,9 @@
 <template>
     <div class="root">
-        <ModalDialog v-show="showAccountGetModal">
+        <ModalDialog v-show="showAccountGetModal" @toggle-show-modal="$emit('toggleAccountGetModal')">
             <AccountAccessForm></AccountAccessForm>
         </ModalDialog>
-        <ModalDialog v-show="showAccountPostModal">
+        <ModalDialog v-show="showAccountPostModal" @toggle-show-modal="$emit('toggleAccountPostModal')">
             <AccountCreationForm></AccountCreationForm>
         </ModalDialog>
     </div>

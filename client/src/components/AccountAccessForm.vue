@@ -2,7 +2,7 @@
     <div class="root">
 
         <form id="sign-in-form" action="/users" method="get" class="flex column">
-            <input type="email" placeholder="Email" id="user-email" name="userEmail" required><br>
+            <input type="text" placeholder="Username" id="user-name" name="userName" required><br>
             <input type="password" placeholder="Password" id="user-password" name="userPassword" required><br>
             <div id="submit-container" class="flex">
                 <div class="x3"></div>

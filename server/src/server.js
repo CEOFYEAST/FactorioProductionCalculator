@@ -16,6 +16,7 @@ app.register(require('@fastify/static'), {
   root: 'C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/client/dist',
 })
 app.register(require('@fastify/cors'), {})
+app.register(require('@fastify/formbody'), {})
 app.register(require('@fastify/swagger'), {})
 app.register(require('@fastify/swagger-ui'), {})
 app.register(require('./routes/items.js'))

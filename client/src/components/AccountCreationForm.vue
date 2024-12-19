@@ -3,7 +3,7 @@
 
         <form id="account-creation-form" action="/users" method="post" class="flex column">
             <p id="create-account-pointer">Creating an account allows you to store production vals. for up to three factories across sessions.</p>
-            <input type="email" placeholder="Email" id="user-email" name="userEmail" required><br>
+            <input type="text" placeholder="Username" id="user-name" name="userName" required><br>
             <input type="password" placeholder="Password" id="user-password" name="userPassword" required><br>
             <div id="submit-container" class="flex">
                 <div class="x3"></div>
