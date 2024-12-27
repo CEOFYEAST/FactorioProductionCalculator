@@ -4,7 +4,7 @@
         <body>
             <TopNav>
                 <div align="right">
-                    <button id="close-button" @click="$emit('toggleShowModal')">X</button>
+                    <button id="close-button" @click="$emit('hideModal')">X</button>
                 </div>
             </TopNav>
 

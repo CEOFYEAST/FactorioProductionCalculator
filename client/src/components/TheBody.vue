@@ -6,7 +6,7 @@
         <button @click="route">Route</button>
       </TheNav>
       <TheMain 
-        @toggle-account-get-modal="hideModals()" @toggle-account-post-modal="hideModals()"
+        @hide-modal="hideModals()"
         :showAccountGetModal="modalControllers.showAccountGetModal" :showAccountPostModal="modalControllers.showAccountPostModal"
       />
     </div>

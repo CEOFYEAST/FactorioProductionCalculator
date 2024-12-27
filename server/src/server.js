@@ -5,6 +5,7 @@
 // Require the framework
 const Fastify = require('fastify')
 const path = require('node:path')
+const DBUserPassword = require('./secure.module.js')
 
 // Instantiate Fastify with some config
 const app = Fastify({
@@ -12,6 +13,13 @@ const app = Fastify({
   pluginTimeout: 10000
 })
 
+app.register(require('@fastify/mongodb'), {
+  // force to close the mongodb connection when app stopped
+  // the default value is false
+  forceClose: true,
+
+  url: `mongodb+srv://myAtlasDBUser:${DBUserPassword}@myatlasclusteredu.3iqhyav.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU`
+})
 app.register(require('@fastify/static'), {
   root: 'C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/client/dist',
 })
