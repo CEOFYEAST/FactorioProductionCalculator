@@ -1,7 +1,7 @@
 <template>
     <div class="root">
 
-        <form id="account-creation-form" action="/users" method="post" class="flex column">
+        <form id="account-creation-form" action="/users/create" method="post" class="flex column">
             <p id="create-account-pointer">Creating an account allows you to store production vals. for up to three factories across sessions.</p>
             <input type="text" placeholder="Username" id="user-name" name="userName" required><br>
             <input type="password" placeholder="Password" id="user-password" name="userPassword" required><br>

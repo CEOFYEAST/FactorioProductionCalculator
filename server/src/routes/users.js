@@ -1,4 +1,4 @@
-const {getUser, addUser} = require('../controllers/users')
+const {handleGetUser, handleCreateUser} = require('../controllers/users')
 
 const User = {
     type: 'object',
@@ -17,7 +17,7 @@ const getUserOpts = {
     //         }
     //     }
     // },
-    handler: getUser
+    handler: handleGetUser
 }
 
 const postUserOpts = {
@@ -33,15 +33,15 @@ const postUserOpts = {
     //         201: Item
     //     }
     // },
-    handler: addUser
+    handler: handleCreateUser
 }
 
 function userRoutes(fastify, options, done){
     // get all items
-    fastify.get('/users', getUserOpts)
+    fastify.post('/users/access', getUserOpts)
     
     // add item
-    fastify.post('/users', postUserOpts)
+    fastify.post('/users/create', postUserOpts)
 
     done()
 }

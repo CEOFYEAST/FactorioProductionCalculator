@@ -1,7 +1,7 @@
 <template>
     <div class="root">
 
-        <form id="sign-in-form" action="/users" method="get" class="flex column">
+        <form id="sign-in-form" action="/users/access" method="post" class="flex column">
             <input type="text" placeholder="Username" id="user-name" name="userName" required><br>
             <input type="password" placeholder="Password" id="user-password" name="userPassword" required><br>
             <div id="submit-container" class="flex">
