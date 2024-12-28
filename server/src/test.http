@@ -15,6 +15,6 @@ Content-Type: application/json
     "name": "New Item"
 }
 
-### GET USER
-GET http://localhost:3000/users HTTP/1.1
+### POST USER
+POST http://localhost:3000/users HTTP/1.1
 

@@ -13,6 +13,8 @@ const app = Fastify({
   pluginTimeout: 10000
 })
 
+module.exports = app;
+
 app.register(require('@fastify/mongodb'), {
   // force to close the mongodb connection when app stopped
   // the default value is false
@@ -41,3 +43,4 @@ app.listen({ port: PORT, host: HOST}, (err, address) => {
     }
     console.log(`Fastify server is running on ${address}`);
   });
+  
