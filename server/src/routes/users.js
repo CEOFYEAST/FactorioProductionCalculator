@@ -1,42 +1,37 @@
 const {handleUserAccess, handleUserCreation} = require('../controllers/users')
 
-// const User = {
-//     type: 'object',
-//     required: ['userName', 'userPassword', 'factories'],
-//     properties: {
-//         userName: { type: 'string' },
-//         userPassword: { type: 'string' },
-//         factories: { 
-//             type: 'array',
-//             maxItems: 3
-//         }
-//     }
-// }
+const User = {
+    type: 'object',
+    required: ['userName', 'userPassword', 'factories'],
+    properties: {
+        userName: { type: 'string' },
+        userPassword: { type: 'string' },
+        factories: { 
+            type: 'array',
+            maxItems: 3
+        }
+    }
+}
 
 const accessUserOpts = {
-    // schema: {
-    //     response: {
-    //         200: {
-    //             schema: User
-    //         }
-    //     }
-    // },
+    schema: {
+        response: {
+            200: {
+                User
+            }
+        }
+    },
     handler: handleUserAccess
 }
 
 const createUserOpts = {
-    // schema: {
-    //     body: { 
-    //         type: 'object',
-    //         required: ['name'],
-    //         properties: {
-    //             name: { type: 'string' }
-    //         }
-    //      },
-    //     response: {
-    //         201: Item
-    //     }
-    // },
+    schema: {
+        response: {
+            '2xx': {
+                User
+            }
+        }
+    },
     handler: handleUserCreation
 }
 
