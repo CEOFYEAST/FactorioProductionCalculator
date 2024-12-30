@@ -1,23 +1,27 @@
-const {handleAccessUser, handleCreateUser} = require('../controllers/users')
+const {handleUserAccess, handleUserCreation} = require('../controllers/users')
 
-const User = {
-    type: 'object',
-    properties: {
-        id: {type: 'string'},
-        name: {type: 'string'}
-    }
-}
+// const User = {
+//     type: 'object',
+//     required: ['userName', 'userPassword', 'factories'],
+//     properties: {
+//         userName: { type: 'string' },
+//         userPassword: { type: 'string' },
+//         factories: { 
+//             type: 'array',
+//             maxItems: 3
+//         }
+//     }
+// }
 
 const accessUserOpts = {
     // schema: {
     //     response: {
     //         200: {
-    //             type: 'array',
-    //             items: Item
+    //             schema: User
     //         }
     //     }
     // },
-    handler: handleAccessUser
+    handler: handleUserAccess
 }
 
 const createUserOpts = {
@@ -33,7 +37,7 @@ const createUserOpts = {
     //         201: Item
     //     }
     // },
-    handler: handleCreateUser
+    handler: handleUserCreation
 }
 
 function userRoutes(fastify, options, done){

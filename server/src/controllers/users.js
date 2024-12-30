@@ -13,7 +13,7 @@ const handleUserAccess = (req, reply) => {
 
     let db = app.mongo.client.db(usersDatabaseName);
     let coll = db.collection(usersCollectionName)
-    checkForUser(coll, userName, userPassword).then((response) => {
+    fetchUser(coll, userName, userPassword).then((response) => {
         let userExists = response != null;
         if(!userExists) reply.code(500).send("User POST Failed");
         else reply.code(201).send(response);
@@ -28,8 +28,8 @@ const handleUserAccess = (req, reply) => {
 const handleUserCreation = (req, reply) => {
     const { userName, userPassword } = req.body
     let coll = fetchUserCollection();
-    createUser(coll, userName, userPassword).then(() => {
-        respondWithUser(coll, userName, userPassword, reply);
+    createUser(coll, userName, userPassword).then((creationStatus) => {
+        replyWithUser(coll, userName, userPassword, creationStatus, reply);
     })  
 }
 
@@ -38,7 +38,7 @@ const handleUserCreation = (req, reply) => {
  * @param {The collection to place the newly created user in} coll 
  * @param {*The name of the user being created} userName 
  * @param {*The password of the user being created} userPassword 
- * @returns Whether a user with the given information already exists within the given collection
+ * @returns Whether a user was actually created as a result of the function (a user account won't be recreated if it already exists)
  */
 async function createUser(coll, userName, userPassword) {
     fetchUser(coll, userName, userPassword).then((response) => {
@@ -56,8 +56,10 @@ async function createUser(coll, userName, userPassword) {
                 ]
             }
             coll.insertOne(doc);
-            return false;
-        } else return true;
+            return true;
+        }
+        
+        return false;
     })
 }
 
@@ -68,12 +70,14 @@ async function createUser(coll, userName, userPassword) {
  * @param {*The user name of the user to respond with} userName 
  * @param {*The password of the user to respond with} userPassword 
  * @param {*The reply object used to return the user to the requester} reply 
+ * @param {*Whether the user was created as a result of the initial request} creationStatus 
  */
-async function replyWithUser(coll, userName, userPassword, reply) {
-    fetchUser(coll, userName, userPassword).then((response) => {
-        let userExists = response != null;
+async function replyWithUser(coll, userName, userPassword, creationStatus, reply) {
+    fetchUser(coll, userName, userPassword).then((user) => {
+        let userExists = user != null;
         if(!userExists) reply.code(500).send("User POST Failed");
-        else reply.code(201).send(response);
+        else if(creationStatus) reply.code(201).send(user);
+        else reply.code(200).send(user);
     })
 }
 
@@ -110,6 +114,6 @@ function fetchUserCollection()
 }
 
 module.exports = {
-    handleAccessUser,
-    handleCreateUser
+    handleUserAccess,
+    handleUserCreation
 }
