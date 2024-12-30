@@ -10,7 +10,7 @@ const usersCollectionName = "users";
  */
 const handleUserAccess = (req, reply) => {
     const { userName, userPassword } = req.body
-    let coll = fetchUserCollection();
+    let coll = fetchUserFromCollectionCollection();
     replyWithUser(coll, userName, userPassword, false, reply);
 }
 
@@ -21,12 +21,7 @@ const handleUserAccess = (req, reply) => {
  */
 const handleUserCreation = (req, reply) => {
     const { userName, userPassword } = req.body
-    let coll = fetchUserCollection();
-    //  DEBUGGING PURPOSES
-    console.log("Debugging Purposes")
-    console.log("Collection: " + coll);
-    console.log("Debugging Purposes")
-    //  DEBUGGING PURPOSES
+    let coll = fetchUserFromCollectionCollection();
     createUser(coll, userName, userPassword).then((creationStatus) => {
         replyWithUser(coll, userName, userPassword, creationStatus, reply);
     })  
@@ -40,7 +35,7 @@ const handleUserCreation = (req, reply) => {
  * @returns Whether a user was actually created as a result of the function (a user account won't be recreated if it already exists)
  */
 async function createUser(coll, userName, userPassword) {
-    const response = await fetchUser(coll, userName, userPassword);
+    const response = await fetchUserFromCollection(coll, userName, userPassword);
     let userExists = response != null;
 
     // create user
@@ -74,7 +69,7 @@ async function createUser(coll, userName, userPassword) {
  * @param {*Whether the user was created as a result of the initial request} creationStatus 
  */
 async function replyWithUser(coll, userName, userPassword, creationStatus, reply) {
-    let user = await fetchUser(coll, userName, userPassword);
+    let user = await fetchUserFromCollection(coll, userName, userPassword);
     let userExists = user != null;
     if(!userExists) reply.code(500).send("User POST Failed");
     else if(creationStatus) reply.code(201).send(user);
@@ -88,7 +83,7 @@ async function replyWithUser(coll, userName, userPassword, creationStatus, reply
  * @param {*The password of the user being searched for} userPassword 
  * @returns The user
  */
-async function fetchUser(coll, userName, userPassword) {
+async function fetchUserFromCollectionFromCollection(coll, userName, userPassword) {
 
     // Query for a movie that has the title 'The Room'
     const query = { userName: userName, userPassword: userPassword };
@@ -106,7 +101,7 @@ async function fetchUser(coll, userName, userPassword) {
  * Encapsulates the logic for fetching the user collection
  * @returns The collection used to store and fetch users
  */
-function fetchUserCollection()
+function fetchUserFromCollectionCollection()
 {
     let db = app.mongo.client.db(usersDatabaseName);
     let coll = db.collection(usersCollectionName);
