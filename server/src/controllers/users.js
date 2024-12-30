@@ -10,14 +10,8 @@ const usersCollectionName = "users";
  */
 const handleUserAccess = (req, reply) => {
     const { userName, userPassword } = req.body
-
-    let db = app.mongo.client.db(usersDatabaseName);
-    let coll = db.collection(usersCollectionName)
-    fetchUser(coll, userName, userPassword).then((response) => {
-        let userExists = response != null;
-        if(!userExists) reply.code(500).send("User POST Failed");
-        else reply.code(201).send(response);
-    })
+    let coll = fetchUserCollection();
+    replyWithUser(coll, userName, userPassword, false, reply);
 }
 
 /**
@@ -28,6 +22,11 @@ const handleUserAccess = (req, reply) => {
 const handleUserCreation = (req, reply) => {
     const { userName, userPassword } = req.body
     let coll = fetchUserCollection();
+    //  DEBUGGING PURPOSES
+    console.log("Debugging Purposes")
+    console.log("Collection: " + coll);
+    console.log("Debugging Purposes")
+    //  DEBUGGING PURPOSES
     createUser(coll, userName, userPassword).then((creationStatus) => {
         replyWithUser(coll, userName, userPassword, creationStatus, reply);
     })  
@@ -41,26 +40,28 @@ const handleUserCreation = (req, reply) => {
  * @returns Whether a user was actually created as a result of the function (a user account won't be recreated if it already exists)
  */
 async function createUser(coll, userName, userPassword) {
-    fetchUser(coll, userName, userPassword).then((response) => {
-        let userExists = response != null;
-        if(!userExists) {
-            let doc = { 
-                userName: userName, 
-                userPassword: userPassword,
-                factories: [
-                    {
-                        name: "inserter",
-                        URPS: 100,
-                        CURPS: 200
-                    }
-                ]
-            }
-            coll.insertOne(doc);
-            return true;
+    const response = await fetchUser(coll, userName, userPassword);
+    let userExists = response != null;
+
+    // create user
+    if(!userExists) {
+        let doc = { 
+            userName: userName, 
+            userPassword: userPassword,
+            factories: [
+                {
+                    name: "inserter",
+                    URPS: 100,
+                    CURPS: 200
+                }
+            ]
         }
-        
-        return false;
-    })
+        await coll.insertOne(doc);
+        return true;
+    }
+    
+    // user already existed, so no creation was neccessary
+    return false;
 }
 
 /**
@@ -73,12 +74,11 @@ async function createUser(coll, userName, userPassword) {
  * @param {*Whether the user was created as a result of the initial request} creationStatus 
  */
 async function replyWithUser(coll, userName, userPassword, creationStatus, reply) {
-    fetchUser(coll, userName, userPassword).then((user) => {
-        let userExists = user != null;
-        if(!userExists) reply.code(500).send("User POST Failed");
-        else if(creationStatus) reply.code(201).send(user);
-        else reply.code(200).send(user);
-    })
+    let user = await fetchUser(coll, userName, userPassword);
+    let userExists = user != null;
+    if(!userExists) reply.code(500).send("User POST Failed");
+    else if(creationStatus) reply.code(201).send(user);
+    else reply.code(200).send(user);
 }
 
 /**
