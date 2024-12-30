@@ -15,6 +15,21 @@ Content-Type: application/json
     "name": "New Item"
 }
 
-### POST USER
-POST http://localhost:3000/users HTTP/1.1
+### CREATE USER
+POST http://localhost:3000/users/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "userName": "Chungus",
+    "userPassword": "userPassword"
+}
+
+### ACCESS USER
+POST http://localhost:3000/users/access HTTP/1.1
+Content-Type: application/json
+
+{
+    "userName": "Chungus",
+    "userPassword": "userPassword"
+}
 

@@ -14,24 +14,24 @@ const User = {
 }
 
 const accessUserOpts = {
-    schema: {
-        response: {
-            200: {
-                User
-            }
-        }
-    },
+    // schema: {
+    //     response: {
+    //         200: {
+    //             User
+    //         }
+    //     }
+    // },
     handler: handleUserAccess
 }
 
 const createUserOpts = {
-    schema: {
-        response: {
-            '2xx': {
-                User
-            }
-        }
-    },
+    // schema: {
+    //     response: {
+    //         '2xx': {
+    //             User
+    //         }
+    //     }
+    // },
     handler: handleUserCreation
 }
 
