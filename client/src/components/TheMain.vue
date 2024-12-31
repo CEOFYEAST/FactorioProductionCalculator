@@ -1,5 +1,7 @@
 <template>
     <div class="root">
+        <RouterView />
+
         <ModalDialog v-show="showAccountGetModal" @hide-modal="$emit('hideModal')">
             <AccountAccessForm></AccountAccessForm>
         </ModalDialog>
@@ -10,9 +12,11 @@
 </template>
 
 <script>
+import { createMemoryHistory, createRouter } from 'vue-router'
 import AccountAccessForm from './AccountAccessForm.vue';
 import AccountCreationForm from './AccountCreationForm.vue';
 import ModalDialog from './ModalDialog.vue';
+
 export default {
     name: 'the main',
     components: {

@@ -16,7 +16,7 @@
   import TheNav from '@/components/TopNav.vue'
   import TheMain from '@/components/TheMain.vue'
   import Axios from 'axios'
-  var hostName = require('./globals.module.js')
+  var hostName = require('../scripts/globals.module.js')
   
   export default {
     name: 'body',
