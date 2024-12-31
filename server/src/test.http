@@ -20,7 +20,7 @@ POST http://localhost:3000/users/create HTTP/1.1
 Content-Type: application/json
 
 {
-    "userName": "Choogus",
+    "userName": "choogus",
     "userPassword": "userPassword"
 }
 
@@ -29,7 +29,7 @@ POST http://localhost:3000/users/access HTTP/1.1
 Content-Type: application/json
 
 {
-    "userName": "Chungus",
+    "userName": "choog",
     "userPassword": "userPassword"
 }
 

@@ -1,6 +1,15 @@
 const {handleUserAccess, handleUserCreation} = require('../controllers/users')
 
-const User = {
+const UserRequest = {
+    type: 'object',
+    required: ['userName', 'userPassword'],
+    properties: {
+        userName: { type: 'string' },
+        userPassword: { type: 'string' }
+    }
+}
+
+const UserResponse = {
     type: 'object',
     required: ['userName', 'userPassword', 'factories'],
     properties: {
@@ -13,25 +22,36 @@ const User = {
     }
 }
 
+// const TestSchema = {
+//     type: 'object',
+//     required: ['testPropOne', 'testPropTwo', 'testPropThree'],
+//     properties: {
+//         testPropOne: { type: 'string' },
+//         testPropTwo: { type: 'object' },
+//         testPropThree: { 
+//             type: 'array',
+//             maxItems: 3
+//         }
+//     }
+// }
+
 const accessUserOpts = {
-    // schema: {
-    //     response: {
-    //         200: {
-    //             User
-    //         }
-    //     }
-    // },
+    schema: {
+        body: UserRequest,
+        response: {
+            200: UserResponse
+        }
+    },
     handler: handleUserAccess
 }
 
 const createUserOpts = {
-    // schema: {
-    //     response: {
-    //         '2xx': {
-    //             User
-    //         }
-    //     }
-    // },
+    schema: {
+        body: UserRequest,
+        response: {
+            '2xx': UserResponse
+        }
+    },
     handler: handleUserCreation
 }
 

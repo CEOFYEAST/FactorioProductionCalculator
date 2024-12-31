@@ -10,7 +10,7 @@ const usersCollectionName = "users";
  */
 const handleUserAccess = (req, reply) => {
     const { userName, userPassword } = req.body
-    let coll = fetchUserFromCollectionCollection();
+    let coll = fetchUserCollection();
     replyWithUser(coll, userName, userPassword, false, reply);
 }
 
@@ -21,7 +21,7 @@ const handleUserAccess = (req, reply) => {
  */
 const handleUserCreation = (req, reply) => {
     const { userName, userPassword } = req.body
-    let coll = fetchUserFromCollectionCollection();
+    let coll = fetchUserCollection();
     createUser(coll, userName, userPassword).then((creationStatus) => {
         replyWithUser(coll, userName, userPassword, creationStatus, reply);
     })  
@@ -83,7 +83,7 @@ async function replyWithUser(coll, userName, userPassword, creationStatus, reply
  * @param {*The password of the user being searched for} userPassword 
  * @returns The user
  */
-async function fetchUserFromCollectionFromCollection(coll, userName, userPassword) {
+async function fetchUserFromCollection(coll, userName, userPassword) {
 
     // Query for a movie that has the title 'The Room'
     const query = { userName: userName, userPassword: userPassword };
@@ -101,7 +101,7 @@ async function fetchUserFromCollectionFromCollection(coll, userName, userPasswor
  * Encapsulates the logic for fetching the user collection
  * @returns The collection used to store and fetch users
  */
-function fetchUserFromCollectionCollection()
+function fetchUserCollection()
 {
     let db = app.mongo.client.db(usersDatabaseName);
     let coll = db.collection(usersCollectionName);
