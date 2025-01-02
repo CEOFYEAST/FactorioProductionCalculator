@@ -51,5 +51,6 @@ app.listen({ port: PORT, host: HOST}, (err, address) => {
       throw err;
     }
     console.log(`Fastify server is running on ${address}`);
+    app.swagger()
   });
   
