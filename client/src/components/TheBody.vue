@@ -1,14 +1,13 @@
 <template>
     <div class="root">
       <TheNav class="flex center">
-        <button @click="showModal(modalEnums.ACCOUNT_POST_MODAL)">Create Account</button>
+        <!-- <button @click="showModal(modalEnums.ACCOUNT_POST_MODAL)">Create Account</button>
         <button @click="showModal(modalEnums.ACCOUNT_GET_MODAL)">Sign In</button>
-        <button @click="route">Route</button>
+        <button @click="route">Route</button> -->
+        <RouterLink to="/users/access">Sign In</RouterLink>
+        <RouterLink to="/users/create">Create Account</RouterLink>
       </TheNav>
-      <TheMain 
-        @hide-modal="hideModals()"
-        :showAccountGetModal="modalControllers.showAccountGetModal" :showAccountPostModal="modalControllers.showAccountPostModal"
-      />
+      <TheMain/>
     </div>
   </template>
   
@@ -25,37 +24,16 @@
       TheMain
     },
     data() {
-      return {
-        modalEnums: {
-          ACCOUNT_GET_MODAL: "showAccountGetModal",
-          ACCOUNT_POST_MODAL: "showAccountPostModal"
-        },
-        modalControllers: {
-          showAccountGetModal: false,
-          showAccountPostModal: false
-        }
-      }
     },
     methods: {
-      showModal(modalEnum)
-      {
-        this.hideModals();
-        this.modalControllers[modalEnum] = true;
-      },
-      hideModals()
-      {
-        for (let key in this.modalControllers) {
-          this.modalControllers[key] = false;
-        }
-      },
-      async route() {
-        try {
-          const response = await Axios.get(`http://${hostName}/items`);
-          console.log(response.data);
-        } catch (error) {
-          console.error(error);
-        }
-      }
+      // async route() {
+      //   try {
+      //     const response = await Axios.get(`http://${hostName}/items`);
+      //     console.log(response.data);
+      //   } catch (error) {
+      //     console.error(error);
+      //   }
+      // }
     }
   }
   </script>

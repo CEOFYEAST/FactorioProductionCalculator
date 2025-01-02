@@ -4,7 +4,7 @@
 
 // Require the framework
 const Fastify = require('fastify')
-const path = require('node:path')
+const root = 'C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/client/dist'
 const DBUserPassword = require('./secure.module.js')
 
 // Instantiate Fastify with some config
@@ -23,7 +23,8 @@ app.register(require('@fastify/mongodb'), {
   url: `mongodb+srv://myAtlasDBUser:${DBUserPassword}@myatlasclusteredu.3iqhyav.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU`
 })
 app.register(require('@fastify/static'), {
-  root: 'C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/client/dist',
+  root: root,
+  constraints: { host: 'localhost:3000' }
 })
 app.register(require('@fastify/cors'), {})
 app.register(require('@fastify/formbody'), {})
@@ -31,6 +32,14 @@ app.register(require('@fastify/swagger'), {})
 app.register(require('@fastify/swagger-ui'), {})
 app.register(require('./routes/items.js'))
 app.register(require('./routes/users.js'))
+
+// app.route({
+//   method: 'GET',
+//   url: '/*',
+//   handler: function (request, reply) {
+//     reply.send({  })
+//   }
+// })
 
 const PORT = process.env.PORT || 3000;
 const HOST = 'localhost'

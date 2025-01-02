@@ -11,7 +11,7 @@
                 <div class="x3"></div>
             </div>
             <div id="sign-in-pointer-container">
-                <p id="sign-in-pointer-link">Already have an account? Log in.</p>
+                <p id="sign-in-pointer-link">Already have an account? <RouterLink to="/users/create">Log In.</RouterLink></p>
             </div>
         </form>
 

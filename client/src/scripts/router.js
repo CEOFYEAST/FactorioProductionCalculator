@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-// import HomeView from '../HomeView.vue'
-// import AboutView from '.components'
+import AccountAccessView from '@/views/AccountAccessView.vue'
+import AccountCreationView from '@/views/AccountCreationView.vue'
 
 const routes = [
-  // { path: '/', component: HomeView },
-  // { path: '/about', component: AboutView },
+  { path: '/users/access', component: AccountAccessView },
+  { path: '/users/create', component: AccountCreationView },
 ]
 
 const router = createRouter({

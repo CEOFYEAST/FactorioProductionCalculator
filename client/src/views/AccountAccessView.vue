@@ -10,7 +10,7 @@
                 <div class="x3"></div>
             </div>
             <div id="create-account-pointer-container">
-                <p id="create-account-pointer-link">Don't have an account? Create one.</p>
+                <p id="create-account-pointer-link">Don't have an account? <RouterLink to="/users/create">Create One.</RouterLink></p>
                 <p id="create-account-pointer">Creating an account allows you to store production vals. for up to three factories across sessions.</p>
             </div>
         </form>
