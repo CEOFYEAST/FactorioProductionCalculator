@@ -1,13 +1,16 @@
 <template>
     <div class="root">
 
-        <form id="sign-in-form" action="/users/access" method="post" class="flex column">
-            <input type="text" placeholder="Username" id="user-name" name="userName" required><br>
-            <input type="password" placeholder="Password" id="user-password" name="userPassword" required><br>
+        <form id="sign-in-form" @submit.prevent="accessUser" class="flex column">
+            <input type="text" placeholder="Username" id="user-name" v-model="userName" required><br>
+            <input type="password" placeholder="Password" id="user-password" v-model="userPassword" required><br>
             <div id="submit-container" class="flex">
                 <div class="x3"></div>
                 <button id="submit" type="submit" class="x2">Submit</button>
                 <div class="x3"></div>
+            </div>
+            <div v-show="submitted">
+                <p ref="statusMessage">Loading...</p>
             </div>
             <div id="create-account-pointer-container">
                 <p id="create-account-pointer-link">Don't have an account? <RouterLink to="/users/create">Create One.</RouterLink></p>
@@ -20,11 +23,49 @@
 
 <script>
 import TopNav from '@/components/TopNav.vue'
+import axios from 'axios';
 
 export default {
     name: 'account access form',
     components: {
         TopNav
+    },
+    data () {
+        return {
+            userData: {
+                name: "hello"
+            },
+            submitted: false,
+            LOADING_MESSAGE: "Loading...",
+            ACCESS_SUCCESS_MESSAGE: "Account successfully accessed"
+        }
+    },
+    methods: {
+        accessUser() {
+            this.submitted = true
+
+            var bodyFormData = new FormData();
+            bodyFormData.append('userName', this.userName);
+            bodyFormData.append('userPassword', this.userPassword);
+
+            axios
+            .post('/users/access', {
+                userName: this.userName,
+                userPassword: this.userPassword
+            }, {
+                headers: { 
+                    "Content-Type": "application/x-www-form-urlencoded" 
+                }
+            })
+            .then(response => {               
+                if(response.status == 200) this.$refs.statusMessage.innerHTML = this.ACCESS_SUCCESS_MESSAGE
+                this.userData = response.data
+            })
+            .catch(error => {
+                this.$refs.statusMessage.innerHTML = error
+            })
+            .finally() 
+        }
     }
 }
 </script>
