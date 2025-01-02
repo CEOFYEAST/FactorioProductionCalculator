@@ -10,6 +10,9 @@
                 <button id="submit" type="submit" class="x2">Submit</button>
                 <div class="x3"></div>
             </div>
+            <div v-show="submitted">
+                <p ref="statusMessage">Loading...</p>
+            </div>
             <div id="sign-in-pointer-container">
                 <p id="sign-in-pointer-link">Already have an account? <RouterLink to="/users/access">Log In.</RouterLink></p>
             </div>
@@ -34,15 +37,36 @@ export default {
         return {
             userData: {
                 name: "hello"
-            }
+            },
+            submitted: false,
+            LOADING_MESSAGE: "Loading...",
+            ACCOUNT_EXISTS_MESSAGE: "Account already exists",
+            CREATION_SUCCESS_MESSAGE: "Account successfully created"
         }
     },
     methods: {
         createUser() {
-            var vm = this
+            this.submitted = true
+
             var bodyFormData = new FormData();
             bodyFormData.append('userName', this.userName);
             bodyFormData.append('userPassword', this.userPassword);
+
+            try {
+                console.log(this.$refs)
+            } catch (error){}
+            try {
+                console.log(this.$refs.statusMessage)
+            } catch (error){}
+            try {
+                console.log(this.$refs.statusMessage.text)
+            } catch (error){}
+            try {
+                console.log(this.$refs.statusMessage.innerHTML)
+            } catch (error){}
+            try {
+                console.log(this.$refs.statusMessage.content)
+            } catch (error){}
 
             axios
             .post('/users/create', {
@@ -53,11 +77,13 @@ export default {
                     "Content-Type": "application/x-www-form-urlencoded" 
                 }
             })
-            .then(function (response) {
-                vm.userData = response.data
+            .then(response => {               
+                if(response.status == 200) this.$refs.statusMessage.innerHTML = this.ACCOUNT_EXISTS_MESSAGE
+                else if(response.status == 201) this.$refs.statusMessage.innerHTML = this.CREATION_SUCCESS_MESSAGE
+                this.userData = response.data
             })
-            .catch(function (response) {
-                console.log(response)
+            .catch(error => {
+                this.$refs.statusMessage.innerHTML = error
             })
             .finally() 
         }
