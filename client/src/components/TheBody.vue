@@ -1,11 +1,13 @@
 <template>
     <div class="root">
-      <TheNav class="flex center">
-        <!-- <button @click="showModal(modalEnums.ACCOUNT_POST_MODAL)">Create Account</button>
-        <button @click="showModal(modalEnums.ACCOUNT_GET_MODAL)">Sign In</button>
-        <button @click="route">Route</button> -->
-        <RouterLink to="/users/access">Sign In</RouterLink>
-        <RouterLink to="/users/create">Create Account</RouterLink>
+      <TheNav>
+        
+        <div class="flex row center">
+          <RouterLink class="link" to="/">Home Page</RouterLink>
+          <RouterLink class="link" to="/users/access">Sign In</RouterLink>
+          <RouterLink class="link" to="/users/create">Create Account</RouterLink>
+        </div>
+
       </TheNav>
       <TheMain/>
     </div>
@@ -14,8 +16,6 @@
   <script>
   import TheNav from '@/components/TopNav.vue'
   import TheMain from '@/components/TheMain.vue'
-  import Axios from 'axios'
-  var hostName = require('../scripts/globals.module.js')
   
   export default {
     name: 'body',
@@ -24,16 +24,6 @@
       TheMain
     },
     data() {
-    },
-    methods: {
-      // async route() {
-      //   try {
-      //     const response = await Axios.get(`http://${hostName}/items`);
-      //     console.log(response.data);
-      //   } catch (error) {
-      //     console.error(error);
-      //   }
-      // }
     }
   }
   </script>
@@ -46,6 +36,11 @@
     text-align: center;
     color: #2c3e50;
     width: 100%;
+  }
+  .link {
+    margin: 5px;
+    background: white;
+    color: black;
   }
   </style>
   

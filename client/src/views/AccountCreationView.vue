@@ -16,10 +16,7 @@
             <div id="sign-in-pointer-container">
                 <p id="sign-in-pointer-link">Already have an account? <RouterLink to="/users/access">Log In.</RouterLink></p>
             </div>
-        </form>
-
-        <div style="border: solid black 2px;">User Data:</div>
-        <div style="border: solid black 2px;">{{ userData }}</div>
+        </form> 
 
     </div>
 </template>
@@ -35,9 +32,6 @@ export default {
     },
     data () {
         return {
-            userData: {
-                name: "hello"
-            },
             submitted: false,
             LOADING_MESSAGE: "Loading...",
             ACCOUNT_EXISTS_MESSAGE: "Account already exists",
@@ -52,22 +46,6 @@ export default {
             bodyFormData.append('userName', this.userName);
             bodyFormData.append('userPassword', this.userPassword);
 
-            try {
-                console.log(this.$refs)
-            } catch (error){}
-            try {
-                console.log(this.$refs.statusMessage)
-            } catch (error){}
-            try {
-                console.log(this.$refs.statusMessage.text)
-            } catch (error){}
-            try {
-                console.log(this.$refs.statusMessage.innerHTML)
-            } catch (error){}
-            try {
-                console.log(this.$refs.statusMessage.content)
-            } catch (error){}
-
             axios
             .post('/users/create', {
                 userName: this.userName,
@@ -80,7 +58,6 @@ export default {
             .then(response => {               
                 if(response.status == 200) this.$refs.statusMessage.innerHTML = this.ACCOUNT_EXISTS_MESSAGE
                 else if(response.status == 201) this.$refs.statusMessage.innerHTML = this.CREATION_SUCCESS_MESSAGE
-                this.userData = response.data
             })
             .catch(error => {
                 this.$refs.statusMessage.innerHTML = error

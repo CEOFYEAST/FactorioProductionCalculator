@@ -18,6 +18,9 @@
             </div>
         </form>
 
+        <h2 v-show="submissionSuccess">User Data:</h2>
+        <div v-show="submissionSuccess" style="border: solid black 2px;">{{ userData }}</div>
+
     </div>
 </template>
 
@@ -32,10 +35,9 @@ export default {
     },
     data () {
         return {
-            userData: {
-                name: "hello"
-            },
+            userData: {},
             submitted: false,
+            submissionSuccess: false,
             LOADING_MESSAGE: "Loading...",
             ACCESS_SUCCESS_MESSAGE: "Account successfully accessed"
         }
@@ -60,9 +62,11 @@ export default {
             .then(response => {               
                 if(response.status == 200) this.$refs.statusMessage.innerHTML = this.ACCESS_SUCCESS_MESSAGE
                 this.userData = response.data
+                this.submissionSuccess = true
             })
             .catch(error => {
                 this.$refs.statusMessage.innerHTML = error
+                this.submissionSuccess = false
             })
             .finally() 
         }
