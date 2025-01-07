@@ -15,12 +15,12 @@ const app = Fastify({
 
 module.exports = app;
 
-app.register(require('@fastify/mongodb'), {
-  // force to close the mongodb connection when app stopped
-  // the default value is false
-  forceClose: true,
-  url: `mongodb+srv://myAtlasDBUser:${DBUserPassword}@myatlasclusteredu.3iqhyav.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU`
-})
+// app.register(require('@fastify/mongodb'), {
+//   // force to close the mongodb connection when app stopped
+//   // the default value is false
+//   forceClose: true,
+//   url: `mongodb+srv://myAtlasDBUser:${DBUserPassword}@myatlasclusteredu.3iqhyav.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU`
+// })
 app.register(require('@fastify/static'), {
   root: root,
   constraints: { host: 'localhost:3000' }
@@ -28,7 +28,9 @@ app.register(require('@fastify/static'), {
 app.register(require('@fastify/cors'), {})
 app.register(require('@fastify/formbody'), {})
 app.register(require('@fastify/swagger'), {})
-app.register(require('@fastify/swagger-ui'), {})
+app.register(require('@fastify/swagger-ui'), {
+  routePrefix: '/documentation'
+})
 app.register(require('./routes/items.js'))
 app.register(require('./routes/users.js'))
 
@@ -42,6 +44,8 @@ app.register(require('./routes/users.js'))
 
 const PORT = process.env.PORT || 3000;
 const HOST = 'localhost'
+
+app.ready()
 
 // Start listening.
 app.listen({ port: PORT, host: HOST}, (err, address) => {

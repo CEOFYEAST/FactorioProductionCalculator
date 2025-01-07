@@ -11,6 +11,7 @@ const UserRequest = {
 
 const UserResponse = {
     type: 'object',
+    description: 'Successful response',
     required: ['userName', 'userPassword', 'factories'],
     properties: {
         userName: { type: 'string' },
