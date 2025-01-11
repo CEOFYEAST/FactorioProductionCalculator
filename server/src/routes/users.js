@@ -20,6 +20,22 @@ const UserResponse = {
             type: 'array',
             maxItems: 3
         }
+    },
+    example: 
+    {
+        userName: "ceofyeast",
+        userPassword: "somePassword",
+        factories: [
+            {
+                id: "factoryOne"
+            },
+            {
+                id: "factoryTwo"
+            },
+            {
+                id: "factoryThree"
+            }
+        ]
     }
 }
 
@@ -48,10 +64,7 @@ const accessUserOpts = {
 
 const createUserOpts = {
     schema: {
-        body: UserRequest,
-        response: {
-            '2xx': UserResponse
-        }
+        body: UserRequest
     },
     handler: handleUserCreation
 }

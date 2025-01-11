@@ -6,14 +6,19 @@
 const Fastify = require('fastify')
 const root = 'C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/client/dist'
 const DBUserPassword = require('./secure.module.js')
+const PORT = process.env.PORT || 3000;
+const HOST = 'localhost'
 
 // Instantiate Fastify with some config
 const app = Fastify({
   logger: true,
   pluginTimeout: 10000
 })
-
-module.exports = app;
+app.decorateRequest('app', {
+  getter () {
+    return app
+  }
+})
 
 // app.register(require('@fastify/mongodb'), {
 //   // force to close the mongodb connection when app stopped
@@ -34,26 +39,14 @@ app.register(require('@fastify/swagger-ui'), {
 app.register(require('./routes/items.js'))
 app.register(require('./routes/users.js'))
 
-// app.route({
-//   method: 'GET',
-//   url: '/*',
-//   handler: function (request, reply) {
-//     reply.send({  })
-//   }
-// })
-
-const PORT = process.env.PORT || 3000;
-const HOST = 'localhost'
-
-app.ready()
-
 // Start listening.
 app.listen({ port: PORT, host: HOST}, (err, address) => {
-    if (err) {
-      console.error(err);
-      throw err;
-    }
-    console.log(`Fastify server is running on ${address}`);
-    app.swagger()
-  });
+  if (err) {
+    console.error(err);
+    throw err;
+  }
+  console.log(`Fastify server is running on ${address}`);
+  app.swagger()
+});
+
   

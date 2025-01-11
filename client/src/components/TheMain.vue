@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div id="theMainRoot">
         <RouterView />
 
         <!-- <ModalDialog v-show="showAccountGetModal" @hide-modal="$emit('hideModal')">
@@ -23,10 +23,7 @@ export default {
 </script>
 
 <style scoped>
-main {
+#theMainRoot {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
 }
 </style>

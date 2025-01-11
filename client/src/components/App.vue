@@ -1,6 +1,6 @@
 <template>
-  <div class="root">
-    <TheBody/>
+  <div id="appRoot">
+    <TheBody class="body"/>
   </div>
 </template>
 
@@ -23,6 +23,15 @@ export default {
   text-align: center;
   color: #2c3e50;
   width: 100%;
+}
+.body {
+  background-color: gray;
+  width: 100%;
+  height: 100%;
+}
+#appRoot {
+  width: 100%;
+  height: 100%;
 }
 </style>
 

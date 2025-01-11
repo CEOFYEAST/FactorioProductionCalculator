@@ -37,6 +37,6 @@ Content-Type: application/json
 GET http://localhost:3000/ HTTP/1.1
 
 
-### ACCESS DOCS?
+### ACCESS API DOCS
 GET http://localhost:3000/documentation HTTP/1.1
 

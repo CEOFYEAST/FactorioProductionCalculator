@@ -1,5 +1,3 @@
-app = require("../server.js");
-
 const usersDatabaseName = "sample_users";
 const usersCollectionName = "users";
 
@@ -10,8 +8,13 @@ const usersCollectionName = "users";
  */
 const handleUserAccess = (req, reply) => {
     const { userName, userPassword } = req.body
-    let coll = fetchUserCollection();
-    replyWithUser(coll, userName, userPassword, false, reply);
+    fetchUserCollection(req.app).then((coll) => {
+        fetchUserFromCollection(coll, userName, userPassword).then((user) => {
+            let userExists = user != null;
+            if(!userExists) reply.code(500);
+            else reply.code(200).send(user);
+        });
+    })
 }
 
 /**
@@ -21,10 +24,17 @@ const handleUserAccess = (req, reply) => {
  */
 const handleUserCreation = (req, reply) => {
     const { userName, userPassword } = req.body
-    let coll = fetchUserCollection();
-    createUser(coll, userName, userPassword).then((creationStatus) => {
-        replyWithUser(coll, userName, userPassword, creationStatus, reply);
-    })  
+    fetchUserCollection(req.app).then((coll) => {
+        createUser(coll, userName, userPassword).then((userCreated) => {
+            fetchUserFromCollection(coll, userName, userPassword).then((user) => {
+                let userExists = user != null;
+                if(!userExists) reply.code(500);
+                else if(!userCreated) reply.code(200);
+                else reply.code(201);
+            })
+            
+        })  
+    })
 }
 
 /**
@@ -60,23 +70,6 @@ async function createUser(coll, userName, userPassword) {
 }
 
 /**
- * Sends a response using the given reply object and user information
- * - The user information is required as opposed to an object so that the user's existance can first be verified
- * @param {*The collection to fetch the given user from} coll 
- * @param {*The user name of the user to respond with} userName 
- * @param {*The password of the user to respond with} userPassword 
- * @param {*The reply object used to return the user to the requester} reply 
- * @param {*Whether the user was created as a result of the initial request} creationStatus 
- */
-async function replyWithUser(coll, userName, userPassword, creationStatus, reply) {
-    let user = await fetchUserFromCollection(coll, userName, userPassword);
-    let userExists = user != null;
-    if(!userExists) reply.code(500).send("User POST Failed");
-    else if(creationStatus) reply.code(201).send(user);
-    else reply.code(200).send(user);
-}
-
-/**
  * Fetches a user from the given collection
  * @param {*The collection to search for, and fetch the given user from} coll 
  * @param {*The user name of the user being searched for} userName 
@@ -99,10 +92,12 @@ async function fetchUserFromCollection(coll, userName, userPassword) {
 
 /**
  * Encapsulates the logic for fetching the user collection
+ * @param {*The fastify server instance} app 
  * @returns The collection used to store and fetch users
  */
-function fetchUserCollection()
+async function fetchUserCollection(app)
 {
+    await app.ready()
     let db = app.mongo.client.db(usersDatabaseName);
     let coll = db.collection(usersCollectionName);
     return coll;
