@@ -1,29 +1,21 @@
 <template>
-    <div id="theMainRoot">
+    <div id="TheMain-root">
         <RouterView />
-
-        <!-- <ModalDialog v-show="showAccountGetModal" @hide-modal="$emit('hideModal')">
-            <AccountAccessForm></AccountAccessForm>
-        </ModalDialog>
-        <ModalDialog v-show="showAccountPostModal" @hide-modal="$emit('hideModal')">
-            <AccountCreationForm></AccountCreationForm>
-        </ModalDialog> -->
     </div>
 </template>
 
 <script>
 
 export default {
-    name: 'the main',
-    components: {
-    },
-    props: {
-    },
+    name: 'the main'
 }
 </script>
 
 <style scoped>
-#theMainRoot {
+#TheMain-root {
     display: flex;
+    width: 60%;
+    height: 100%;
+    background-color: white;
 }
 </style>

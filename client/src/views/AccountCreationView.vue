@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div id="AccountCreationView-root" class="root">
 
         <form id="account-creation-form" @submit.prevent="createUser" class="flex column">
             <p id="create-account-pointer">Creating an account allows you to store production values for up to three factories across sessions.</p>
@@ -74,7 +74,6 @@ export default {
         font-size: 16px;
         padding-left:5px;
     }
-
     #submit {
         height: 25px;
     }

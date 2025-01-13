@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div id="HomeView-root" class="root">
         
         <div class="flex column">
             <h1>Factorio Production Calculator</h1>

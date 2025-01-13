@@ -1,5 +1,5 @@
 <template>
-  <div class="root">
+  <div id="TopNav-root" class="root">
 
       <nav>
         <slot></slot>
@@ -9,15 +9,13 @@
 </template>
 
 <script>
-import { provide } from 'vue';
-
 export default {
     name: 'top nav',
 }
 </script>
 
 <style scoped>
-nav {
+#TopNav-root {
   width: 100%;
   background-color: greenyellow;
   border-bottom: 1px solid black;

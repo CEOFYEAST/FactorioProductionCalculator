@@ -1,5 +1,5 @@
 <template>
-    <div id="theBodyRoot">
+    <div id="TheBody-root" class="root">
       <TheNav class="nav">
         
         <div class="flex row center">
@@ -35,8 +35,8 @@
     color: black;
   }
   .main {
-    max-width: 60%;
-    min-width: 50%;
+    /* max-width: 60%;
+    min-width: 50%; */
     width: 60%;
     height: 100%;
     background-color: white;
@@ -44,7 +44,10 @@
   .nav {
     width: 100%
   }
-  #theBodyRoot {
+  #TheBody-root {
+    background-color: gray;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
