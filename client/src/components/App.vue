@@ -15,12 +15,7 @@ export default {
 }
 </script>
 
-<style>
-.body {
-  background-color: gray;
-  width: 100%;
-  height: 100%;
-}
+<style scoped>
 #App-root {
   width: 100%;
   height: 100%;

@@ -27,22 +27,12 @@
   }
   </script>
   
-  <style>
+  <style scoped>
   .link, a {
     all: unset;
     margin: 5px;
     background: white;
     color: black;
-  }
-  .main {
-    /* max-width: 60%;
-    min-width: 50%; */
-    width: 60%;
-    height: 100%;
-    background-color: white;
-  }
-  .nav {
-    width: 100%
   }
   #TheBody-root {
     background-color: gray;

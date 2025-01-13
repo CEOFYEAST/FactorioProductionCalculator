@@ -1,11 +1,13 @@
 <template>
     <div id="AccountCreationView-root" class="root">
 
-        <form id="account-creation-form" @submit.prevent="createUser" class="flex column">
-            <p id="create-account-pointer">Creating an account allows you to store production values for up to three factories across sessions.</p>
+        <h2>Account Creation</h2>
+
+        <form @submit.prevent="createUser" class="flex column">
+            <p>Creating an account allows you to store production values for up to three factories across sessions.</p>
             <input type="text" placeholder="Username" id="user-name" v-model="userName" required><br>
             <input type="password" placeholder="Password" id="user-password" v-model="userPassword" required><br>
-            <div id="submit-container" class="flex">
+            <div class="flex">
                 <div class="x3"></div>
                 <button id="submit" type="submit" class="x2">Submit</button>
                 <div class="x3"></div>
@@ -13,8 +15,8 @@
             <div v-show="submitted">
                 <p ref="statusMessage">Loading...</p>
             </div>
-            <div id="sign-in-pointer-container">
-                <p id="sign-in-pointer-link">Already have an account? <RouterLink to="/users/access">Log In.</RouterLink></p>
+            <div>
+                <p>Already have an account? <RouterLink to="/users/access">Log In.</RouterLink></p>
             </div>
         </form> 
 
@@ -74,7 +76,16 @@ export default {
         font-size: 16px;
         padding-left:5px;
     }
+    h2 {
+        text-align: center;
+    }
     #submit {
         height: 25px;
+    }
+    p {
+        text-align: center;
+    }
+    * {
+        margin-top: 10px;
     }
 </style>

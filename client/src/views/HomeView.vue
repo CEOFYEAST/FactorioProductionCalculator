@@ -4,7 +4,7 @@
         <div class="flex column">
             <h1>Factorio Production Calculator</h1>
             <h2>(User System Release)</h2>
-            <br>
+            <hr>
             <h3>A web app created to aid users in designing their Factorio factories.</h3>
         </div>
 
@@ -17,6 +17,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+* {
+    text-align: center;
+}
 </style>
