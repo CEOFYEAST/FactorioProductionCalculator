@@ -22,5 +22,7 @@ export default {
     max-width: max-content;
     height: 100%;
     background-color: white;
+    border-left: 4px black solid;
+    border-right: 4px black solid;
 }
 </style>

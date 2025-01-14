@@ -1,7 +1,7 @@
 <template>
     <div id="AccountAccessView-root" class="root">
 
-        <h2>Account Access</h2>
+        <h1>Account Access</h1>
 
         <form id="sign-in-form" @submit.prevent="accessUser" class="flex column">
             <input type="text" placeholder="Username" id="user-name" v-model="userName" required><br>
@@ -78,17 +78,14 @@ export default {
 
 
 <style scoped>
-    h2 {
-        text-align: center;
+    * {
+        margin-top: 10px;
     }
-    #submit {
-        height: 25px;
+    h1 {
+        text-align: center;
     }
     p {
         text-align: center;
-    }
-    * {
-        margin-top: 10px;
     }
     input {
         font-size: 16px;

@@ -1,6 +1,6 @@
 <template>
     <div id="TheBody-root" class="root">
-      <TheNav class="nav">
+      <TheNav>
         
         <div class="flex row center">
           <RouterLink class="link" to="/">Home Page</RouterLink>
@@ -10,7 +10,7 @@
         </div>
 
       </TheNav>
-      <TheMain class="main"/>
+      <TheMain/>
     </div>
   </template>
   
@@ -31,8 +31,10 @@
   .link, a {
     all: unset;
     margin: 5px;
+    padding: 5px;
     background: white;
     color: black;
+    border: 2px solid black;
   }
   #TheBody-root {
     background-color: gray;

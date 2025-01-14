@@ -1,7 +1,7 @@
 <template>
     <div id="AccountCreationView-root" class="root">
 
-        <h2>Account Creation</h2>
+        <h1>Account Creation</h1>
 
         <form @submit.prevent="createUser" class="flex column">
             <p>Creating an account allows you to store production values for up to three factories across sessions.</p>
@@ -72,20 +72,26 @@ export default {
 
 
 <style scoped>
+    * {
+        margin-top: 10px;
+    }
     input {
         font-size: 16px;
         padding-left:5px;
     }
-    h2 {
+    h1 {
         text-align: center;
+    }
+    p {
+        text-align: center;
+        /*
+        align-self: center;
+        width: 60%;
+        flex-wrap: wrap;
+        */
     }
     #submit {
         height: 25px;
     }
-    p {
-        text-align: center;
-    }
-    * {
-        margin-top: 10px;
-    }
+    
 </style>
