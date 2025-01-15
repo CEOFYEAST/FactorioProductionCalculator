@@ -11,13 +11,14 @@ const UserRequestSchema = {
 
 const UserDataSchema = {
     type: 'object',
-    description: 'Successful response',
-    required: ['statusMessage', 'username', 'userPassword', 'factories'],
+    description: 'user data',
+    required: ['username', 'userPassword', 'factories'],
     properties: {
         username: { type: 'string' },
         userPassword: { type: 'string' },
         factories: { 
             type: 'array',
+            description: 'Factory data',
             maxItems: 3
         }
     },
@@ -39,33 +40,45 @@ const UserDataSchema = {
     }
 }
 
-// const TestSchema = {
-//     type: 'object',
-//     required: ['testPropOne', 'testPropTwo', 'testPropThree'],
-//     properties: {
-//         testPropOne: { type: 'string' },
-//         testPropTwo: { type: 'object' },
-//         testPropThree: { 
-//             type: 'array',
-//             maxItems: 3
-//         }
-//     }
-// }
+const UserDataResponseSchema = {
+    type: 'object',
+    description: 'a success response including user data',
+    required: ['statusMessage', 'userData'],
+    properties: {
+        statusMessage: { type: 'string' },
+        userData: UserDataSchema,
+    }
+}
+
+const StatusOnlyResponseSchema = {
+    type: 'object',
+    description: 'a status message response',
+    required: ['statusMessage'],
+    properties: {
+        statusMessage: { type: 'string' }
+    }
+}
 
 const accessUserOpts = {
-    // schema: {
-    //     body: UserRequest,
-    //     response: {
-    //         200: UserResponse
-    //     }
-    // },
+    schema: {
+        body: UserRequestSchema,
+        response: {
+            200: UserDataResponseSchema,
+            403: StatusOnlyResponseSchema
+        }
+    },
     handler: handleUserAccess
 }
 
 const createUserOpts = {
-    // schema: {
-    //     body: UserRequest
-    // },
+    schema: {
+        body: UserRequestSchema,
+        response: {
+            201: StatusOnlyResponseSchema,
+            400: StatusOnlyResponseSchema,
+            500: StatusOnlyResponseSchema
+        }
+    },
     handler: handleUserCreation
 }
 

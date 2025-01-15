@@ -2,14 +2,13 @@
 
 'use strict'
 
-// Require the framework
 const Fastify = require('fastify')
 const root = 'C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/client/dist'
-const DBUserPassword = require('./secure.module.js')
-const PORT = process.env.PORT || 3000;
+const DBUrl = require('./secure.module.js')
+const PORT = process.env.PORT || 3000
 const HOST = 'localhost'
+const registerDB = true
 
-// Instantiate Fastify with some config
 const app = Fastify({
   logger: true,
   pluginTimeout: 10000
@@ -20,12 +19,14 @@ app.decorateRequest('app', {
   }
 })
 
-app.register(require('@fastify/mongodb'), {
-  // force to close the mongodb connection when app stopped
-  // the default value is false
-  forceClose: true,
-  url: `mongodb+srv://myAtlasDBUser:${DBUserPassword}@myatlasclusteredu.3iqhyav.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU`
-})
+if(registerDB){
+  app.register(require('@fastify/mongodb'), {
+    // force to close the mongodb connection when app stopped
+    // the default value is false
+    forceClose: true,
+    url: DBUrl
+  })
+}
 app.register(require('@fastify/static'), {
   root: root,
   constraints: { host: 'localhost:3000' }
