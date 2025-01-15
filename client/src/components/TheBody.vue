@@ -3,9 +3,10 @@
       <TheNav>
         
         <div class="flex row center">
-          <RouterLink class="link" to="/">Home Page</RouterLink>
+          <RouterLink class="link" to="/widgets">Widgets</RouterLink>
           <RouterLink class="link" to="/users/access">Sign In</RouterLink>
           <RouterLink class="link" to="/users/create">Create Account</RouterLink>
+          <RouterLink class="link" to="/">About</RouterLink>
           <a href="/documentation">Documentation</a>
         </div>
 
