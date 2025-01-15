@@ -9,60 +9,61 @@
 
 <script>
 import router from '../scripts/router'
+import definedRoutes from '../scripts/routes.module'
 
 export default {
     name: 'the main',
     data() {
         return {
-            isSmall: false,
-            isMedium: true,
-            isLarge: false
+            // used to control the size of TheMain using class binding
+            sizeControllers: {
+                isSmall: false,
+                isMedium: false,
+                isLarge: false,
+            },
+            // the routes whose views should be smaller
+            smallRoutes: [
+                definedRoutes.aboutViewRoute
+            ],
+            // the routes whose views should be medium-sized
+            mediumRoutes: [
+                definedRoutes.accountAccessRoute,
+                definedRoutes.accountCreationRoute
+            ],
+            // the routes whose views should be large
+            largeRoutes: [
+                definedRoutes.widgetsRoute
+            ]
         }
     },
     methods: {
-        disableClasses() {
-            this.isSmall = false,
-            this.isMedium = false,
-            this.isLarge = false
+        // sets the current size of TheMain based on the supplied route
+        setSize(route) {
+            this.disableSizeClasses()
+            if(this.smallRoutes.find(route) != undefined) this.sizeControllers.isSmall = true;
+            else if(this.mediumRoutes.find(route) != undefined) this.sizeControllers.isMedium = true;
+            else if(this.largeRoutes.find(route) != undefined) this.sizeControllers.isLarge = true;
+        },
+        disableSizeClasses() {
+            this.sizeControllers.isSmall = false,
+            this.sizeControllers.isMedium = false,
+            this.sizeControllers.isLarge = false
         }
     },
     mounted() {
         router.afterEach((to, from) => {
-            console.log('-----------------\n Route Full Path: ' + to.fullPath + '\n-----------------');
-            console.log('-----------------\n Route Full Path Type: ' + typeof(to.fullPath) + '\n-----------------');
-
-            if(to.fullPath == "/widgets") {
-                console.log('-----------------\n Enabling Large \n-----------------');
-                this.disableClasses();
-                this.isLarge = true;
-            }
-            else if(to.fullPath == "/") {
-                console.log('-----------------\n Enabling Small \n-----------------');
-                this.disableClasses();
-                this.isSmall = true;
-            } 
-            else {
-                console.log('-----------------\n Enabling Medium \n-----------------');
-                this.disableClasses();
-                this.isMedium = true;
-            }
+            setSize(to.fullPath);
         })
     }
-    // Use route.matched
-    // Use navigation guards
-    // Would be easiest to just watch the route somehow instead of calling a method when a route changes
 }
-
-
-
 </script>
 
 <style scoped>
 #TheMain-root {
     /*align-items: center;*/
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
+    width: 50%;
+    min-width: 50%;
+    max-width: 50%;
     padding: 20px 20px;
     height: 100%;
     background-color: white;
@@ -90,18 +91,4 @@ export default {
     min-width: max-content;
     justify-content: center;
 }
-/*
-#TheMain-root {
-    display: flex;
-    justify-content: center;
-    padding: 20px 20px;
-    width: 60%;
-    min-width: max-content;
-    max-width: max-content;
-    height: 100%;
-    background-color: white;
-    border-left: 4px black solid;
-    border-right: 4px black solid;
-}
-*/
 </style>
