@@ -5,7 +5,7 @@ const usersCollectionName = "users";
 let statusResponse = { statusMessage: "Server error" };
 
 // the schema for a user data response
-let statusAndUserResponse = { statusMessage: "Server error", user: {} };
+let statusAndUserResponse = { statusMessage: "Server error", userData: {} };
 
 /**
  * Handles the overall process of accessing a user account, including the response
@@ -23,7 +23,7 @@ const handleUserAccess = (req, reply) => {
             if(!usernameExists) {
                 let obj = { ...statusResponse };
                 obj.statusMessage = "Account with the given username does not exist";
-                reply.code(403).send(obj);
+                return reply.code(403).send(obj);
             }
 
             fetchUserFromCollection(coll, username, userPassword).then((user) => {
@@ -31,13 +31,13 @@ const handleUserAccess = (req, reply) => {
                 if(!userExists){
                     let obj = { ...statusResponse };
                     obj.statusMessage = "Incorrect password";
-                    reply.code(403).send(obj);
+                    return reply.code(403).send(obj);
                 }
                 else {
                     let obj = { ...statusAndUserResponse };
                     obj.statusMessage = "Account successfully accessed";
-                    obj.user = user;
-                    reply.code(200).send(obj);
+                    obj.userData = user;
+                    return reply.code(200).send(obj);
                 }
             });
         })
@@ -59,7 +59,7 @@ const handleUserCreation = (req, reply) => {
             if(usernameExists) {
                 let obj = { ...statusResponse };
                 obj.statusMessage = "Account with the given username already exists";
-                reply.code(400).send(obj);
+                return reply.code(400).send(obj);
             }
 
             createUser(coll, username, userPassword).then(() => {
@@ -69,12 +69,12 @@ const handleUserCreation = (req, reply) => {
                     if(!userExists) {
                         let obj = { ...statusResponse };
                         obj.statusMessage = "Server error; account cannot be created";
-                        reply.code(500).send(obj);
+                        return reply.code(500).send(obj);
                     }
                     else {
                         let obj = { ...statusResponse };
                         obj.statusMessage = "Account successfully created";
-                        reply.code(201).send(obj);
+                        return reply.code(201).send(obj);
                     }
                 })
             })  
@@ -105,7 +105,9 @@ async function checkForUserWithUsername(coll, username) {
 
     const query = { username: username };
 
-    const result = await coll.findOne(query, options);
+    let result = await coll.findOne(query);
+
+    console.log('-----------------\n User: ' + result + '\n-----------------');
 
     return result != null;
 }

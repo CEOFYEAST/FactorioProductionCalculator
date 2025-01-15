@@ -1,20 +1,20 @@
 const {handleUserAccess, handleUserCreation} = require('../controllers/users')
 
-const UserRequest = {
+const UserRequestSchema = {
     type: 'object',
-    required: ['userName', 'userPassword'],
+    required: ['username', 'userPassword'],
     properties: {
-        userName: { type: 'string' },
+        username: { type: 'string' },
         userPassword: { type: 'string' }
     }
 }
 
-const UserResponse = {
+const UserDataSchema = {
     type: 'object',
     description: 'Successful response',
-    required: ['userName', 'userPassword', 'factories'],
+    required: ['statusMessage', 'username', 'userPassword', 'factories'],
     properties: {
-        userName: { type: 'string' },
+        username: { type: 'string' },
         userPassword: { type: 'string' },
         factories: { 
             type: 'array',
@@ -23,7 +23,7 @@ const UserResponse = {
     },
     example: 
     {
-        userName: "ceofyeast",
+        username: "ceofyeast",
         userPassword: "somePassword",
         factories: [
             {
@@ -53,19 +53,19 @@ const UserResponse = {
 // }
 
 const accessUserOpts = {
-    schema: {
-        body: UserRequest,
-        response: {
-            200: UserResponse
-        }
-    },
+    // schema: {
+    //     body: UserRequest,
+    //     response: {
+    //         200: UserResponse
+    //     }
+    // },
     handler: handleUserAccess
 }
 
 const createUserOpts = {
-    schema: {
-        body: UserRequest
-    },
+    // schema: {
+    //     body: UserRequest
+    // },
     handler: handleUserCreation
 }
 

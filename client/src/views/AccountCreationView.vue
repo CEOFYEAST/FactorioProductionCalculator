@@ -5,7 +5,7 @@
 
         <form @submit.prevent="createUser" class="flex column">
             <p>Creating an account allows you to store production values for up to three factories across sessions.</p>
-            <input type="text" placeholder="Username" id="user-name" v-model="userName" required><br>
+            <input type="text" placeholder="Username" id="user-name" v-model="username" required><br>
             <input type="password" placeholder="Password" id="user-password" v-model="userPassword" required><br>
             <div class="flex">
                 <div class="x3"></div>
@@ -45,12 +45,12 @@ export default {
             this.submitted = true
 
             var bodyFormData = new FormData();
-            bodyFormData.append('userName', this.userName);
+            bodyFormData.append('username', this.username);
             bodyFormData.append('userPassword', this.userPassword);
 
             axios
             .post('/users/create', {
-                userName: this.userName,
+                username: this.username,
                 userPassword: this.userPassword
             }, {
                 headers: { 

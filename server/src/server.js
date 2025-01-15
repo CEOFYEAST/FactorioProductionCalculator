@@ -20,12 +20,12 @@ app.decorateRequest('app', {
   }
 })
 
-// app.register(require('@fastify/mongodb'), {
-//   // force to close the mongodb connection when app stopped
-//   // the default value is false
-//   forceClose: true,
-//   url: `mongodb+srv://myAtlasDBUser:${DBUserPassword}@myatlasclusteredu.3iqhyav.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU`
-// })
+app.register(require('@fastify/mongodb'), {
+  // force to close the mongodb connection when app stopped
+  // the default value is false
+  forceClose: true,
+  url: `mongodb+srv://myAtlasDBUser:${DBUserPassword}@myatlasclusteredu.3iqhyav.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU`
+})
 app.register(require('@fastify/static'), {
   root: root,
   constraints: { host: 'localhost:3000' }

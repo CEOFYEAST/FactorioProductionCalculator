@@ -4,7 +4,7 @@
         <h1>Account Access</h1>
 
         <form id="sign-in-form" @submit.prevent="accessUser" class="flex column">
-            <input type="text" placeholder="Username" id="user-name" v-model="userName" required><br>
+            <input type="text" placeholder="Username" id="user-name" v-model="username" required><br>
             <input type="password" placeholder="Password" id="user-password" v-model="userPassword" required><br>
             <div id="submit-container" class="flex">
                 <div class="x3"></div>
@@ -49,12 +49,12 @@ export default {
             this.submitted = true
 
             var bodyFormData = new FormData();
-            bodyFormData.append('userName', this.userName);
+            bodyFormData.append('username', this.username);
             bodyFormData.append('userPassword', this.userPassword);
 
             axios
             .post('/users/access', {
-                userName: this.userName,
+                username: this.username,
                 userPassword: this.userPassword
             }, {
                 headers: { 
