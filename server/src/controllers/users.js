@@ -107,8 +107,6 @@ async function checkForUserWithUsername(coll, username) {
 
     let result = await coll.findOne(query);
 
-    console.log('-----------------\n User: ' + result + '\n-----------------');
-
     return result != null;
 }
 
