@@ -5,11 +5,19 @@ import AccountCreationView from '@/views/AccountCreationView.vue'
 import AboutView from '@/views/AboutView.vue'
 import WidgetsView from '@/views/WidgetsView.vue'
 
+export const definedRoutes = await {
+  accountAccessRoute: '/users/access',
+  accountCreationRoute: '/users/create',
+  aboutViewRoute: '/',
+  widgetsRoute: '/widgets',
+  documentationRoute: '/documentation'
+}
+
 const routes = [
-  { path: '/widgets', component: WidgetsView },
-  { path: '/users/access', component: AccountAccessView },
-  { path: '/users/create', component: AccountCreationView },
-  { path: '/', component: AboutView },
+  { path: definedRoutes.widgetsRoute, component: WidgetsView },
+  { path: definedRoutes.accountAccessRoute, component: AccountAccessView },
+  { path: definedRoutes.accountCreationRoute, component: AccountCreationView },
+  { path: definedRoutes.aboutViewRoute, component: AboutView },
 ]
 
 const router = createRouter({
@@ -18,3 +26,4 @@ const router = createRouter({
 })
 
 export default router
+

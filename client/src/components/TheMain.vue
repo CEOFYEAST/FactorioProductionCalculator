@@ -8,8 +8,7 @@
 </template>
 
 <script>
-import router from '../scripts/router'
-import definedRoutes from '../scripts/routes.module'
+import router, { definedRoutes } from '../scripts/router'
 
 export default {
     name: 'the main',
@@ -23,12 +22,13 @@ export default {
             },
             // the routes whose views should be smaller
             smallRoutes: [
-                definedRoutes.aboutViewRoute
+                definedRoutes.aboutViewRoute,
+                definedRoutes.accountAccessRoute,
+                definedRoutes.accountCreationRoute
             ],
             // the routes whose views should be medium-sized
             mediumRoutes: [
-                definedRoutes.accountAccessRoute,
-                definedRoutes.accountCreationRoute
+                
             ],
             // the routes whose views should be large
             largeRoutes: [
@@ -39,14 +39,8 @@ export default {
     methods: {
         // sets the current size of TheMain based on the supplied route
         setSize(route) {
-            
-
-            //console.log("--------------\n Route Path: " + route +  "\n--------------")
-
-            // console.log("--------------\n Account Access Route: " + this.mediumRoutes.find((value) => value === "/users/access") +  "\n--------------")
-            //console.log("--------------\n Account Access Route: " + "route" +  "\n--------------")
-
             this.disableSizeClasses()
+            
             if(this.smallRoutes.find((value) => value == route) != undefined) {
                 console.log("--------------\n Small Route \n--------------")
                 this.sizeControllers.isSmall = true;
