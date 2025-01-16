@@ -1,7 +1,7 @@
 <template>
     <div 
     id="TheMain-root" 
-    :class="{ small: isSmall, medium: isMedium, large: isLarge }"
+    :class="{ small: sizeControllers.isSmall, medium: sizeControllers.isMedium, large: sizeControllers.isLarge }"
     >
         <RouterView />
     </div>
@@ -39,10 +39,26 @@ export default {
     methods: {
         // sets the current size of TheMain based on the supplied route
         setSize(route) {
+            
+
+            //console.log("--------------\n Route Path: " + route +  "\n--------------")
+
+            // console.log("--------------\n Account Access Route: " + this.mediumRoutes.find((value) => value === "/users/access") +  "\n--------------")
+            //console.log("--------------\n Account Access Route: " + "route" +  "\n--------------")
+
             this.disableSizeClasses()
-            if(this.smallRoutes.find(route) != undefined) this.sizeControllers.isSmall = true;
-            else if(this.mediumRoutes.find(route) != undefined) this.sizeControllers.isMedium = true;
-            else if(this.largeRoutes.find(route) != undefined) this.sizeControllers.isLarge = true;
+            if(this.smallRoutes.find((value) => value == route) != undefined) {
+                console.log("--------------\n Small Route \n--------------")
+                this.sizeControllers.isSmall = true;
+            }
+            else if(this.mediumRoutes.find((value) => value == route) != undefined) {
+                console.log("--------------\n Medium Route \n--------------")
+                this.sizeControllers.isMedium = true;
+            }
+            else if(this.largeRoutes.find((value) => value == route) != undefined) {
+                console.log("--------------\n Large Route \n--------------")
+                this.sizeControllers.isLarge = true;
+            }
         },
         disableSizeClasses() {
             this.sizeControllers.isSmall = false,
@@ -52,7 +68,7 @@ export default {
     },
     mounted() {
         router.afterEach((to, from) => {
-            setSize(to.fullPath);
+            this.setSize(to.fullPath);
         })
     }
 }
