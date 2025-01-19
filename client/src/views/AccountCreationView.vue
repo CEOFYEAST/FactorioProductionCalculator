@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import TopNav from '@/components/TopNav.vue'
+import TopNav from '@/components/TheNav.vue'
 import { definedRoutes } from '../scripts/router'
 import axios from 'axios';
 

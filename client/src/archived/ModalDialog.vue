@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import TopNav from '@/components/TopNav.vue'
+import TopNav from '@/components/TheNav.vue'
 
 export default {
     name: 'modal dialog',
