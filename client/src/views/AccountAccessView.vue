@@ -15,7 +15,7 @@
                 <p ref="statusMessage">Loading...</p>
             </div>
             <div id="create-account-pointer-container">
-                <p id="create-account-pointer-link">Don't have an account? <RouterLink to="/users/create">Create One.</RouterLink></p>
+                <p id="create-account-pointer-link">Don't have an account? <RouterLink :to="accountCreationRoute">Create One.</RouterLink></p>
                 <p id="create-account-pointer">Creating an account allows you to store production vals. for up to three factories across sessions.</p>
             </div>
         </form>
@@ -28,7 +28,9 @@
 
 <script>
 import TopNav from '@/components/TopNav.vue'
+import { definedRoutes } from '../scripts/router'
 import axios from 'axios';
+import AccountCreationView from './AccountCreationView.vue';
 
 export default {
     name: 'account access form',
@@ -40,8 +42,7 @@ export default {
             userData: {},
             submitted: false,
             submissionSuccess: false,
-            LOADING_MESSAGE: "Loading...",
-            ACCESS_SUCCESS_MESSAGE: "Account successfully accessed"
+            accountCreationRoute: definedRoutes.accountCreationRoute
         }
     },
     methods: {
@@ -53,7 +54,7 @@ export default {
             bodyFormData.append('userPassword', this.userPassword);
 
             axios
-            .post('/users/access', {
+            .post(definedRoutes.accountAccessRoute, {
                 username: this.username,
                 userPassword: this.userPassword
             }, {
@@ -61,13 +62,14 @@ export default {
                     "Content-Type": "application/x-www-form-urlencoded" 
                 }
             })
-            .then(response => {               
-                if(response.status == 200) this.$refs.statusMessage.innerHTML = this.ACCESS_SUCCESS_MESSAGE
-                this.userData = response.data
+            .then(response => {           
                 this.submissionSuccess = true
+                console.log("Status Message: " + response.data.statusMessage)
+                this.$refs.statusMessage.innerHTML = response.data.statusMessage
+                if(response.status == 200) this.userData = response.data
             })
             .catch(error => {
-                this.$refs.statusMessage.innerHTML = error
+                this.$refs.statusMessage.innerHTML = error.response.data.statusMessage
                 this.submissionSuccess = false
             })
             .finally() 

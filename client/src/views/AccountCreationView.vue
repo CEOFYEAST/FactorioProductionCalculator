@@ -16,7 +16,7 @@
                 <p ref="statusMessage">Loading...</p>
             </div>
             <div>
-                <p>Already have an account? <RouterLink to="/users/access">Log In.</RouterLink></p>
+                <p>Already have an account? <RouterLink :to="accountAccessRoute">Log In.</RouterLink></p>
             </div>
         </form> 
 
@@ -25,6 +25,7 @@
 
 <script>
 import TopNav from '@/components/TopNav.vue'
+import { definedRoutes } from '../scripts/router'
 import axios from 'axios';
 
 export default {
@@ -36,8 +37,7 @@ export default {
         return {
             submitted: false,
             LOADING_MESSAGE: "Loading...",
-            ACCOUNT_EXISTS_MESSAGE: "Account already exists",
-            CREATION_SUCCESS_MESSAGE: "Account successfully created"
+            accountAccessRoute: definedRoutes.accountAccessRoute
         }
     },
     methods: {
@@ -49,7 +49,7 @@ export default {
             bodyFormData.append('userPassword', this.userPassword);
 
             axios
-            .post('/users/create', {
+            .post(definedRoutes.accountCreationRoute, {
                 username: this.username,
                 userPassword: this.userPassword
             }, {
@@ -58,11 +58,10 @@ export default {
                 }
             })
             .then(response => {               
-                if(response.status == 200) this.$refs.statusMessage.innerHTML = this.ACCOUNT_EXISTS_MESSAGE
-                else if(response.status == 201) this.$refs.statusMessage.innerHTML = this.CREATION_SUCCESS_MESSAGE
+                this.$refs.statusMessage.innerHTML = response.data.statusMessage
             })
             .catch(error => {
-                this.$refs.statusMessage.innerHTML = error
+                this.$refs.statusMessage.innerHTML = error.response.data.statusMessage
             })
             .finally() 
         }
