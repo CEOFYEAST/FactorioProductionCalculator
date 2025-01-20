@@ -4,7 +4,7 @@
 
 const Fastify = require('fastify')
 const root = 'C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/client/dist'
-const DBUrl = require('./secure.module.js')
+const DBUrl = require('./scripts/secure.module.js')
 const PORT = process.env.PORT || 3000
 const HOST = 'localhost'
 const registerDB = true

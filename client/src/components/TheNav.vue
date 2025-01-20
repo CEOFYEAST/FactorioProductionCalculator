@@ -1,5 +1,5 @@
 <template>
-  <div id="TopNav-root" class="root">
+  <div id="TheNav-root" class="root">
 
         <div></div>
 
@@ -23,7 +23,7 @@ import { definedRoutes } from '@/scripts/router';
 </script>
 
 <style scoped>
-#TopNav-root {
+#TheNav-root {
   display: inline-grid;
   width: 100%;
   grid-template-columns: 1fr 1fr 1fr;
