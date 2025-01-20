@@ -11,7 +11,7 @@
                 <button id="submit" type="submit" class="x2">Submit</button>
                 <div class="x3"></div>
             </div>
-            <div v-show="submitted">
+            <div v-show="showStatusMessage">
                 <p ref="statusMessage">Loading...</p>
             </div>
             <div id="create-account-pointer-container">
@@ -22,7 +22,7 @@
 
         <div v-if="userStore.signedIn" id="logged-in-blurb" class="flex column">
             <h2>Account is already logged in</h2>
-            <button @click="userStore.toggleSignedIn()">Log Out</button>
+            <button @click="userStore.toggleSignedIn()" id="logout-button">Log Out</button>
         </div>
 
         <h2 v-show="submissionSuccess">User Data:</h2>
@@ -46,7 +46,7 @@ export default {
     data () {
         return {
             userData: {},
-            submitted: false,
+            showStatusMessage: false,
             submissionSuccess: false,
             accountCreationRoute: definedRoutes.accountCreationRoute,
             userStore: {}
@@ -57,7 +57,7 @@ export default {
     // },
     methods: {
         accessUser() {
-            this.submitted = true
+            this.showStatusMessage = true
 
             var bodyFormData = new FormData();
             bodyFormData.append('username', this.username);
@@ -74,10 +74,11 @@ export default {
             })
             .then(response => {           
                 this.submissionSuccess = true
-                console.log("Status Message: " + response.data.statusMessage)
                 this.$refs.statusMessage.innerHTML = response.data.statusMessage
                 if(response.status == 200) {
                     this.userData = response.data
+                    // don't want to show the status message upon toggling back to the form screen without dismounting and remounting the whole component
+                    this.showStatusMessage = false
                     this.userStore.toggleSignedIn()
                 }
             })
@@ -114,5 +115,9 @@ export default {
     }
     #submit {
         height: 25px;
+    }
+    #logout-button {
+        justify-self: center;
+        width: 25%;
     }
 </style>
