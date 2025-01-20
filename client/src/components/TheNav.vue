@@ -9,9 +9,10 @@
           <RouterLink class="link" :to="definedRoutes.accountCreationRoute">Create Account</RouterLink>
           <RouterLink class="link" :to="definedRoutes.aboutViewRoute">About</RouterLink>
           <a :href="definedRoutes.documentationRoute">Documentation</a>
+          <button @click="store.toggleSignedIn()" id="test-sign-in-toggle"></button>
         </div>
 
-        <div class="flex row center">
+        <div v-if="signedIn" class="flex row center" v>
           <div id="user-widget">ceofyeast</div>
         </div>
 
@@ -20,6 +21,13 @@
 
 <script setup>
 import { definedRoutes } from '@/scripts/router';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia'
+
+const store = useUserStore()
+
+let { signedIn } = storeToRefs(store)
+
 </script>
 
 <style scoped>
