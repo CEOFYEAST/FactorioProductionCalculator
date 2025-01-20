@@ -4,12 +4,11 @@ import router from '@/scripts/router'
 import App from "@/components/App.vue"
 import '@/assets/Global.css'
 
-const pinia = createPinia()
+const pinia = await createPinia()
 
 createApp(App)
-    .use(pinia)
     .use(router)
-    .use()
+    .use(pinia)
     .mount("#app");
 
 

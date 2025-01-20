@@ -9,11 +9,11 @@
           <RouterLink class="link" :to="definedRoutes.accountCreationRoute">Create Account</RouterLink>
           <RouterLink class="link" :to="definedRoutes.aboutViewRoute">About</RouterLink>
           <a :href="definedRoutes.documentationRoute">Documentation</a>
-          <button @click="store.toggleSignedIn()" id="test-sign-in-toggle"></button>
+          <button @click="store.toggleSignedIn()" id="test-sign-in-toggle">Toggle</button>
         </div>
 
-        <div v-if="signedIn" class="flex row center" v>
-          <div id="user-widget">ceofyeast</div>
+        <div class="flex row center" v>
+          <button @click="store.toggleSignedIn()" v-if="signedIn" id="user-widget">ceofyeast</button>
         </div>
 
   </div>
@@ -25,7 +25,6 @@ import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia'
 
 const store = useUserStore()
-
 let { signedIn } = storeToRefs(store)
 
 </script>
@@ -40,7 +39,7 @@ let { signedIn } = storeToRefs(store)
   background-color: greenyellow;
   border-bottom: 1px solid black;
 }
-.link, a, #user-widget {
+.link, a, #user-widget, #test-sign-in-toggle {
     all: unset;
     min-width: max-content;
     margin: 5px;
