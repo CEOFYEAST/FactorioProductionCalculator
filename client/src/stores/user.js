@@ -1,19 +1,25 @@
 import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
-    state: () => ({ signedIn: false, userData: undefined }),
+    state: () => ({ signedIn: false, data: undefined }),
     actions: {
         toggleSignedIn() {
             this.signedIn = !(this.signedIn)
         },
         addUserData(newData) {
-            if(typeof(newData) == "object") this.userData = newData;
-            
+            if(typeof(newData) == "object") this.data = newData;
+            console.log("New Data Keys: " + Object.keys(this.data))
         },
         removeUserData() {
-            this.userData = undefined
+            this.data = undefined
         }
-    }
+    },
+    getters: {
+        username(state) {
+            if(state.data != undefined) return state.data.username
+            else return undefined
+        }
+    },
 })
 
 /**
