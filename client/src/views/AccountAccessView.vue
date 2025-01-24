@@ -1,7 +1,7 @@
 <template>
     <div id="AccountAccessView-root" class="root">
 
-        <h1>Account Access</h1>
+        <h1>Account Stuff</h1>
 
         <form id="sign-in-form" @submit.prevent="accessUser" class="flex column">
 
@@ -45,7 +45,7 @@
 <script>
 import TopNav from '@/components/TheNav.vue'
 import { definedRoutes } from '../scripts/router'
-import axios from 'axios';
+import axios from '@/scripts/axios';
 import { useUserStore } from '@/stores/user'
 
 export default {

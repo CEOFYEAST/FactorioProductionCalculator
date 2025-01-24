@@ -5,7 +5,7 @@
 const Fastify = require('fastify')
 const root = 'C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/client/dist'
 const DBUrl = require('./scripts/secure.module.js')
-const PORT = process.env.PORT || 3000
+const PORT = 3001
 const HOST = 'localhost'
 const registerDB = true
 
@@ -29,7 +29,7 @@ if(registerDB){
 }
 app.register(require('@fastify/static'), {
   root: root,
-  constraints: { host: 'localhost:3000' }
+  constraints: { host: 'localhost:3001' }
 })
 app.register(require('@fastify/cors'), {})
 app.register(require('@fastify/formbody'), {})

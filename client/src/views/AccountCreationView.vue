@@ -1,7 +1,7 @@
 <template>
     <div id="AccountCreationView-root" class="root">
 
-        <h1>Account Creation</h1>
+        <h1>Account Stuff</h1>
 
         <form @submit.prevent="createUser" class="flex column">
             <p>Creating an account allows you to store production values for up to three factories across sessions.</p>
@@ -26,7 +26,7 @@
 <script>
 import TopNav from '@/components/TheNav.vue'
 import { definedRoutes } from '../scripts/router'
-import axios from 'axios';
+import axios from '@/scripts/axios';
 
 export default {
     name: 'account creation form',
