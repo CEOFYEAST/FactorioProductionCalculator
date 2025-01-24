@@ -8,7 +8,7 @@
           <RouterLink class="link" :to="definedRoutes.accountAccessRoute">Sign In</RouterLink>
           <RouterLink class="link" :to="definedRoutes.accountCreationRoute">Create Account</RouterLink>
           <RouterLink class="link" :to="definedRoutes.aboutViewRoute">About</RouterLink>
-          <a :href="definedRoutes.documentationRoute">Documentation</a>
+          <a href="'http://localhost:3000/documentation'">Documentation</a>
           <button @click="userStore.toggleSignedIn()" id="test-sign-in-toggle">Toggle</button>
           <!-- <button @click="userStore.toggleSignedIn()" id="test-sign-in-toggle">Add Data</button> -->
         </div>

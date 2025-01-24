@@ -9,8 +9,7 @@ export const definedRoutes = await {
   accountAccessRoute: '/users/access',
   accountCreationRoute: '/users/create',
   aboutViewRoute: '/',
-  widgetsRoute: '/widgets',
-  documentationRoute: '/documentation'
+  widgetsRoute: '/widgets'
 }
 
 const routes = [

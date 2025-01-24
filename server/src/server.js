@@ -3,9 +3,9 @@
 'use strict'
 
 const Fastify = require('fastify')
-const root = 'C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/client/dist'
+//const root = 'C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/client/dist'
 const DBUrl = require('./scripts/secure.module.js')
-const PORT = 3001
+const PORT = 3000
 const HOST = 'localhost'
 const registerDB = true
 
@@ -27,10 +27,10 @@ if(registerDB){
     url: DBUrl
   })
 }
-app.register(require('@fastify/static'), {
-  root: root,
-  constraints: { host: 'localhost:3001' }
-})
+// app.register(require('@fastify/static'), {
+//   root: root,
+//   constraints: { host: 'localhost:3000' }
+// })
 app.register(require('@fastify/cors'), {})
 app.register(require('@fastify/formbody'), {})
 app.register(require('@fastify/swagger'), {})
