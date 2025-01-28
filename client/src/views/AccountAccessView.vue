@@ -10,7 +10,7 @@
 
             <div id="submit-container" class="flex">
                 <div class="x3"></div>
-                <button v-if="!(userStore.signedIn)" id="submit" type="submit" class="x2">Submit</button>
+                <button v-if="!(userStore.signedIn)" id="submit" type="submit">Submit</button>
                 <button v-if="userStore.signedIn" @click="userStore.toggleSignedIn()" id="logout-button">Log Out</button>
                 <div class="x3"></div>
             </div>
@@ -36,8 +36,8 @@
             <button @click="userStore.toggleSignedIn()" id="logout-button">Log Out</button>
         </div> -->
 
-        <h2 v-show="submissionSuccess">User Data:</h2>
-        <div v-show="submissionSuccess" style="border: solid black 2px;">{{ userData }}</div>
+        <!-- <h2 v-show="submissionSuccess">User Data:</h2>
+        <div v-show="submissionSuccess" style="border: solid black 2px;">{{ userData }}</div> -->
 
     </div>
 </template>
@@ -122,6 +122,7 @@ export default {
     }
     #submit, #logout-button {
         height: 25px;
+        width: 200px;
     }
     /* #logged-in-blurb {
         justify-content: center;

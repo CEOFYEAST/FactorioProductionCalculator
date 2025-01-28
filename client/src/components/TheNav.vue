@@ -9,12 +9,15 @@
           <RouterLink class="link" :to="definedRoutes.accountCreationRoute">Create Account</RouterLink>
           <RouterLink class="link" :to="definedRoutes.aboutViewRoute">About</RouterLink>
           <a href="'http://localhost:3000/documentation'">Documentation</a>
-          <button @click="userStore.toggleSignedIn()" id="test-sign-in-toggle">Toggle</button>
+          <!-- <button @click="userStore.toggleSignedIn()" id="test-sign-in-toggle">Toggle</button> -->
           <!-- <button @click="userStore.toggleSignedIn()" id="test-sign-in-toggle">Add Data</button> -->
         </div>
 
-        <div class="flex row center" v>
-          <button @click="userStore.toggleSignedIn()" v-if="signedIn" id="user-widget">{{ userStore.username }}</button>
+        <div id="right-column" class="flex row middle center">
+          <div v-if="userStore.signedIn" id="user-widget" class="flex row middle center">
+            <div id="username-display">{{ userStore.username }}</div>
+            <button @click="userStore.toggleSignedIn()" id="dropdown-logout-button">Log Out</button>
+          </div>
         </div>
 
   </div>
@@ -40,13 +43,29 @@ let { signedIn } = storeToRefs(userStore)
   background-color: greenyellow;
   border-bottom: 1px solid black;
 }
-.link, a, #user-widget, #test-sign-in-toggle {
+.link, a, #test-sign-in-toggle {
     all: unset;
     min-width: max-content;
+
     margin: 5px;
     padding: 5px;
     background: white;
     color: black;
     border: 2px solid black;
   }
+#right-column {
+  margin-left: 20px;
+}
+#user-widget {
+  color: black;
+  background-color:white;
+  border: 2px solid black;
+}
+#dropdown-logout-button {
+  min-width: max-content;
+  margin-right: 5px;
+}
+#username-display {
+  margin: 5px;
+}
 </style>
