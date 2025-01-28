@@ -52,7 +52,11 @@ let { signedIn } = storeToRefs(userStore)
     background: white;
     color: black;
     border: 2px solid black;
-  }
+}
+ .link:hover, a:hover, #test-sign-in-toggle:hover {
+  background-color:lightgray;
+  cursor: pointer;
+}
 #right-column {
   margin-left: 20px;
 }
