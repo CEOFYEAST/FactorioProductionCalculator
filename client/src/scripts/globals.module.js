@@ -1,3 +1,3 @@
-const hostName = 'factorio-production-calculator.com';
+const hostName = 'fpc-app.com';
 
 module.exports = hostName;
