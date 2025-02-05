@@ -1,3 +1,4 @@
 node_modules/
 package-lock.json
-com.CEOFYEAST.FactorioProductionCalculator/NodeServ/Scripts/db.module.js
+server/src/secure.module.js
+documentation/ssl-certs

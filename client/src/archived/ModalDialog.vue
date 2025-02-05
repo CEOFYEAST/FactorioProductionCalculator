@@ -4,7 +4,7 @@
         <body>
             <TopNav>
                 <div align="right">
-                    <button id="close-button" @click="this.$emit('toggleShowModal')">X</button>
+                    <button id="close-button" @click="$emit('hideModal')">X</button>
                 </div>
             </TopNav>
 
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import TopNav from '@/components/TopNav.vue'
+import TopNav from '@/components/TheNav.vue'
 
 export default {
     name: 'modal dialog',
@@ -53,5 +53,9 @@ export default {
         border-left: 1px solid black;
         height: 25px;
         width: 25px;
+    }
+
+    #close-button:hover {
+        background-color: lightgray;
     }
 </style>

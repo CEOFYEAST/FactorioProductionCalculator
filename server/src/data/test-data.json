@@ -1,0 +1,116 @@
+{
+    "inserter": {
+        "Input URPS": 1,
+        "Output URPS": 1,
+        "Parent Items": {
+            "long-handed-inserter": {
+                "CURPS": 1
+            }
+        }
+    },
+    "electronic-circuit": {
+        "Input URPS": 0,
+        "Output URPS": 2.6,
+        "Parent Items": {
+            "inserter": {
+                "CURPS": 2
+            },
+            "assembling-machine-1": {
+                "CURPS": 0.6000000000000001
+            }
+        }
+    },
+    "copper-cable": {
+        "Input URPS": 0,
+        "Output URPS": 7.800000000000001,
+        "Parent Items": {
+            "electronic-circuit": {
+                "CURPS": 7.800000000000001
+            }
+        }
+    },
+    "copper-plate": {
+        "Input URPS": 0,
+        "Output URPS": 4.9,
+        "Parent Items": {
+            "copper-cable": {
+                "CURPS": 3.9000000000000004
+            },
+            "automation-science-pack": {
+                "CURPS": 1
+            }
+        }
+    },
+    "copper-ore": {
+        "Input URPS": 0,
+        "Output URPS": 4.9,
+        "Parent Items": {
+            "copper-plate": {
+                "CURPS": 4.9
+            }
+        }
+    },
+    "iron-plate": {
+        "Input URPS": 0,
+        "Output URPS": 17.4,
+        "Parent Items": {
+            "electronic-circuit": {
+                "CURPS": 2.6
+            },
+            "iron-gear-wheel": {
+                "CURPS": 10
+            },
+            "inserter": {
+                "CURPS": 2
+            },
+            "long-handed-inserter": {
+                "CURPS": 1
+            },
+            "assembling-machine-1": {
+                "CURPS": 1.8
+            }
+        }
+    },
+    "iron-ore": {
+        "Input URPS": 0,
+        "Output URPS": 17.4,
+        "Parent Items": {
+            "iron-plate": {
+                "CURPS": 17.4
+            }
+        }
+    },
+    "iron-gear-wheel": {
+        "Input URPS": 0,
+        "Output URPS": 5,
+        "Parent Items": {
+            "inserter": {
+                "CURPS": 2
+            },
+            "long-handed-inserter": {
+                "CURPS": 1
+            },
+            "automation-science-pack": {
+                "CURPS": 1
+            },
+            "assembling-machine-1": {
+                "CURPS": 1
+            }
+        }
+    },
+    "long-handed-inserter": {
+        "Input URPS": 1,
+        "Output URPS": 0,
+        "Parent Items": {}
+    },
+    "automation-science-pack": {
+        "Input URPS": 1,
+        "Output URPS": 0,
+        "Parent Items": {}
+    },
+    "assembling-machine-1": {
+        "Input URPS": 0.2,
+        "Output URPS": 0,
+        "Parent Items": {}
+    }
+}

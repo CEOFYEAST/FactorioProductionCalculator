@@ -9,6 +9,7 @@ Vue Considerations
 - There should no communication between presentational components from different subtrees, with each tree being defined by it's root application component
   * for example, the nav bar from my app application component shouldn't communicate with the presentational component child of a nested application component such as TheMain
 - If I want to design a large, complex website, I have to treat it with the respect and attention it deserves
+- Remember to use top level awaits with ema script modules because modules are all loaded asynchronously
   
 
   

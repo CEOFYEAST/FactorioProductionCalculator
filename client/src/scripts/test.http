@@ -1,0 +1,8 @@
+### GET Dist Directory
+GET http://fpc-app.com/ HTTP/1.1
+Host: fpc-app.com
+
+### GET SINGLE ITEM
+GET http://fpc-app.com/favicon.ico HTTP/1.1
+Host: fpc-app.com
+

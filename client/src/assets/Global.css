@@ -1,3 +1,7 @@
+p {
+    font-size: 1.25em;
+}
+
 .flex { display: flex; }
 .flex.top { align-items: start; }
 .flex.middle { align-items: center; }
