@@ -8,7 +8,7 @@
           <RouterLink class="link" :to="definedRoutes.accountAccessRoute">Sign In</RouterLink>
           <RouterLink class="link" :to="definedRoutes.accountCreationRoute">Create Account</RouterLink>
           <RouterLink class="link" :to="definedRoutes.aboutViewRoute">About</RouterLink>
-          <a href="'http://localhost:3000/documentation'">Documentation</a>
+          <a href="'http://{{hostName}}/documentation'">Documentation</a>
           <!-- <button @click="userStore.toggleSignedIn()" id="test-sign-in-toggle">Toggle</button> -->
           <!-- <button @click="userStore.toggleSignedIn()" id="test-sign-in-toggle">Add Data</button> -->
         </div>
@@ -27,6 +27,7 @@
 import { definedRoutes } from '@/scripts/router';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia'
+import { hostName } from '@/scripts/globals.module'
 
 const userStore = useUserStore()
 let { signedIn } = storeToRefs(userStore)
