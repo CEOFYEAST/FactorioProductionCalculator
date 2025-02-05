@@ -1,5 +1,5 @@
 import axios  from 'axios'
 
 export default axios.create({
-    baseURL: 'http://fpc-app.com'
+    baseURL: 'https://fpc-app.com'
 });
