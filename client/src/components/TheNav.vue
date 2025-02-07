@@ -26,8 +26,8 @@
 <script setup>
 import { definedRoutes } from '@/scripts/router';
 import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia'
-import { hostName } from '@/scripts/globals.module'
+import { storeToRefs } from 'pinia';
+import { hostName } from '@/scripts/globals.module';
 
 const userStore = useUserStore()
 let { signedIn } = storeToRefs(userStore)

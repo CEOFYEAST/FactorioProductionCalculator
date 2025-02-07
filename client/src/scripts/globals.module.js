@@ -1,3 +1,1 @@
-const hostName = 'fpc-app.com';
-
-module.exports = hostName;
+export const hostName = 'fpc-app.com';
