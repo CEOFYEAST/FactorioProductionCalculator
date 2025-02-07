@@ -37,7 +37,6 @@ app.register(require('@fastify/swagger'), {})
 app.register(require('@fastify/swagger-ui'), {
   routePrefix: '/documentation'
 })
-app.register(require('./routes/items.js'))
 app.register(require('./routes/users.js'))
 
 // Start listening.

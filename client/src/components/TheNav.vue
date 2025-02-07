@@ -9,8 +9,6 @@
           <RouterLink class="link" :to="definedRoutes.accountCreationRoute">Create Account</RouterLink>
           <RouterLink class="link" :to="definedRoutes.aboutViewRoute">About</RouterLink>
           <a :href="'https://' + hostName + '/documentation'">Documentation</a>
-          <!-- <button @click="userStore.toggleSignedIn()" id="test-sign-in-toggle">Toggle</button> -->
-          <!-- <button @click="userStore.toggleSignedIn()" id="test-sign-in-toggle">Add Data</button> -->
         </div>
 
         <div id="right-column" class="flex row middle center">
