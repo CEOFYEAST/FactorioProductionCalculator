@@ -1,7 +1,7 @@
 <template>
     <div id="AccountCreationView-root" class="root">
 
-        <h1>Account Stuff</h1>
+        <h1>Create Account</h1>
 
         <form @submit.prevent="createUser" class="flex column">
             <p>Creating an account allows you to store production values for up to three factories across sessions.</p>
@@ -61,7 +61,10 @@ export default {
                 this.$refs.statusMessage.innerHTML = response.data.statusMessage
             })
             .catch(error => {
-                this.$refs.statusMessage.innerHTML = error.response.data.statusMessage
+                if(error == undefined) return
+
+                if(Object.hasOwn(error, 'response')) this.$refs.statusMessage.innerHTML = error.response.data.statusMessage;
+                else this.$refs.statusMessage.innerHTML = "Failed to connect to the server"
             })
             .finally() 
         }

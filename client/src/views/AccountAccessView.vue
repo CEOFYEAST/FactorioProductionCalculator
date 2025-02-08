@@ -1,7 +1,7 @@
 <template>
     <div id="AccountAccessView-root" class="root">
 
-        <h1>Account Stuff</h1>
+        <h1>Sign In</h1>
 
         <form id="sign-in-form" @submit.prevent="accessUser" class="flex column">
 
@@ -82,18 +82,20 @@ export default {
             .then(response => {           
                 this.submissionSuccess = true
                 this.$refs.statusMessage.innerHTML = response.data.statusMessage
-                if(response.status == 200) {
-                    this.userData = response.data.userData
-                    this.showStatusMessage = false
-                    this.userStore.toggleSignedIn()
-                    this.userStore.addUserData(this.userData)
-                }
+
+                if(response.status != 200) return;
+
+                this.userData = response.data.userData
+                this.showStatusMessage = false
+                this.userStore.toggleSignedIn()
+                this.userStore.addUserData(this.userData)
             })
             .catch(error => {
                 if(error == undefined) return
-                console.log("Error keys: " + Object.keys(error))
-                if(error.status == 404) this.$refs.statusMessage.innerHTML = "Failed to connect to the server"
-                else this.$refs.statusMessage.innerHTML = error.response.data.statusMessage
+
+                if(Object.hasOwn(error, 'response')) this.$refs.statusMessage.innerHTML = error.response.data.statusMessage;
+                else this.$refs.statusMessage.innerHTML = "Failed to connect to the server"
+                
                 this.submissionSuccess = false
             })
             .finally() 

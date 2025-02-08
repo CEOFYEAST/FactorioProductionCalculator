@@ -8,7 +8,7 @@
           <RouterLink class="link" :to="definedRoutes.accountAccessRoute">Sign In</RouterLink>
           <RouterLink class="link" :to="definedRoutes.accountCreationRoute">Create Account</RouterLink>
           <RouterLink class="link" :to="definedRoutes.aboutViewRoute">About</RouterLink>
-          <a :href="'https://' + hostName + '/documentation'">Documentation</a>
+          <a :href="link + '/documentation'">Documentation</a>
         </div>
 
         <div id="right-column" class="flex row middle center">
@@ -25,7 +25,7 @@
 import { definedRoutes } from '@/scripts/router';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
-import { hostName } from '@/scripts/globals.module';
+import { link } from '@/scripts/globals.module';
 
 const userStore = useUserStore()
 let { signedIn } = storeToRefs(userStore)
