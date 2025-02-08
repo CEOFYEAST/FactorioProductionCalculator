@@ -1,4 +1,4 @@
 node_modules/
 package-lock.json
-server/src/secure.module.js
+server/src/scripts/secure.module.js
 documentation/ssl-certs
