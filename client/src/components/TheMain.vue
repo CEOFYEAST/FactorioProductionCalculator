@@ -24,11 +24,12 @@ export default {
             smallRoutes: [
                 definedRoutes.aboutViewRoute,
                 definedRoutes.accountAccessRoute,
-                definedRoutes.accountCreationRoute
+                definedRoutes.accountCreationRoute,
+                definedRoutes.widgetsRoute
             ],
             // the routes whose views should be medium-sized
             mediumRoutes: [
-                definedRoutes.widgetsRoute
+            
             ],
             // the routes whose views should be large
             largeRoutes: [
