@@ -29,8 +29,6 @@ import { link } from '@/scripts/globals.module';
 
 const userStore = useUserStore()
 let { signedIn } = storeToRefs(userStore)
-
-print("Shtuff")
 </script>
 
 <style scoped>
