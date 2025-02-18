@@ -9,7 +9,8 @@ const fs = require('fs');
 const { validateID, validateNumber, validateBool, validateOutput, validateObject } = require('./validators.module.js');
 
 /**
- * Recursively calculates the Units Required Per Second (URPS) of all the ingredients required to produce the given URPS of the given parent; also maintains the portions of the child URPS that come from each parent.
+ * Recursively calculates the Units Required Per Second (URPS) of all the ingredients required to produce the given URPS of the given parent; 
+ * also maintains the portions of the child URPS that come from each parent.
  * 
  * @param {string} parentID The ID of the parent recipe.
  * @param {number} parentURPS The Units Required Per Second (URPS) of the parent recipe.

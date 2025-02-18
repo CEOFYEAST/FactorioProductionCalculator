@@ -3,7 +3,7 @@
 A web app created to aid users in designing their Factorio factories.
 
 Link:
-http://factorio-production-calculator.com/
+https://fpc-app.com
 
 ## Summary
 
@@ -14,7 +14,11 @@ https://kirkmcdonald.github.io/calc.html#data=1-1-110&items=advanced-circuit:f:1
 
 However, I plan to implement user profiles; this will allow users to continue modeling the production chains of their factories as they grow over time. Also, I've put alot of work into modeling processes with code that other websites don't cover such as train throughput.
 
-## Keep up with updates
+## Current Release
+
+The current release is the User System release; this release was created to show off my progress on the user system including an API, client-side user data store and account views, and server-side MongoDB integration. Enjoy!
+
+## Keep Up With Updates
 
 I've been posting updates and insights on the project to my development instagram account. I'll try and get a proper blog up soon so you don't have to use that infernal app.
 
