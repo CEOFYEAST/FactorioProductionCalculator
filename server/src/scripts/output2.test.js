@@ -18,10 +18,45 @@ test('recipes validity', () => {
  *      Test adding amount to prod. chain object with existing user demand of the same type
  */
 
+// VALID TESTS
+
+    // EMPTY INITIAL CHAIN TESTS
+
+test('Test full prod. chain output after simple IRPTU addition, and empty initial chain', () => {
+    expect(addIRPTU("burner-inserter", 10, emptyProdChain)).toEqual(simpleProdChain)
+})
+
+test('Test user demand output after simple IRPTU addition, and empty initial chain', () => {
+    expect(addIRPTU("burner-inserter", 10, emptyProdChain)).toMatchObject(simpleUserDemand)
+})
+
+test('Test interm. demand output after simple IRPTU addition, and empty initial chain', () => {
+    expect(addIRPTU("burner-inserter", 10, emptyProdChain)).toMatchObject(simpleIntermDemand)
+})
+
+    // POPULATED INITIAL CHAIN TESTS
+
+test('Test full prod. chain output after simple IRPTU addition, and populated initial chain', () => {
+    let popChain = addIRPTU("burner-inserter", 10, emptyProdChain)
+    expect(addIRPTU("long-handed-inserter"), 20, popChain).toEqual(populatedProdChain)
+})
+
+test('Test user demand output after simple IRPTU addition, and populated initial chain', () => {
+    let popChain = addIRPTU("burner-inserter", 10, emptyProdChain)
+    expect(addIRPTU("long-handed-inserter"), 20, popChain).toMatchObject(popUserDemand)
+})
+
+test('Test interm. demand output after simple IRPTU addition, and populated initial chain', () => {
+    let popChain = addIRPTU("burner-inserter", 10, emptyProdChain)
+    expect(addIRPTU("long-handed-inserter"), 20, popChain).toMatchObject(popIntermDemand)
+})
+
+
+
 let emptyProdChain = {
     timeUnit: "minute",
     prodChain: {
-
+        
     }
 }
 
@@ -81,14 +116,74 @@ let simpleIntermDemand = {
     }
 }
 
-test('Test full production chain output after IRPTU input', () => {
-    expect(addIRPTU("burner-inserter", 10, emptyProdChain)).toEqual(simpleProdChain)
-})
+let populatedProdChain = {
+    timeUnit: "minute",
+    prodChain: {
+        "long-handed-inserter": {
+            userIRPTU: 20,
+            intermIRPTU: 0,
+            dependentItems: {}
+        },
+        "burner-inserter": {
+            userIRPTU: 10,
+            intermIRPTU: 20,
+            dependentItems: {
+                "long-handed-inserter": 20
+            }
+        },
+        "iron-gear-wheel": {
+            userIRPTU: 0,
+            intermIRPTU: 50,
+            dependentItems: {
+                "burner-inserter": 30,
+                "long-handed-inserter": 20
+            }
+        },
+        "iron-plate": {
+            userIRPTU: 0,
+            intermIRPTU: 130,
+            dependencyItems: {
+                "burner-inserter": 10,
+                "long-handed-inserter": 20,
+                "iron-gear-wheel": 100
+            }
+        },
+        "iron-ore": {
+            userIRPTU: 0,
+            intermIRPTU: 130,
+            dependencyItems: {
+                "iron-plate": 130
+            }
+        }
+    }
+}
 
-test('Test user demand output after IRPTU input', () => {
-    expect(addIRPTU("burner-inserter", 10, emptyProdChain)).toMatchObject(simpleUserDemand)
-})
+let popUserDemand = {
+    "long-handed-inserter": {
+        userIRPTU: 20,
+        intermIRPTU: 0,
+        dependentItems: {}
+    },
+    "burner-inserter": {
+        userIRPTU: 10,
+        intermIRPTU: 20,
+        dependentItems: {
+            "long-handed-inserter": 20
+        }
+    },
+}
 
-test('Test interm. demand output after IRPTU input', () => {
-    expect(addIRPTU("burner-inserter", 10, emptyProdChain)).toMatchObject(simpleIntermDemand)
-})
+letPopIntermDemand = {
+    prodChain: {
+        "iron-plate": {
+            userIRPTU: 0,
+            intermIRPTU: 130,
+            dependencyItems: {
+                "burner-inserter": 10,
+                "long-handed-inserter": 20,
+                "iron-gear-wheel": 100
+            }
+        },
+    }
+}
+
