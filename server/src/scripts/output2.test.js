@@ -18,6 +18,26 @@ test('recipes validity', () => {
  *      Test adding amount to prod. chain object with existing user demand of the same type
  */
 
+// INVALID TESTS
+
+test('Test invalid ID throws exception', () => {
+    expect(addIRPTU("invalid-id", 10, emptyProdChain)).toThrow()
+    expect(subtractIRPTU("invalid-id", 10, simpleProdChain)).toThrow()
+})
+
+test('Test invalid addition amount throws exception', () => {
+    expect(addIRPTU("burner-inserter", 0, emptyProdChain)).toThrow()
+    expect(addIRPTU("burner-inserter", -1, emptyProdChain)).toThrow()
+})
+
+test('Test invalid subtraction amount throws exception', () => {
+    expect(subtractIRPTU("burner-inserter", 5, emptyProdChain)).toThrow()
+})
+
+test('Test invalid prod. chain input throws exception', () => {
+    expect(addIRPTU("burner-inserter", 5, {})).toThrow()
+})
+
 // VALID TESTS
 
     // IRPTU ADDITION - EMPTY INITIAL CHAIN TESTS
@@ -62,7 +82,6 @@ test('Test partial prod. chain output after partial IRPTU subtraction', () => {
     let popChain = addIRPTU("burner-inserter", 10, emptyProdChain)
     expect(subtractIRPTU("burner-inserter"), 5, popChain).toEqual(partialProdChain)
 })
-
 
 
 
@@ -138,7 +157,7 @@ let populatedProdChain = {
             intermIRPTU: 0,
             dependentItems: {}
         },
-        "burner-inserter": {
+        "inserter": {
             userIRPTU: 10,
             intermIRPTU: 20,
             dependentItems: {
@@ -149,24 +168,39 @@ let populatedProdChain = {
             userIRPTU: 0,
             intermIRPTU: 50,
             dependentItems: {
-                "burner-inserter": 30,
+                "inserter": 30,
                 "long-handed-inserter": 20
+            }
+        },
+        "electronic-circuit": {
+            userIRPTU: 0,
+            intermIRPTU: 30,
+            dependentItems: {
+                "inserter": 30,
+            }
+        },
+        "copper-cable": {
+            userIRPTU: 0,
+            intermIRPTU: 90,
+            dependentItems: {
+                "electronic-circuit": 90
             }
         },
         "iron-plate": {
             userIRPTU: 0,
-            intermIRPTU: 130,
+            intermIRPTU: 180,
             dependencyItems: {
-                "burner-inserter": 10,
+                "electronic-circuit": 30,
+                "iron-gear-wheel": 100,
+                "inserter": 30,
                 "long-handed-inserter": 20,
-                "iron-gear-wheel": 100
             }
         },
         "iron-ore": {
             userIRPTU: 0,
-            intermIRPTU: 130,
+            intermIRPTU: 180,
             dependencyItems: {
-                "iron-plate": 130
+                "iron-plate": 180
             }
         }
     }
@@ -178,7 +212,7 @@ let popUserDemand = {
         intermIRPTU: 0,
         dependentItems: {}
     },
-    "burner-inserter": {
+    "inserter": {
         userIRPTU: 10,
         intermIRPTU: 20,
         dependentItems: {
@@ -191,11 +225,12 @@ letPopIntermDemand = {
     prodChain: {
         "iron-plate": {
             userIRPTU: 0,
-            intermIRPTU: 130,
+            intermIRPTU: 180,
             dependencyItems: {
-                "burner-inserter": 10,
+                "electronic-circuit": 30,
+                "iron-gear-wheel": 100,
+                "inserter": 30,
                 "long-handed-inserter": 20,
-                "iron-gear-wheel": 100
             }
         },
     }
