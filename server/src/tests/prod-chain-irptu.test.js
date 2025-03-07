@@ -1,4 +1,4 @@
-const {addIRPTU, subtractIRPTU} = require("../scripts/prod-chain-irptu.module")
+import {addIRPTU, subtractIRPTU} from "../scripts/prod-chain-irptu.module"
 
 // INVALID TESTS
 

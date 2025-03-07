@@ -1,4 +1,4 @@
-const {getRecipes} = require("./recipes.module")
+import {recipes,validIDs} from "./recipes.module"
 
 function getUserDemand(prodChainObject) {}
 function recalculateTimeUnit(prodChainObject) {}

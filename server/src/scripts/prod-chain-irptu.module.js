@@ -1,8 +1,8 @@
-const {getRecipes} = require("./recipes.module")
+import {recipes,validIDs} from "./recipes.module"
 
 function addIRPTU(itemID, amount, prodChainObject) {}
 function subtractIRPTU(itemID, amount, prodChainObject) {}
 
-module.exports = {
+export {
     addIRPTU, subtractIRPTU
 }

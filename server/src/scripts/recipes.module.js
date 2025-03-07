@@ -1,14 +1,10 @@
 const recipesLoc ="src\\data\\recipes.json";
-var fs = require('fs');
-
-function getRecipes(){
-    return getJSON(recipesLoc)
-}
+import fs from 'fs'
+const recipes = getJSON(recipesLoc)
+const validIDs = Object.keys(recipes);
 
 function getJSON(jsonLoc) {
     return JSON.parse(fs.readFileSync(jsonLoc, 'utf8'));
 }
 
-module.exports = {
-    getRecipes
-}
+export { recipes, validIDs }
