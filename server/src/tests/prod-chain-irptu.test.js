@@ -43,29 +43,29 @@ test('Test interm. demand output after IRPTU addition, and empty initial chain',
 
 test('Test full prod. chain output after IRPTU addition, and populated initial chain', () => {
     let popChain = addIRPTU("burner-inserter", 10, emptyProdChain)
-    expect(addIRPTU("long-handed-inserter"), 20, popChain).toEqual(populatedProdChain)
+    expect(addIRPTU("long-handed-inserter", 20, popChain)).toEqual(populatedProdChain)
 })
 
 test('Test user demand output after IRPTU addition, and populated initial chain', () => {
     let popChain = addIRPTU("burner-inserter", 10, emptyProdChain)
-    expect(addIRPTU("long-handed-inserter"), 20, popChain).toMatchObject(popUserDemand)
+    expect(addIRPTU("long-handed-inserter", 20, popChain)).toMatchObject(popUserDemand)
 })
 
 test('Test interm. demand output after IRPTU addition, and populated initial chain', () => {
     let popChain = addIRPTU("burner-inserter", 10, emptyProdChain)
-    expect(addIRPTU("long-handed-inserter"), 20, popChain).toMatchObject(popIntermDemand)
+    expect(addIRPTU("long-handed-inserter", 20, popChain)).toMatchObject(popIntermDemand)
 })
 
     // IRPTU SUBTRACTION
 
 test('Test empty prod. chain output after full IRPTU subtraction', () => {
     let popChain = addIRPTU("burner-inserter", 10, emptyProdChain)
-    expect(subtractIRPTU("burner-inserter"), 10, popChain).toEqual(emptyProdChain)
+    expect(subtractIRPTU("burner-inserter", 10, popChain)).toEqual(emptyProdChain)
 })
 
 test('Test partial prod. chain output after partial IRPTU subtraction', () => {
     let popChain = addIRPTU("burner-inserter", 10, emptyProdChain)
-    expect(subtractIRPTU("burner-inserter"), 5, popChain).toEqual(partialProdChain)
+    expect(subtractIRPTU("burner-inserter", 5, popChain)).toEqual(partialProdChain)
 })
 
 
@@ -208,7 +208,7 @@ let popUserDemand = {
     },
 }
 
-letPopIntermDemand = {
+let popIntermDemand = {
     prodChain: {
         "iron-plate": {
             userIRPTU: 0,
