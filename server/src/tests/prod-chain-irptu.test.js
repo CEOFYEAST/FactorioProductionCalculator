@@ -1,22 +1,4 @@
-const {addIRPTU, subtractIRPTU, getUserDemand, recalculateTimeUnit} = require("./output2.module")
-const { getRecipes } = require("./recipes.module")
-const recipes = getRecipes();
-
-test('recipes validity', () => {
-    expect(typeof recipes).toBe('object')
-})
-
-/**
- * addIRPTU test
- * - INVALID Tests
- *      Test invalid add amount (should be positive integer > 0)
- *      Test invalid ID (should be string that exists as an ID in Recipes)
- *      (Maybe) Test invalid prod. chain object (Could just test that it's an object)
- * - VALID Tests
- *      Test adding amount to empty prod. chain object 
- *      Test adding amount to prod. chain object with existing user demand
- *      Test adding amount to prod. chain object with existing user demand of the same type
- */
+const {addIRPTU, subtractIRPTU} = require("../scripts/prod-chain-irptu.module")
 
 // INVALID TESTS
 
@@ -31,7 +13,10 @@ test('Test invalid addition amount throws exception', () => {
 })
 
 test('Test invalid subtraction amount throws exception', () => {
+    expect(subtractIRPTU("burner-inserter", 0, emptyProdChain)).toThrow()
+    expect(subtractIRPTU("burner-inserter", -1, emptyProdChain)).toThrow()
     expect(subtractIRPTU("burner-inserter", 5, emptyProdChain)).toThrow()
+    expect(subtractIRPTU("burner-inserter", 15, simpleProdChain)).toThrow()
 })
 
 test('Test invalid prod. chain input throws exception', () => {
@@ -84,7 +69,9 @@ test('Test partial prod. chain output after partial IRPTU subtraction', () => {
 })
 
 
+// TEST PROD. CHAIN DATA
 
+    // VALID DATA
 
 let emptyProdChain = {
     timeUnit: "minute",
@@ -236,6 +223,7 @@ letPopIntermDemand = {
     }
 }
 
+// used for removal tests
 let partialProdChain = {
     timeUnit: "minute",
     prodChain: {
