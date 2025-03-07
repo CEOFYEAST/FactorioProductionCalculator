@@ -1,8 +1,8 @@
 import {recipes,validIDs} from "./recipes.module"
 
 function getUserDemand(prodChainObject) {}
-function recalculateTimeUnit(prodChainObject) {}
+function recalculateTimeUnit(prodChainObject, newTimeUnit) {}
 
-module.exports = {
+export {
     getUserDemand, recalculateTimeUnit
 }
