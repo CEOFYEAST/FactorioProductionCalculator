@@ -69,6 +69,7 @@ function updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, ou
   output[inputID]["Input URPS"] += inputURPS;
 
   // removes input item from output if it's no longer required in any capacity
+  // useful post-subtraction
   if(output[inputID]["Input URPS"] == 0 && output[inputID]["Output URPS"] == 0) {
     delete output[inputID];
   }
@@ -104,25 +105,25 @@ function updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, ou
    * @throws {string} If attempting to remove input URPS from item in output that doesn't already exist.
    * @throws {string} If attempting to remove an amount of URPS that would result in negative input URPS.
    */
-  function validateURPSSubtraction(inputID, inputURPS, isSubtractingURPS, recipes, output){
-    if (isSubtractingURPS) { // handles case where attempting to remove URPS
-      if (output.hasOwnProperty(inputID)) {
-        inputItem = output[inputID];
-        existingInputURPS = inputItem["Input URPS"];
+  // function validateURPSSubtraction(inputID, inputURPS, isSubtractingURPS, recipes, output){
+  //   if (isSubtractingURPS) { // handles case where attempting to remove URPS
+  //     if (output.hasOwnProperty(inputID)) {
+  //       inputItem = output[inputID];
+  //       existingInputURPS = inputItem["Input URPS"];
 
-        // attempting to remove more input URPS than the input item already has
-        if (inputURPS > existingInputURPS) {
-          let err = Error("Cannot remove more input URPS than the item already has, so must be less than or equal to " + existingInputURPS + "\n");
-          throw err.stack;
-        }
-      }
-      // attempting to remove URPS from input item that doesn't yet exist in output (its not already required)
-      else {
-        let err = Error("Cannot remove URPS from input item that doesn't already exist\n");
-        throw err.stack;
-      }
-    }
-  }
+  //       // attempting to remove more input URPS than the input item already has
+  //       if (inputURPS > existingInputURPS) {
+  //         let err = Error("Cannot remove more input URPS than the item already has, so must be less than or equal to " + existingInputURPS + "\n");
+  //         throw err.stack;
+  //       }
+  //     }
+  //     // attempting to remove URPS from input item that doesn't yet exist in output (its not already required)
+  //     else {
+  //       let err = Error("Cannot remove URPS from input item that doesn't already exist\n");
+  //       throw err.stack;
+  //     }
+  //   }
+  // }
 
   /**
    * Tries to add the item/resource associated with the given ID to the output dictionary.

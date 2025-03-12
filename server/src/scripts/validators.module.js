@@ -63,14 +63,14 @@ function validateObject(val){
     }
 }
 
-function validateBool(val) {
-    ensureNonNullish(val);
+// function validateBool(val) {
+//     ensureNonNullish(val);
 
-    if(!(typeof val === 'boolean')) {
-        let err = Error(typeof val + " is not of type boolean\n");
-        throw err.stack;
-    }
-}
+//     if(!(typeof val === 'boolean')) {
+//         let err = Error(typeof val + " is not of type boolean\n");
+//         throw err.stack;
+//     }
+// }
 
 function validateNumber(val) {
     ensureNonNullish(val);
@@ -81,12 +81,39 @@ function validateNumber(val) {
     }
 }
 
+function validateURPSAddition(amount){
+    if(amount <= 0) {
+        let err = Error("Invalid Addition Amount\n");
+        throw err.stack;
+    }
+}
+
+function validateURPSSubtraction(itemID, amount, prodChainData){
+    if (prodChainData.hasOwnProperty(itemID)) {
+        itemData = prodChainData[itemID];
+        existingItemDemand = itemData["itermIRPTU"];
+
+    // attempting to remove more input URPS than the input item already has
+    if (amount > existingItemDemand) {
+        let err = Error("Cannot remove more input URPS than the item already has, so must be less than or equal to " + existingInputURPS + "\n");
+        throw err.stack;
+    }
+    }
+    // attempting to remove URPS from input item that doesn't yet exist in output (its not already required)
+    else {
+    let err = Error("Cannot remove URPS from input item that doesn't already exist\n");
+    throw err.stack;
+    }
+}
+
 export {
     ensureNonNullish,
     validateID,
     validateRecipes,
     validateProdChainObject,
     validateObject,
-    validateBool,
-    validateNumber
+    //validateBool,
+    validateNumber,
+    validateURPSAddition,
+    validateURPSSubtraction
 };

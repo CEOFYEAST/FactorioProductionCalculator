@@ -1,3 +1,7 @@
+/**
+ * Acts as a wrapper class to expose the non-IRPTU-submission-related functionality in the calculators module
+ */
+
 import {recipes,validIDs} from "./recipes.module"
 
 function getUserDemand(prodChainObject) {}
