@@ -33,6 +33,16 @@ test('Test invalid time unit input throws exeption', () => {
 
     // VALID TESTS
 
+test('Test valid simple prod. chain conversion to seconds', () => {
+    expect(recalculateTimeUnit(SampleChains.simpleProdChain, "second"))
+        .toEqual(SampleChains.simpleProdChain_Seconds)
+})
+
+test('Test valid simple prod. chain conversion to hours', () => {
+    expect(recalculateTimeUnit(SampleChains.simpleProdChain, "hour"))
+        .toEqual(SampleChains.simpleProdChain_Hours)
+})
+
 /**
  * Possible Tests:
  * - converting minutes-based chain to hours and seconds

@@ -181,3 +181,69 @@ export let partialProdChain = {
         }
     }
 }
+
+export let simpleProdChain_Seconds = {
+    timeUnit: "second",
+    prodChain: {
+        "burner-inserter": {
+            userIRPTU: 0.167,
+            intermIRPTU: 0,
+            dependentItems: {}
+        },
+        "iron-gear-wheel": {
+            userIRPTU: 0,
+            intermIRPTU: 0.167,
+            dependentItems: {
+                "burner-inserter": 0.167
+            }
+        },
+        "iron-plate": {
+            userIRPTU: 0,
+            intermIRPTU: 0.5,
+            dependencyItems: {
+                "burner-inserter": 0.167,
+                "iron-gear-wheel": 0.333
+            }
+        },
+        "iron-ore": {
+            userIRPTU: 0,
+            intermIRPTU: 0.5,
+            dependencyItems: {
+                "iron-plate": 0.5
+            }
+        }
+    }
+}
+
+export let simpleProdChain_Hours = {
+    timeUnit: "hour",
+    prodChain: {
+        "burner-inserter": {
+            userIRPTU: 600,
+            intermIRPTU: 0,
+            dependentItems: {}
+        },
+        "iron-gear-wheel": {
+            userIRPTU: 0,
+            intermIRPTU: 600,
+            dependentItems: {
+                "burner-inserter": 600
+            }
+        },
+        "iron-plate": {
+            userIRPTU: 0,
+            intermIRPTU: 1800,
+            dependencyItems: {
+                "burner-inserter": 600,
+                "iron-gear-wheel": 1200
+            }
+        },
+        "iron-ore": {
+            userIRPTU: 0,
+            intermIRPTU: 1800,
+            dependencyItems: {
+                "iron-plate": 1800
+            }
+        }
+    }
+}
