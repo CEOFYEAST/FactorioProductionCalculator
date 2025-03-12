@@ -18,25 +18,25 @@ const { validateID, validateNumber, validateBool, validateOutput, validateObject
  * @param {dictionary} output The output dictionary whose copy will store the newly calculated required values for every required ingredient.
  * @returns {dictionary} Returns an updated copy of the given dictionary containing the calculations if they were successful, otherwise returns null.
  */
-function updateProduction(inputID, inputURPS, isSubtractingURPS, recipes, output) {
-  validateID(inputID, recipes);
-  validateNumber(inputURPS);
-  validateBool(isSubtractingURPS);
-  validateOutput(output);
-  if(inputURPS <= 0)
-  {
-    let err = Error("Input URPS must be greater than zero\n");
-    throw err.stack;
-  }
+// function updateProduction(inputID, inputURPS, isSubtractingURPS, recipes, output) {
+//   validateID(inputID, recipes);
+//   validateNumber(inputURPS);
+//   validateBool(isSubtractingURPS);
+//   validateOutput(output);
+//   if(inputURPS <= 0)
+//   {
+//     let err = Error("Input URPS must be greater than zero\n");
+//     throw err.stack;
+//   }
 
-  // used to prevent corruption of output so that output can be maintained and continously added to
-  // courtesy of https://stackoverflow.com/questions/43963518/to-copy-the-values-from-one-dictionary-to-other-dictionary-in-javascript
-  var outputCopy = { ...output };
+//   // used to prevent corruption of output so that output can be maintained and continously added to
+//   // courtesy of https://stackoverflow.com/questions/43963518/to-copy-the-values-from-one-dictionary-to-other-dictionary-in-javascript
+//   var outputCopy = { ...output };
 
-  updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, outputCopy);
+//   updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, outputCopy);
 
-  return outputCopy;
-}
+//   return outputCopy;
+// }
 
 /**
  * Updates the given output object with the URPS stats of all the ingredients required to make the given input URPS of the given input item.
@@ -132,20 +132,20 @@ function updateProductionURPS(inputID, inputURPS, isSubtractingURPS, recipes, ou
    * @param {dictionary} recipes - The dictionary containing all recipes.
    * @param {dictionary} output - The dictionary to add the fresh item/resource representation to.
    */
-  function tryAddToOutput(toAddID, recipes, output) {
-    validateID(toAddID, recipes);
-    validateOutput(output);
+  // function tryAddToOutput(toAddID, recipes, output) {
+  //   validateID(toAddID, recipes);
+  //   validateOutput(output);
 
-    // adds ingredient representation to output if it doesn't already exist.
-    if (!output.hasOwnProperty(toAddID)) {
-      let outputVals = {
-        "Input URPS": 0,
-        "Output URPS": 0,
-        "Parent Items": {}
-      };
-      output[toAddID] = outputVals;
-    }
-  }
+  //   // adds ingredient representation to output if it doesn't already exist.
+  //   if (!output.hasOwnProperty(toAddID)) {
+  //     let outputVals = {
+  //       "Input URPS": 0,
+  //       "Output URPS": 0,
+  //       "Parent Items": {}
+  //     };
+  //     output[toAddID] = outputVals;
+  //   }
+  // }
 }
 
 /**
