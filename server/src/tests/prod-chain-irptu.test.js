@@ -3,25 +3,76 @@ import * as SampleChains from "./prod-chain-data"
 
 // INVALID TESTS
 
-test('Test invalid ID throws exception', () => {
-    expect(addIRPTU("invalid-id", 10, SampleChains.emptyProdChain)).toThrow()
-    expect(subtractIRPTU("invalid-id", 10, SampleChains.simpleProdChain)).toThrow()
+    // ID TESTS
+
+test('Test invalid addition ID throws exception', () => {
+    expect(() => {
+        addIRPTU("invalid-id", 10, SampleChains.emptyProdChain)
+    }).toThrow()
 })
 
+test('Test invalid subtraction ID throws exception', () => {
+    expect(() => {
+        subtractIRPTU("invalid-id", 10, SampleChains.emptyProdChain)
+    }).toThrow()
+})
+
+    // PROD. CHAIN OBJECT TESTS
+
+test('Test empty prod. chain input throws exception', () => {
+    expect(() => {
+        addIRPTU("burner-inserter", 5, {})
+    }).toThrow()
+})
+
+test('Test empty prod. chain data input throws exception', () => {
+    expect(() => {
+        addIRPTU("burner-inserter", 5, SampleChains.invalidProdChain_NoProdChain)
+    }).toThrow()
+
+    expect(() => {
+        subtractIRPTU("burner-inserter", 5, SampleChains.invalidProdChain_NoProdChain)
+    }).toThrow()
+})
+
+test('Test empty prod. chain time unit input throws exception', () => {
+    expect(() => {
+        addIRPTU("burner-inserter", 5, SampleChains.invalidProdChain_NoTimeUnit)
+    }).toThrow()
+
+    expect(() => {
+        subtractIRPTU("burner-inserter", 5, SampleChains.invalidProdChain_NoProdChain)
+    }).toThrow()
+})
+
+    // SUBMISSION AMOUNT TESTS
+
 test('Test invalid addition amount throws exception', () => {
-    expect(addIRPTU("burner-inserter", 0, SampleChains.emptyProdChain)).toThrow()
-    expect(addIRPTU("burner-inserter", -1, SampleChains.emptyProdChain)).toThrow()
+    expect(() => {
+        addIRPTU("burner-inserter", 0, SampleChains.emptyProdChain)
+    }).toThrow()
+
+    expect(() => {
+        addIRPTU("burner-inserter", -1, SampleChains.emptyProdChain)
+    }).toThrow()
 })
 
 test('Test invalid subtraction amount throws exception', () => {
-    expect(subtractIRPTU("burner-inserter", 0, SampleChains.emptyProdChain)).toThrow()
-    expect(subtractIRPTU("burner-inserter", -1, SampleChains.emptyProdChain)).toThrow()
-    expect(subtractIRPTU("burner-inserter", 5, SampleChains.emptyProdChain)).toThrow()
-    expect(subtractIRPTU("burner-inserter", 15, SampleChains.simpleProdChain)).toThrow()
-})
+    expect(() => {
+        subtractIRPTU("burner-inserter", 0, SampleChains.emptyProdChain)
+    }).toThrow()
 
-test('Test invalid prod. chain input throws exception', () => {
-    expect(addIRPTU("burner-inserter", 5, {})).toThrow()
+    expect(() => {
+        subtractIRPTU("burner-inserter", -1, SampleChains.emptyProdChain)
+    }).toThrow()
+
+    expect(() => {
+        subtractIRPTU("burner-inserter", 5, SampleChains.emptyProdChain)
+    }).toThrow()
+
+    expect(() => {
+        subtractIRPTU("burner-inserter", 15, SampleChains.simpleProdChain)
+    }).toThrow()
 })
 
 // VALID TESTS

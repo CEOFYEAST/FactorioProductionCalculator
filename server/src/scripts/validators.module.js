@@ -2,14 +2,10 @@
  * @module validators
  * @description This module provides functions for validating various types of values, such as IDs, recipes, output, booleans, and numbers.
  */
+
+import {recipes, validIDs} from "./recipes.module"
  
-/**
- * Throws an error if the given value is nullish.
- * 
- * @param {*} val The value to check for nullishness.
- * @throws {string} if the given val is nullish; a unique error is thrown depending on if the value if undefined or null.
- */
-function ensureNonNullish(val, func)
+function ensureNonNullish(val)
 {
     if(val === undefined)
     {
@@ -23,14 +19,7 @@ function ensureNonNullish(val, func)
     }
 }
 
-/**
- * Capable of validating a given id using a given set of recipes; also handles validating the recipes in the process.
- * 
- * @param {string} id - The ID of the recipe to validate.
- * @param {dictionary} recipes - The recipes used to validate the ID.
- * @throws {string} Throws error if any input value is null, the ID is empty, or the recipe corresponding to given id does not exist.
- */
-function validateID(id, recipes) {
+function validateID(id) {
     ensureNonNullish(id);
 
     if (!(typeof id === 'string')) {
@@ -50,34 +39,21 @@ function validateID(id, recipes) {
     }
 }
 
-/**
- * Capable of validating a given set of recipes.
- *
- * @param {dictionary} recipes - The recipes to validate.
- * @throws {string} Throws error if the given dictionary is null.
- */
 function validateRecipes(recipes) {
     ensureNonNullish(recipes);
     validateObject(recipes);
 }
 
-/**
- * Capable of validating a set of output.
- *
- * @param {dictionary} output - The output to validate.
- * @throws {string} Throws error if the given output is null.
- */
-function validateOutput(output) {
-    ensureNonNullish(output);
-    validateObject(output);
+function validateProdChainObject(prodChainObject) {
+    ensureNonNullish(prodChainObject);
+    validateObject(prodChainObject);
+    if (!(prodChainObject.hasOwnProperty("prodChain")) || !(prodChainObject.hasOwnProperty("timeUnit"))) {
+        let err = Error("Supplied production chain is invalid");
+        throw err.stack;
+    }
+
 }
 
-/**
- * Ensures the given value is a boolean.
- * 
- * @param {object} val The value to validate.
- * @throws {string} If the supplied value is not an object.
- */
 function validateObject(val){
     ensureNonNullish(val);
 
@@ -87,12 +63,6 @@ function validateObject(val){
     }
 }
 
-/**
- * Ensures the given value is a boolean.
- * 
- * @param {boolean} val The value to validate.
- * @throws {string} If the supplied value is not a boolean.
- */
 function validateBool(val) {
     ensureNonNullish(val);
 
@@ -102,12 +72,6 @@ function validateBool(val) {
     }
 }
 
-/**
- * Ensures the given value is a number.
- * 
- * @param {number} val The value value to validate.
- * @throws {string} If the supplied value is not a number.
- */
 function validateNumber(val) {
     ensureNonNullish(val);
 
@@ -117,11 +81,11 @@ function validateNumber(val) {
     }
 }
 
-module.exports = {
+export {
     ensureNonNullish,
     validateID,
     validateRecipes,
-    validateOutput,
+    validateProdChainObject,
     validateObject,
     validateBool,
     validateNumber

@@ -1,3 +1,5 @@
+// VALID IRPTU SUBMISSION-RELATED DATA
+
 export let emptyProdChain = {
     timeUnit: "minute",
     prodChain: {
@@ -181,6 +183,19 @@ export let partialProdChain = {
         }
     }
 }
+
+// INVALID IRPTU SUBMISSION-RELATED DATA
+
+export let invalidProdChain_NoTimeUnit = {
+    prodChain: {}
+}
+
+export let invalidProdChain_NoProdChain = {
+    timeUnit: "second"
+}
+
+
+// TIME UNIT RECALC-RELATED DATA
 
 export let simpleProdChain_Seconds = {
     timeUnit: "second",
