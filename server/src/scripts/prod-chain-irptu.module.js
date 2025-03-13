@@ -3,8 +3,8 @@
  */
 
 //import {recipes,validIDs} from "./recipes.module"
-import * as Validators from "./validators.module"
-import * as Calculators from "./irptu-calculators.module"
+import * as Validators from "./validators.module.js"
+import * as Calculators from "./irptu-calculators.module.js"
 
 function addIRPTU(itemID, amount, prodChainObject) {
     var inputCopy = { ...prodChainObject };
@@ -32,6 +32,7 @@ function subtractIRPTU(itemID, amount, prodChainObject) {
     let prodChainData = inputCopy["prodChain"]
     Validators.validateURPSSubtraction(itemID, amount, prodChainData)
 
+    amount = amount * -1;
     let demandInfoOutput = {}
     Calculators.calculateIntermediaryDemand(itemID, amount, demandInfoOutput)
     Calculators.updateProductionChainDemand(prodChainData, demandInfoOutput)

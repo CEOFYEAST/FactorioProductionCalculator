@@ -31,14 +31,29 @@ function calculateIntermediaryDemand(reqItem_ID, reqItem_IRPTU, demandOutput){
     }
 }
 
-function updateProductionChainDemand(prodChain, demandInfo){
+function updateProductionChainDemand(prodChainData, demandOutput){
+    // for each item in demand output
+        // if 
+    for (let requiredItemID in demandOutput) {
+        tryAddItemData(requiredItemID, prodChainData)
 
+        let requiredItemDemand = demandOutput[requiredItemID]
+        let requiredItemData = prodChainData[requiredItemID]
+        requiredItemData["intermIRPTU"] += requiredItemDemand["IRPTU"]
+
+        for(let intermediaryItemID in requiredItemDemand["dependencyItems"]){
+            if (!requiredItemData["dependencyItems"].hasOwnProperty(intermediaryItemID)) {
+                requiredItemData["dependencyItems"][intermediaryItemID] = 0;
+            }
+            requiredItemData["dependencyItems"][intermediaryItemID] += 
+            requiredItemDemand["dependencyItems"][intermediaryItemID];
+        }
+
+        prodChainData[requiredItemID] = requiredItemData
+    }
 }
 
 function tryAddItemData(itemID, prodChainData) {
-    Validators.validateID(itemID);
-    Validators.validateObject(prodChainData);
-
     // adds ingredient representation to output if it doesn't already exist.
     if (!prodChainData.hasOwnProperty(itemID)) {
         let itemData = {

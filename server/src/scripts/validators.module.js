@@ -3,7 +3,7 @@
  * @description This module provides functions for validating various types of values, such as IDs, recipes, output, booleans, and numbers.
  */
 
-import {recipes, validIDs} from "./recipes.module"
+import {recipes, validIDs} from "./recipes.module.js"
  
 function ensureNonNullish(val)
 {

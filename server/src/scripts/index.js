@@ -6,10 +6,19 @@
  */
 
 import {calculateIntermediaryDemand, updateProductionChainDemand} from "./irptu-calculators.module.js"
+import * as irptuSubMethods from "./prod-chain-irptu.module.js"
 
-let demandOutput = {}
-calculateIntermediaryDemand("burner-inserter", 10, demandOutput)
-console.log(demandOutput);
+// let demandOutput = {}
+// calculateIntermediaryDemand("burner-inserter", 10, demandOutput)
+
+let prodChainObject = {
+    timeUnit: "minute",
+    prodChain: {}
+}
+irptuSubMethods.addIRPTU("inserter", 10, prodChainObject)
+console.log(prodChainObject);
+irptuSubMethods.addIRPTU("satellite", 10, prodChainObject)
+console.log(prodChainObject);
 
 
 // const { calculateChildrenURPS } = require('./calculators.module.js');
