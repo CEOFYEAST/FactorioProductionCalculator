@@ -4,7 +4,7 @@
 
 //import {recipes,validIDs} from "./recipes.module"
 import * as Validators from "./validators.module"
-import * as Calculators from "./calculators2.module"
+import * as Calculators from "./irptu-calculators.module"
 
 function addIRPTU(itemID, amount, prodChainObject) {
     var inputCopy = { ...prodChainObject };
