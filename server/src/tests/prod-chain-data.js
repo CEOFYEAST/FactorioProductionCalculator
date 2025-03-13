@@ -13,12 +13,12 @@ export let simpleProdChain = {
         "burner-inserter": {
             userIRPTU: 10,
             intermIRPTU: 0,
-            dependentItems: {}
+            dependencyItems: {}
         },
         "iron-gear-wheel": {
             userIRPTU: 0,
             intermIRPTU: 10,
-            dependentItems: {
+            dependencyItems: {
                 "burner-inserter": 10
             }
         },
@@ -45,7 +45,7 @@ export let simpleUserDemand = {
         "burner-inserter": {
             userIRPTU: 10,
             intermIRPTU: 0,
-            dependentItems: {}
+            dependencyItems: {}
         },
     }
 }
@@ -69,19 +69,19 @@ export let populatedProdChain = {
         "long-handed-inserter": {
             userIRPTU: 20,
             intermIRPTU: 0,
-            dependentItems: {}
+            dependencyItems: {}
         },
         "inserter": {
             userIRPTU: 10,
             intermIRPTU: 20,
-            dependentItems: {
+            dependencyItems: {
                 "long-handed-inserter": 20
             }
         },
         "iron-gear-wheel": {
             userIRPTU: 0,
             intermIRPTU: 50,
-            dependentItems: {
+            dependencyItems: {
                 "inserter": 30,
                 "long-handed-inserter": 20
             }
@@ -89,14 +89,14 @@ export let populatedProdChain = {
         "electronic-circuit": {
             userIRPTU: 0,
             intermIRPTU: 30,
-            dependentItems: {
+            dependencyItems: {
                 "inserter": 30,
             }
         },
         "copper-cable": {
             userIRPTU: 0,
             intermIRPTU: 90,
-            dependentItems: {
+            dependencyItems: {
                 "electronic-circuit": 90
             }
         },
@@ -124,12 +124,12 @@ export let popUserDemand = {
     "long-handed-inserter": {
         userIRPTU: 20,
         intermIRPTU: 0,
-        dependentItems: {}
+        dependencyItems: {}
     },
     "inserter": {
         userIRPTU: 10,
         intermIRPTU: 20,
-        dependentItems: {
+        dependencyItems: {
             "long-handed-inserter": 20
         }
     },
@@ -157,12 +157,12 @@ export let partialProdChain = {
         "burner-inserter": {
             userIRPTU: 5,
             intermIRPTU: 0,
-            dependentItems: {}
+            dependencyItems: {}
         },
         "iron-gear-wheel": {
             userIRPTU: 0,
             intermIRPTU: 5,
-            dependentItems: {
+            dependencyItems: {
                 "burner-inserter": 5
             }
         },
@@ -203,12 +203,12 @@ export let simpleProdChain_Seconds = {
         "burner-inserter": {
             userIRPTU: 0.167,
             intermIRPTU: 0,
-            dependentItems: {}
+            dependencyItems: {}
         },
         "iron-gear-wheel": {
             userIRPTU: 0,
             intermIRPTU: 0.167,
-            dependentItems: {
+            dependencyItems: {
                 "burner-inserter": 0.167
             }
         },
@@ -236,12 +236,12 @@ export let simpleProdChain_Hours = {
         "burner-inserter": {
             userIRPTU: 600,
             intermIRPTU: 0,
-            dependentItems: {}
+            dependencyItems: {}
         },
         "iron-gear-wheel": {
             userIRPTU: 0,
             intermIRPTU: 600,
-            dependentItems: {
+            dependencyItems: {
                 "burner-inserter": 600
             }
         },

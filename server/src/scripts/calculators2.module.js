@@ -1,6 +1,6 @@
 import {recipes,validIDs} from "./recipes.module"
 
-function calculateIntermediaryDemand(reqItem_ID, reqItem_IRPTU, demandInfoOutput){
+function calculateIntermediaryDemand(reqItem_ID, reqItem_IRPTU, demandOutput){
     let reqItem_Info = recipes[reqItem_ID]; // general info about item
     let reqItem_Type = reqItem_Info["Type"]; // type of item i.e. Machinery, Intermediate product
 
@@ -20,6 +20,14 @@ function calculateIntermediaryDemand(reqItem_ID, reqItem_IRPTU, demandInfoOutput
         let intermediary_ID = intermediary_Object["id"];
         let intermediary_IRPC = intermediary_Object["amount"]; // intermediary items required per reqItem craft
         let intermediary_IRPTU = intermediary_IRPC * reqItem_CRPTU; // intermediary items required per time unit
+
+        tryAddRequiredItem(reqItem_ID, demandOutput);
+        demandOutput[intermediary_ID]["IRPTU"] += intermediary_IRPTU;
+
+        tryAddIntermediaryItem(reqItem_ID, intermediary_ID, demandOutput)
+        demandOutput[intermediary_ID]["dependencyItems"][reqItem_ID] += intermediary_IRPTU;
+
+        calculateIntermediaryDemand(intermediary_ID, intermediary_IRPTU, demandOutput);
 
         // calculateIntermediaryDemand(intermediary_ID, intermediary_IRPTU, outputInfo)
         // outputInfo[intermediary_ID]["IRPTU"] += intermediary_IRPTU;
@@ -42,6 +50,24 @@ function tryAddItemData(itemID, prodChainData) {
             dependencyItems: {}
         };
         prodChainData[itemID] = itemData;
+    }
+}
+
+function tryAddRequiredItem(itemID, demandOutput) 
+{
+  if(!(demandOutput.hasOwnProperty(itemID))){
+    let itemData = {
+      IRPTU: 0,
+      dependencyItems: {}
+    };
+    demandOutput[itemID] = itemData;
+  }
+}
+
+function tryAddIntermediaryItem(requiredItemID, intermediaryItemID, demandOutput) 
+{
+    if(!(demandOutput[requiredItemID]["dependencyItems"].hasOwnProperty(intermediaryItemID))){
+        demandOutput[requiredItemID]["dependencyItems"][intermediaryItemID] = 0;
     }
 }
 
