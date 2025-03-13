@@ -6,7 +6,7 @@
  */
 
 const fs = require('fs');
-const { validateID, validateNumber, validateBool, validateOutput, validateObject } = require('./validators.module.js');
+const { validateID, validateNumber, validateBool, validateOutput, validateObject } = require('../scripts/validators.module.js');
 
 /**
  * Recursively calculates the Units Required Per Second (URPS) of all the ingredients required to produce the given URPS of the given parent; 

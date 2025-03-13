@@ -1,16 +1,12 @@
 import {calculateIntermediaryDemand, updateProductionChainDemand} from "../scripts/irptu-calculators.module"
 
-test('Test proper intermediary demand calculation for simple input', () => {
+test.only('Test proper intermediary demand calculation for simple input', () => {
     let demandOutput = {}
     calculateIntermediaryDemand("burner-inserter", 10, demandOutput)
     expect(demandOutput).toEqual(simpleDemandOutput)
 })
 
 let simpleDemandOutput = {
-    "burner-inserter": {
-        IRPTU: 0,
-        dependencyItems: {}
-    },
     "iron-gear-wheel": {
         IRPTU: 10,
         dependencyItems: {

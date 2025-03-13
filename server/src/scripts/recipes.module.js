@@ -1,4 +1,5 @@
 const recipesLoc ="src\\data\\recipes.json";
+//const recipesLoc ="server/src/data/recipes.json";
 import fs from 'fs'
 const recipes = getJSON(recipesLoc)
 const validIDs = Object.keys(recipes);

@@ -1,4 +1,4 @@
-import {recipes,validIDs} from "./recipes.module"
+import {recipes,validIDs} from "./recipes.module.js"
 
 function calculateIntermediaryDemand(reqItem_ID, reqItem_IRPTU, demandOutput){
     let reqItem_Info = recipes[reqItem_ID]; // general info about item
@@ -21,7 +21,7 @@ function calculateIntermediaryDemand(reqItem_ID, reqItem_IRPTU, demandOutput){
         let intermediary_IRPC = intermediary_Object["amount"]; // intermediary items required per reqItem craft
         let intermediary_IRPTU = intermediary_IRPC * reqItem_CRPTU; // intermediary items required per time unit
 
-        tryAddRequiredItem(reqItem_ID, demandOutput);
+        tryAddRequiredItem(intermediary_ID, demandOutput);
         demandOutput[intermediary_ID]["IRPTU"] += intermediary_IRPTU;
 
         tryAddIntermediaryItem(reqItem_ID, intermediary_ID, demandOutput)
@@ -63,8 +63,8 @@ function tryAddRequiredItem(itemID, demandOutput)
 
 function tryAddIntermediaryItem(requiredItemID, intermediaryItemID, demandOutput) 
 {
-    if(!(demandOutput[requiredItemID]["dependencyItems"].hasOwnProperty(intermediaryItemID))){
-        demandOutput[requiredItemID]["dependencyItems"][intermediaryItemID] = 0;
+    if(!(demandOutput[intermediaryItemID]["dependencyItems"].hasOwnProperty(requiredItemID))){
+        demandOutput[intermediaryItemID]["dependencyItems"][requiredItemID] = 0;
     }
 }
 
