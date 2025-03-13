@@ -1,4 +1,5 @@
-const recipesLoc ="src\\data\\recipes.json";
+//const recipesLoc ="src\\data\\recipes.json";
+const recipesLoc ="C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/server/src/data/recipes.json"
 //const recipesLoc ="server/src/data/recipes.json";
 import fs from 'fs'
 const recipes = getJSON(recipesLoc)

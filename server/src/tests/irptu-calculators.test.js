@@ -1,29 +1,14 @@
 import {calculateIntermediaryDemand, updateProductionChainDemand} from "../scripts/irptu-calculators.module"
+import * as SampleDemand from "./demand-output-data"
 
 test.only('Test proper intermediary demand calculation for simple input', () => {
     let demandOutput = {}
     calculateIntermediaryDemand("burner-inserter", 10, demandOutput)
-    expect(demandOutput).toEqual(simpleDemandOutput)
+    expect(demandOutput).toEqual(SampleDemand.simpleDemandOutput)
 })
 
-let simpleDemandOutput = {
-    "iron-gear-wheel": {
-        IRPTU: 10,
-        dependencyItems: {
-            "burner-inserter": 10
-        }
-    },
-    "iron-plate": {
-        IRPTU: 30,
-        dependencyItems: {
-            "burner-inserter": 10,
-            "iron-gear-wheel": 20
-        }
-    },
-    "iron-ore": {
-        IRPTU: 30,
-        dependencyItems: {
-            "iron-plate": 30
-        }
-    }
-}
+test.only('Test proper intermediary demand calculation for populated input', () => {
+    let demandOutput = {}
+    calculateIntermediaryDemand("long-handed-inserter", 10, demandOutput)
+    expect(demandOutput).toEqual(SampleDemand.populatedDemandOutput)
+})
