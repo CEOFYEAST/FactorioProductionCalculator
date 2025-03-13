@@ -28,9 +28,6 @@ function calculateIntermediaryDemand(reqItem_ID, reqItem_IRPTU, demandOutput){
         demandOutput[intermediary_ID]["dependencyItems"][reqItem_ID] += intermediary_IRPTU;
 
         calculateIntermediaryDemand(intermediary_ID, intermediary_IRPTU, demandOutput);
-
-        // calculateIntermediaryDemand(intermediary_ID, intermediary_IRPTU, outputInfo)
-        // outputInfo[intermediary_ID]["IRPTU"] += intermediary_IRPTU;
     }
 }
 
