@@ -81,6 +81,21 @@ function validateNumber(val) {
     }
 }
 
+function validateTimeUnit(timeUnit){
+    ensureNonNullish(timeUnit);
+
+    if (!(typeof timeUnit === 'string')) {
+        let err = Error("Time unit must be of type string, is of type " + typeof timeUnit + "\n");
+        throw err.stack;
+    }
+
+    const validTimeUnits = ["second", "minute", "hour"];
+    if (!validTimeUnits.includes(timeUnit)) {
+        let err = Error("Time unit must be one of 'second', 'minute', or 'hour'\n");
+        throw err.stack;
+    }
+}
+
 function validateURPSAddition(amount){
     if(amount <= 0) {
         let err = Error("Invalid Addition Amount\n");
@@ -112,8 +127,8 @@ export {
     validateRecipes,
     validateProdChainObject,
     validateObject,
-    //validateBool,
     validateNumber,
+    validateTimeUnit,
     validateURPSAddition,
     validateURPSSubtraction
 };

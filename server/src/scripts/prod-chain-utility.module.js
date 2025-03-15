@@ -14,7 +14,26 @@ function getUserDemand(prodChainData) {
     return userDemandData
 }
 
-function recalculateTimeUnit(prodChainData, newTimeUnit) {}
+function recalculateTimeUnit(prodChainData, oldTimeUnit, newTimeUnit) {
+    validateTimeUnit(newTimeUnit)
+
+    let ratio = 1
+    const timeUnitsInSeconds = {
+        "second": 1,
+        "minute": 60,
+        "hour": 3600
+    };
+    ratio = timeUnitsInSeconds[oldTimeUnit] / timeUnitsInSeconds[newTimeUnit];
+
+    for(itemID in prodChainData){
+        prodChainData[itemID]["userDemand"] *= ratio
+        prodChainData[itemID]["intermedDemand"] *= ratio
+
+        for(intermedItemID in prodChainData[itemID]["dependencyItems"]){
+            prodChainData[itemID]["dependencyItems"][intermedItemID] *= ratio
+        }
+    }
+}
 
 export {
     getUserDemand, recalculateTimeUnit
