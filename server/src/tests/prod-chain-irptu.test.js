@@ -120,6 +120,8 @@ test('Test partial prod. chain output after partial IRPTU subtraction', () => {
     expect(subtractIRPTU("burner-inserter", 5, popChain)).toEqual(SampleChains.partialProdChain)
 })
 
+// UTILITY FUNCTIONS
+
 function deepCopy(toCopy){
     return  JSON.parse(JSON.stringify(toCopy));
 }
