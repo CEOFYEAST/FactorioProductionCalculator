@@ -106,5 +106,5 @@ export {
     calculateIntermediaryDemand,
     updateProdChainIntermediaryDemand,
     updateProdChainUserDemand,
-    //clearEmptyData
+    clearEmptyData
 }
