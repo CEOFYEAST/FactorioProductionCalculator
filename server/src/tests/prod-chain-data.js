@@ -100,6 +100,13 @@ export let populatedProdChain = {
                 "electronic-circuit": 90
             }
         },
+        "copper-plate": {
+            userIRPTU: 0,
+            intermIRPTU: 45,
+            dependencyItems: {
+                "copper-cable": 45
+            }
+        },
         "iron-plate": {
             userIRPTU: 0,
             intermIRPTU: 180,
@@ -108,6 +115,13 @@ export let populatedProdChain = {
                 "iron-gear-wheel": 100,
                 "inserter": 30,
                 "long-handed-inserter": 20,
+            }
+        },
+        "copper-ore": {
+            userIRPTU: 0,
+            intermIRPTU: 45,
+            dependencyItems: {
+                "copper-plate": 45
             }
         },
         "iron-ore": {
@@ -121,18 +135,20 @@ export let populatedProdChain = {
 }
 
 export let popUserDemand = {
-    "long-handed-inserter": {
-        userIRPTU: 20,
-        intermIRPTU: 0,
-        dependencyItems: {}
-    },
-    "inserter": {
-        userIRPTU: 10,
-        intermIRPTU: 20,
-        dependencyItems: {
-            "long-handed-inserter": 20
+    prodChain: {
+        "long-handed-inserter": {
+            userIRPTU: 20,
+            intermIRPTU: 0,
+            dependencyItems: {}
+        },
+        "inserter": {
+            userIRPTU: 10,
+            intermIRPTU: 20,
+            dependencyItems: {
+                "long-handed-inserter": 20
+            }
         }
-    },
+    }
 }
 
 export let popIntermDemand = {

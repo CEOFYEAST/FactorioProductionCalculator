@@ -15,12 +15,12 @@ let prodChainObject = {
     timeUnit: "minute",
     prodChain: {}
 }
-irptuSubMethods.addIRPTU("inserter", 10, prodChainObject)
-console.log(prodChainObject);
+// irptuSubMethods.addIRPTU("inserter", 10, prodChainObject)
+// console.log(prodChainObject);
 irptuSubMethods.addIRPTU("burner-inserter", 10, prodChainObject)
 console.log(prodChainObject);
-irptuSubMethods.subtractIRPTU("burner-inserter", 10, prodChainObject)
-console.log(prodChainObject);
+// irptuSubMethods.subtractIRPTU("burner-inserter", 10, prodChainObject)
+// console.log(prodChainObject);
 
 
 // const { calculateChildrenURPS } = require('./calculators.module.js');

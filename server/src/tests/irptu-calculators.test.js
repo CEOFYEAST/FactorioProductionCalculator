@@ -1,4 +1,4 @@
-import {calculateIntermediaryDemand, updateProductionChainDemand} from "../scripts/irptu-calculators.module"
+import {calculateIntermediaryDemand} from "../scripts/irptu-calculators.module"
 import * as SampleDemand from "./demand-output-data"
 
 test.only('Test proper intermediary demand calculation for simple input', () => {
