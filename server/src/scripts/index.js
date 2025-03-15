@@ -5,7 +5,7 @@
  * @author Benton Diebold (CEOFYEAST)
  */
 
-import {calculateIntermediaryDemand, updateProductionChainDemand} from "./irptu-calculators.module.js"
+//import {calculateIntermediaryDemand, updateProductionChainDemand} from "./irptu-calculators.module.js"
 import * as irptuSubMethods from "./prod-chain-irptu.module.js"
 
 // let demandOutput = {}
@@ -20,6 +20,7 @@ console.log(prodChainObject);
 irptuSubMethods.addIRPTU("burner-inserter", 10, prodChainObject)
 console.log(prodChainObject);
 irptuSubMethods.subtractIRPTU("burner-inserter", 10, prodChainObject)
+console.log(prodChainObject);
 
 
 // const { calculateChildrenURPS } = require('./calculators.module.js');

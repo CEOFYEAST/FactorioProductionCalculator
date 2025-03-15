@@ -90,14 +90,14 @@ function validateURPSAddition(amount){
 
 function validateURPSSubtraction(itemID, amount, prodChainData){
     if (prodChainData.hasOwnProperty(itemID)) {
-        itemData = prodChainData[itemID];
-        existingItemDemand = itemData["itermIRPTU"];
+        let itemData = prodChainData[itemID];
+        let existingItemDemand = itemData["userIRPTU"];
 
-    // attempting to remove more input URPS than the input item already has
-    if (amount > existingItemDemand) {
-        let err = Error("Cannot remove more input URPS than the item already has, so must be less than or equal to " + existingInputURPS + "\n");
-        throw err.stack;
-    }
+        // attempting to remove more input URPS than the input item already has
+        if (amount > existingItemDemand) {
+            let err = Error("Cannot remove more input URPS than the item already has, so must be less than or equal to " + existingItemDemand + "\n");
+            throw err.stack;
+        }
     }
     // attempting to remove URPS from input item that doesn't yet exist in output (its not already required)
     else {

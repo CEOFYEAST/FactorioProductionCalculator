@@ -18,8 +18,8 @@ function addIRPTU(itemID, amount, prodChainObject) {
     let demandInfoOutput = {}
     Calculators.calculateIntermediaryDemand(itemID, amount, demandInfoOutput)
     Calculators.updateProdChainIntermediaryDemand(prodChainData, demandInfoOutput)
-    Calculators.updateProdChainUserDemand(itemID, amount, prodChainObject)
-    Calculators.clearEmptyData()
+    Calculators.updateProdChainUserDemand(itemID, amount, prodChainData)
+    Calculators.clearEmptyData(prodChainData)
 
     inputCopy["prodChain"] = prodChainData
     return inputCopy;
@@ -38,8 +38,8 @@ function subtractIRPTU(itemID, amount, prodChainObject) {
     let demandInfoOutput = {}
     Calculators.calculateIntermediaryDemand(itemID, amount, demandInfoOutput)
     Calculators.updateProdChainIntermediaryDemand(prodChainData, demandInfoOutput)
-    Calculators.updateProdChainUserDemand(itemID, amount, prodChainObject)
-    Calculators.clearEmptyData()
+    Calculators.updateProdChainUserDemand(itemID, amount, prodChainData)
+    Calculators.clearEmptyData(prodChainData)
 
     inputCopy["prodChain"] = prodChainData
     return inputCopy;
