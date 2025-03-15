@@ -31,7 +31,11 @@ function calculateIntermediaryDemand(reqItem_ID, reqItem_IRPTU, demandOutput){
     }
 }
 
-function updateProductionChainDemand(prodChainData, demandOutput){
+/**
+ * Adds the demand from the supplied demand data object to the supplied production chain data object
+ * Demand being added can be positive or negative
+ */
+function updateProdChainIntermediaryDemand(prodChainData, demandOutput){
     // for each item in demand output
         // if 
     for (let requiredItemID in demandOutput) {
@@ -50,6 +54,21 @@ function updateProductionChainDemand(prodChainData, demandOutput){
         }
 
         prodChainData[requiredItemID] = requiredItemData
+    }
+}
+
+function updateProdChainUserDemand(itemID, amount, prodChainData){
+    tryAddItemData(itemID, prodChainData);
+
+    prodChainData[itemID]["userIRPTU"] += amount
+}
+
+function clearEmptyData(prodChainData){
+    for(let itemID in prodChainData){
+        let itemData = prodChainData[itemID]
+        if(itemData["userIRPTU"] == 0 && itemData["intermIRPTU"] == 0) {
+            delete prodChainData[itemID];
+        }
     }
 }
 
@@ -85,5 +104,7 @@ function tryAddIntermediaryItem(requiredItemID, intermediaryItemID, demandOutput
 
 export {
     calculateIntermediaryDemand,
-    updateProductionChainDemand
+    updateProdChainIntermediaryDemand,
+    updateProdChainUserDemand,
+    //clearEmptyData
 }

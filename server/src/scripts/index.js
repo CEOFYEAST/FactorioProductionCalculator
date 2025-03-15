@@ -17,8 +17,9 @@ let prodChainObject = {
 }
 irptuSubMethods.addIRPTU("inserter", 10, prodChainObject)
 console.log(prodChainObject);
-irptuSubMethods.addIRPTU("satellite", 10, prodChainObject)
+irptuSubMethods.addIRPTU("burner-inserter", 10, prodChainObject)
 console.log(prodChainObject);
+irptuSubMethods.subtractIRPTU("burner-inserter", 10, prodChainObject)
 
 
 // const { calculateChildrenURPS } = require('./calculators.module.js');

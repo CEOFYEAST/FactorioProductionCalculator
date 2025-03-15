@@ -6,7 +6,7 @@
  */
 
 const { calculateChildrenURPS } = require('./calculators.module.js');
-const { validateID, validateNumber, validateBool, validateOutput, validateObject } = require('./validators.module.js');
+const { validateID, validateNumber, validateBool, validateOutput, validateObject } = require('../scripts/validators.module.js');
 
 /**
  * Updates the given output object with all the production stats required to meet the given input URPS of the given input item.
