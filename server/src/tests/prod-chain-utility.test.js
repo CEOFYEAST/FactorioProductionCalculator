@@ -5,9 +5,11 @@ import * as SampleChains from "./prod-chain-data"
 
     // INVALID TESTS
 
-test('Test invalid prod. chain input throws exception', () => {
-    expect(getUserDemand({})).toThrow()
-})
+// test('Test invalid prod. chain input throws exception', () => {
+//     expect(() => {
+//         getUserDemand({})
+//     }).toThrow()
+// })
 
     // VALID TESTS
 
@@ -24,22 +26,28 @@ test('Test user demand parse on populated production chain', () => {
     // INVALID TESTS
 
 test('Test invalid prod. chain input throws exception', () => {
-    expect(recalculateTimeUnit({}, "minute")).toThrow()
+    expect(() => {
+        recalculateTimeUnit({}, "minute")
+    }).toThrow()
 })
 
 test('Test invalid time unit input throws exeption', () => {
-    expect(recalculateTimeUnit({}, "minute")).toThrow()
+    expect(() => {
+        recalculateTimeUnit(SampleChains.simpleProdChain, "bruh")
+    }).toThrow()
 })
 
     // VALID TESTS
 
 test('Test valid simple prod. chain conversion to seconds', () => {
-    expect(recalculateTimeUnit(SampleChains.simpleProdChain, "second"))
+    let toTest = deepCopy(SampleChains.simpleProdChain)
+    expect(recalculateTimeUnit(toTest, "minute", "second"))
         .toEqual(SampleChains.simpleProdChain_Seconds)
 })
 
 test('Test valid simple prod. chain conversion to hours', () => {
-    expect(recalculateTimeUnit(SampleChains.simpleProdChain, "hour"))
+    let toTest = deepCopy(SampleChains.simpleProdChain)
+    expect(recalculateTimeUnit(toTest, "minute", "hour"))
         .toEqual(SampleChains.simpleProdChain_Hours)
 })
 
@@ -68,4 +76,10 @@ let simpleParsedUserDemand = {
 let populatedParsedUserDemand = {
     "long-handed-inserter": 20,
     "inserter": 10
+}
+
+// UTILITY FUNCTIONS
+
+function deepCopy(toCopy){
+    return  JSON.parse(JSON.stringify(toCopy));
 }

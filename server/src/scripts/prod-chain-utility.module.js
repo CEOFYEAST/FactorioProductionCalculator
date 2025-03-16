@@ -14,8 +14,9 @@ function getUserDemand(prodChainData) {
     return userDemandData
 }
 
-function recalculateTimeUnit(prodChainData, oldTimeUnit, newTimeUnit) {
-    validateTimeUnit(newTimeUnit)
+function recalculateTimeUnit(prodChainObject, oldTimeUnit, newTimeUnit) {
+    validators.validateProdChainObject(prodChainObject)
+    validators.validateTimeUnit(newTimeUnit)
 
     let ratio = 1
     const timeUnitsInSeconds = {
@@ -23,16 +24,21 @@ function recalculateTimeUnit(prodChainData, oldTimeUnit, newTimeUnit) {
         "minute": 60,
         "hour": 3600
     };
-    ratio = timeUnitsInSeconds[oldTimeUnit] / timeUnitsInSeconds[newTimeUnit];
+    ratio = timeUnitsInSeconds[newTimeUnit] / timeUnitsInSeconds[oldTimeUnit];
 
-    for(itemID in prodChainData){
-        prodChainData[itemID]["userDemand"] *= ratio
-        prodChainData[itemID]["intermedDemand"] *= ratio
+    let prodChainData = prodChainObject["prodChain"]
+    for(let itemID in prodChainData){
+        prodChainData[itemID]["userIRPTU"] *= ratio
+        prodChainData[itemID]["intermIRPTU"] *= ratio
 
-        for(intermedItemID in prodChainData[itemID]["dependencyItems"]){
+        for(let intermedItemID in prodChainData[itemID]["dependencyItems"]){
             prodChainData[itemID]["dependencyItems"][intermedItemID] *= ratio
         }
     }
+
+    prodChainObject["prodChain"] = prodChainData
+    prodChainObject["timeUnit"] = newTimeUnit
+    return prodChainObject
 }
 
 export {

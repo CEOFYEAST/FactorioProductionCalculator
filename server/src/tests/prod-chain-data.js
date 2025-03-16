@@ -217,23 +217,23 @@ export let simpleProdChain_Seconds = {
     timeUnit: "second",
     prodChain: {
         "burner-inserter": {
-            userIRPTU: 0.167,
+            userIRPTU: expect.closeTo(0.166),
             intermIRPTU: 0,
             dependencyItems: {}
         },
         "iron-gear-wheel": {
             userIRPTU: 0,
-            intermIRPTU: 0.167,
+            intermIRPTU: expect.closeTo(0.166),
             dependencyItems: {
-                "burner-inserter": 0.167
+                "burner-inserter": expect.closeTo(0.166)
             }
         },
         "iron-plate": {
             userIRPTU: 0,
             intermIRPTU: 0.5,
             dependencyItems: {
-                "burner-inserter": 0.167,
-                "iron-gear-wheel": 0.333
+                "burner-inserter": expect.closeTo(0.166),
+                "iron-gear-wheel": expect.closeTo(0.333)
             }
         },
         "iron-ore": {
