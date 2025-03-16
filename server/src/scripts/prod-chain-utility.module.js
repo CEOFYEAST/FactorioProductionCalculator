@@ -1,5 +1,7 @@
 /**
- * Acts as a wrapper class to expose the non-IRPTU-submission-related functionality in the calculators module
+ * @module prod-chain-utility
+ * @description Contains methods used to perform non-irptu-submission-related tasks
+ * @author ceofyeast
  */
 
 import {recipes,validIDs} from "./recipes.module.js"

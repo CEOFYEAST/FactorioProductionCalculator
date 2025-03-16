@@ -1,15 +1,8 @@
 import {getUserDemand, recalculateTimeUnit} from "../scripts/prod-chain-utility.module"
 import * as SampleChains from "./prod-chain-data"
+import {deepCopy} from "./helpers.module.js"
 
 // GetUserDemand Tests
-
-    // INVALID TESTS
-
-// test('Test invalid prod. chain input throws exception', () => {
-//     expect(() => {
-//         getUserDemand({})
-//     }).toThrow()
-// })
 
     // VALID TESTS
 
@@ -51,23 +44,7 @@ test('Test valid simple prod. chain conversion to hours', () => {
         .toEqual(SampleChains.simpleProdChain_Hours)
 })
 
-/**
- * Possible Tests:
- * - converting minutes-based chain to hours and seconds
- * - converting seconds-based chain to minutes and hours
- * - converting hours-based chain to minutes and seconds
- * 
- * Thoughts:
- * - could just treat an existing chain as an hours, seconds, minutes chain
- */
-
-// test('Test time unit recalculation to seconds on simple production chain', () => {
-//     expect(recalculateTimeUnit(SampleChains.simpleProdChain)).toEqual(simpleParsedUserDemand)
-// })
-
-// test('Test time unit recalculation to hours on populated production chain', () => {
-//     expect(getUserDemand(SampleChains.populatedProdChain)).toEqual(populatedParsedUserDemand)
-// })
+// TEST DATA
 
 let simpleParsedUserDemand = {
     "burner-inserter": 10
@@ -76,10 +53,4 @@ let simpleParsedUserDemand = {
 let populatedParsedUserDemand = {
     "long-handed-inserter": 20,
     "inserter": 10
-}
-
-// UTILITY FUNCTIONS
-
-function deepCopy(toCopy){
-    return  JSON.parse(JSON.stringify(toCopy));
 }

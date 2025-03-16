@@ -1,11 +1,12 @@
 /**
  * @module validators
  * @description This module provides functions for validating various types of values, such as IDs, recipes, output, booleans, and numbers.
+ * @author ceofyeast
  */
 
 import {recipes, validIDs} from "./recipes.module.js"
  
-function ensureNonNullish(val)
+export function ensureNonNullish(val)
 {
     if(val === undefined)
     {
@@ -19,7 +20,7 @@ function ensureNonNullish(val)
     }
 }
 
-function validateID(id) {
+export function validateID(id) {
     ensureNonNullish(id);
 
     if (!(typeof id === 'string')) {
@@ -39,12 +40,12 @@ function validateID(id) {
     }
 }
 
-function validateRecipes(recipes) {
+export function validateRecipes(recipes) {
     ensureNonNullish(recipes);
     validateObject(recipes);
 }
 
-function validateProdChainObject(prodChainObject) {
+export function validateProdChainObject(prodChainObject) {
     ensureNonNullish(prodChainObject);
     validateObject(prodChainObject);
     if (!(prodChainObject.hasOwnProperty("prodChain")) || !(prodChainObject.hasOwnProperty("timeUnit"))) {
@@ -54,7 +55,7 @@ function validateProdChainObject(prodChainObject) {
 
 }
 
-function validateObject(val){
+export function validateObject(val){
     ensureNonNullish(val);
 
     if(!(typeof val === 'object')){
@@ -63,16 +64,7 @@ function validateObject(val){
     }
 }
 
-// function validateBool(val) {
-//     ensureNonNullish(val);
-
-//     if(!(typeof val === 'boolean')) {
-//         let err = Error(typeof val + " is not of type boolean\n");
-//         throw err.stack;
-//     }
-// }
-
-function validateNumber(val) {
+export function validateNumber(val) {
     ensureNonNullish(val);
 
     if(!(typeof val === 'number' && !isNaN(val))) {
@@ -81,7 +73,7 @@ function validateNumber(val) {
     }
 }
 
-function validateTimeUnit(timeUnit){
+export function validateTimeUnit(timeUnit){
     ensureNonNullish(timeUnit);
 
     if (!(typeof timeUnit === 'string')) {
@@ -96,14 +88,14 @@ function validateTimeUnit(timeUnit){
     }
 }
 
-function validateURPSAddition(amount){
+export function validateURPSAddition(amount){
     if(amount <= 0) {
         let err = Error("Invalid Addition Amount\n");
         throw err.stack;
     }
 }
 
-function validateURPSSubtraction(itemID, amount, prodChainData){
+export function validateURPSSubtraction(itemID, amount, prodChainData){
     if (prodChainData.hasOwnProperty(itemID)) {
         let itemData = prodChainData[itemID];
         let existingItemDemand = itemData["userIRPTU"];
@@ -120,15 +112,3 @@ function validateURPSSubtraction(itemID, amount, prodChainData){
     throw err.stack;
     }
 }
-
-export {
-    ensureNonNullish,
-    validateID,
-    validateRecipes,
-    validateProdChainObject,
-    validateObject,
-    validateNumber,
-    validateTimeUnit,
-    validateURPSAddition,
-    validateURPSSubtraction
-};

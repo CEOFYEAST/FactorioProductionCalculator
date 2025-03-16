@@ -1,3 +1,9 @@
+/**
+ * @module recipes
+ * @description Exposes the "recipes" (data on how to create each item) in recipes.json, and provides method/s for filtering said data
+ * @author ceofyeast
+ */
+
 //const recipesLoc ="src\\data\\recipes.json";
 const recipesLoc ="C:/Users/bento/Workspace/VS Projects/FactorioProductionCalculator/server/src/data/recipes.json"
 //const recipesLoc ="server/src/data/recipes.json";

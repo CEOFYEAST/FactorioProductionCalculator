@@ -1,13 +1,15 @@
 /**
- * Acts as a wrapper class to expose the IRPTU-submission-related functionality in the calculators module
+ * @module prod-chain-irptu
+ * @description Acts as a wrapper class to expose the IRPTU-submission-related functionality in the calculators module
+ * @author ceofyeast
  */
 
-//import {recipes,validIDs} from "./recipes.module"
 import * as Validators from "./validators.module.js"
 import * as Calculators from "./irptu-calculators.module.js"
+import {deepCopy} from "./helpers.module.js"
 
 function addIRPTU(itemID, amount, prodChainObject) {
-    var inputCopy = { ...prodChainObject };
+    let inputCopy = deepCopy(prodChainObject);
 
     Validators.validateID(itemID)
     Validators.validateNumber(amount)
@@ -26,7 +28,7 @@ function addIRPTU(itemID, amount, prodChainObject) {
 }
 
 function subtractIRPTU(itemID, amount, prodChainObject) {
-    var inputCopy = { ...prodChainObject };
+    let inputCopy = deepCopy(prodChainObject);
 
     Validators.validateID(itemID)
     Validators.validateNumber(amount)

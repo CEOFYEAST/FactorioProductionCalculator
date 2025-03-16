@@ -1,5 +1,6 @@
 import {addIRPTU, subtractIRPTU} from "../scripts/prod-chain-irptu.module"
 import * as SampleChains from "./prod-chain-data"
+import {deepCopy} from "./helpers.module.js"
 
 // INVALID TESTS
 
@@ -120,8 +121,4 @@ test('Test partial prod. chain output after partial IRPTU subtraction', () => {
     expect(subtractIRPTU("burner-inserter", 5, popChain)).toEqual(SampleChains.partialProdChain)
 })
 
-// UTILITY FUNCTIONS
 
-function deepCopy(toCopy){
-    return  JSON.parse(JSON.stringify(toCopy));
-}

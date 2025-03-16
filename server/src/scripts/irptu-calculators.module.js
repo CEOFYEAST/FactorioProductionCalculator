@@ -1,3 +1,9 @@
+/**
+ * @module irptu-calculators
+ * @description Exposes methods related to calculating and updating the demand for production chains
+ * @author ceofyeast
+ */
+
 import {recipes,validIDs} from "./recipes.module.js"
 
 function calculateIntermediaryDemand(reqItem_ID, reqItem_IRPTU, demandOutput){
