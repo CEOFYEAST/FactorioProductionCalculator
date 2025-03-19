@@ -1,3 +1,31 @@
+import { defineStore } from 'pinia'
+import * as IRPTU from "@ceofyeast/prodchaincalculators"
+import * as UTILITY from "@ceofyeast/prodchaincalculators"
+
+export const useLoadedFactory = defineStore('loadedFactory', {
+    state: () => ({ loadedFactory: {} }),
+    actions: {
+        toggleSignedIn() {
+            this.signedIn = !(this.signedIn)
+        },
+        addUserData(newData) {
+            if(typeof(newData) == "object") this.data = newData;
+            console.log("New Data Keys: " + Object.keys(this.data))
+        },
+        removeUserData() {
+            this.data = undefined
+        }
+    },
+    getters:{
+        username(state) {
+            if(state.data != undefined) return state.data.username
+            else return undefined
+        }
+    },
+})
+
+
+
 /**
  * Will contain the loaded factory
  * 

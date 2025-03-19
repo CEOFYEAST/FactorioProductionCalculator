@@ -14,14 +14,14 @@ export const useUserStore = defineStore('user', {
             this.data = undefined
         }
     },
-    getters: {
+    getters:{
         username(state) {
             if(state.data != undefined) return state.data.username
             else return undefined
         }
     },
 })
-
+ 
 /**
  * Tests for store implementation:
  * - hook signedIn up to the v-if/v-show of a component (while maintaining reactivity), and set the toggle action to be called at the press of a button
