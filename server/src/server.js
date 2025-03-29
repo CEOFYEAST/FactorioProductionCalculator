@@ -38,6 +38,7 @@ app.register(require('@fastify/swagger-ui'), {
   routePrefix: '/documentation'
 })
 app.register(require('./routes/users.js'))
+app.register(require('./routes/recipes.js'))
 
 // Start listening.
 app.listen({ port: PORT, host: HOST}, (err, address) => {
