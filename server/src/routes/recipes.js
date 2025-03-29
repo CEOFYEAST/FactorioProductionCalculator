@@ -1,4 +1,4 @@
-let {handleRecipesGet} = require('../controllers/recipes.js')
+let handleRecipesGet = require('../controllers/recipes.js')
 
 const getRecipesOpts = {
     handler: handleRecipesGet
