@@ -1,27 +1,49 @@
 import { defineStore } from 'pinia'
-import * as IRPTU from "@ceofyeast/prodchaincalculators"
-import * as UTILITY from "@ceofyeast/prodchaincalculators"
+import * as IRPTU from "@ceofyeast/prodchaincalculators/irptu"
+import * as UTILITY from "@ceofyeast/prodchaincalculators/utility"
 
 export const useLoadedFactory = defineStore('loadedFactory', {
-    state: () => ({ loadedFactory: {} }),
+    state: () => ({ 
+        loadedFactory: UTILITY.createProductionChain(),
+        userDemand: {},
+        itemNamesAndIDs: {},
+    }),
+    getters: {
+        timeUnit: (state) => state.loadedFactory.timeUnit,
+        prodChain: (state) => state.loadedFactory.prodChain
+    },
     actions: {
-        toggleSignedIn() {
-            this.signedIn = !(this.signedIn)
+        refreshStoreState(){
+            this.userDemand = UTILITY.getUserDemand(this.prodChain),
+            this.itemNamesAndIDs = UTILITY.getItemNamesAndIDs()
         },
-        addUserData(newData) {
-            if(typeof(newData) == "object") this.data = newData;
-            console.log("New Data Keys: " + Object.keys(this.data))
+        clear(){
+            this.loadedFactory = UTILITY.createProductionChain(this.loadedFactory.timeUnit)
+            this.refreshStoreState()
         },
-        removeUserData() {
-            this.data = undefined
+        setTimeUnit(newTimeUnit){
+            UTILITY.recalculateTimeUnit(this.loadedFactory, newTimeUnit)
+            this.refreshStoreState()
+        },
+        addDemand(itemID, amount, timeUnit){
+            if (arguments.length === 3) {
+                IRPTU.addIRPTU(itemID, amount, this.loadedFactory, timeUnit)
+            }
+            else {
+                IRPTU.addIRPTU(itemID, amount, this.loadedFactory)
+            }
+            this.refreshStoreState()
+        },
+        subtractDemand(itemID, amount, timeUnit){
+            if (arguments.length === 3) {
+                IRPTU.subtractIRPTU(itemID, amount, this.loadedFactory, timeUnit)
+            }
+            else {
+                IRPTU.subtractIRPTU(itemID, amount, this.loadedFactory)
+            }
+            this.refreshStoreState()
         }
-    },
-    getters:{
-        username(state) {
-            if(state.data != undefined) return state.data.username
-            else return undefined
-        }
-    },
+    }
 })
 
 
