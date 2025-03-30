@@ -1,48 +1,80 @@
 <template>
     <div id="ProductionCalculatorView-root" class="root">
-      <div style="margin-bottom: 20px;">
-        <button @click="clearFactory()">Clear Factory</button>
-      </div>
-      <div style="margin-bottom: 20px; border: 1px solid black; padding: 10px;">
-        <div style="margin-bottom: 10px;">
-        <label for="itemID">Enter Item ID</label>
-        <input id="itemID" type="text" v-model="selectedItemID" style="margin-left: 10px;" />
+
+      <h2>Calculator Controls</h2>
+      <div style="border: 2px solid black; margin-bottom: 10px; padding: 10px;">
+
+        <h3>Update User Demand</h3>
+        <div style="margin-bottom: 20px; border: 1px solid black; padding: 10px;">
+
+          <div style="margin-bottom: 10px;">
+            <label for="itemID">Enter Item ID</label>
+            <input id="itemID" type="text" v-model="selectedItemID" style="margin-left: 10px;" />
+          </div>
+
+          <div style="margin-bottom: 10px;">
+            <label for="selectedItemIRPTU">Enter Item IRPTU</label>
+            <input id="selectedItemIRPTU" type="number" v-model="selectedItemIRPTU" style="margin-left: 10px;" />
+          </div>
+
+          <div style="margin-bottom: 10px;">
+            <label for="itemID">Enter Request Time Unit</label>
+            <input id="itemID" type="text" v-model="requestTimeUnit" style="margin-left: 10px;" />
+          </div>
+
+          <div>
+            <button @click="addToFactory()" style="margin-right: 10px;">Add Specified Item to the Factory</button>
+            <button @click="removeFromFactory()">Remove Specified Item from the Factory</button>
+          </div>
         </div>
-        <div style="margin-bottom: 10px;">
-        <label for="selectedItemIRPTU">Enter Item IRPTU</label>
-        <input id="selectedItemIRPTU" type="number" v-model="selectedItemIRPTU" style="margin-left: 10px;" />
+
+        <h3>Misc. Controls</h3>
+        <div style="margin-bottom: 20px; border: 1px solid black; padding: 10px;">
+          <div style="margin: 10px;">
+            <button @click="clearFactory()">Clear Factory</button>
+          </div>
+
+          <div style="margin: 10px;">
+            <button @click="addOneOfEach()">Add One of Each Item to the Factory</button>
+          </div>
         </div>
-        <div>
-        <button @click="addToFactory()" style="margin-right: 10px;">Add Specified Item to the Factory</button>
-        <button @click="removeFromFactory()">Remove Specified Item from the Factory</button>
+
+        
+        <h3>Recalculate Time Unit</h3>
+        <div style="margin-bottom: 20px; border: 1px solid black; padding: 10px;">
+            <label for="timeUnit">Select New Time Unit</label>
+            <select id="timeUnit" v-model="selectedTimeUnit" @change="changeTimeUnit(selectedTimeUnit)" style="margin-left: 10px;">
+              <option value="second">Second</option>
+              <option value="minute">Minute</option>
+              <option value="hour">Hour</option>
+            </select>
         </div>
+        
+
       </div>
-      <div style="margin-bottom: 20px;">
-        <button @click="addOneOfEach()">Add One of Each Item to the Factory</button>
-      </div>
-      <div style="margin-bottom: 20px; border: 1px solid black; padding: 10px;">
-        <label for="timeUnit">Select Time Unit</label>
-        <select id="timeUnit" v-model="selectedTimeUnit" @change="changeTimeUnit(selectedTimeUnit)" style="margin-left: 10px;">
-        <option value="second">Second</option>
-        <option value="minute">Minute</option>
-        <option value="hour">Hour</option>
-        </select>
-      </div>
+
+      <h2>Factory Data</h2>
+      <div style="border: 2px solid black; margin-bottom: 10px; padding: 10px;">
+
         <h3>Time Unit</h3>
-          <div style="border: 1px solid black; margin-bottom: 10px;">{{ timeUnit }}</div>
-      <!-- </div> -->
-      <div>
+        <div style="border: 1px solid black; margin-bottom: 10px;">{{ timeUnit }}</div>
+
         <h3>User Demand</h3>
-        <div v-for="(value, key) in userDemand" :key="key" style="border: 1px solid black; margin-bottom: 10px;">
-        <div>{{ key }}: {{ value }}</div>
+        <div style="max-height: 300px; overflow-y: scroll; border: 1px solid gray; padding: 10px;">
+          <div v-for="(value, key) in userDemand" :key="key" style="border: 1px solid black; margin-bottom: 10px;">
+            <div>{{ key }}: {{ value }}</div>
+          </div>
         </div>
-      </div>
-      <div>
+
         <h3>Production Chain</h3>
-        <div v-for="(value, key) in prodChain" :key="key" style="border: 1px solid black; margin-bottom: 10px;">
-          <div>{{ key }}: {{ value }}</div>
+        <div style="max-height: 300px; overflow-y: scroll; border: 1px solid gray; padding: 10px;">
+          <div v-for="(value, key) in prodChain" :key="key" style="border: 1px solid black; margin-bottom: 10px;">
+            <div>{{ key }}: {{ value }}</div>
+          </div>
         </div>
+
       </div>
+
     </div>
   </template>
 
@@ -55,11 +87,9 @@
     name: 'Production Calculator View',
     data() {
       return {
-        // userDemand: LFS.userDemand,
-        // prodChain: LFS.prodChain,
-        // timeUnit: LFS.timeUnit,
         selectedItemID: "inserter",
         selectedItemIRPTU: 10,
+        requestTimeUnit: "minute",
         selectedTimeUnit: "" // Default value for the time unit
       }
     },
@@ -73,26 +103,22 @@
       timeUnit(){
           return LFS.timeUnit
       },
-      prodChainTest(){
-          return 
-      }
     },
     methods: {
       clearFactory(){
-        console.log("Clearing Factory")
         LFS.clear()
       },
       addToFactory(){
-        console.log("Adding Item To Factory: " + this.selectedItemID)
-        LFS.addDemand(this.selectedItemID, this.selectedItemIRPTU)
+        LFS.addDemand(this.selectedItemID, this.selectedItemIRPTU, this.requestTimeUnit)
       },
       removeFromFactory(){
-        LFS.subtractDemand(this.selectedItemID, this.selectedItemIRPTU)
+        LFS.subtractDemand(this.selectedItemID, this.selectedItemIRPTU, this.requestTimeUnit)
       },
       changeTimeUnit(newTimeUnit){
         LFS.setTimeUnit(newTimeUnit)
       },
       addOneOfEach(){
+        LFS.refreshStoreState()
         for(let i = 0; i < LFS.itemIDs.length; i++){
           LFS.addDemand(LFS.itemIDs[i], 1)
         }
