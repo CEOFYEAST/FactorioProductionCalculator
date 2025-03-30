@@ -4,7 +4,8 @@
         <div></div>
 
         <div class="flex row center">
-          <RouterLink class="link" :to="definedRoutes.widgetsRoute">Widgets</RouterLink>
+          <RouterLink class="link" :to="definedRoutes.userDataRoute">User Data</RouterLink>
+          <RouterLink class="link" :to="definedRoutes.prodChainCalculatorRoute">Prod Chain Calculator</RouterLink>
           <RouterLink class="link" :to="definedRoutes.accountAccessRoute">Sign In</RouterLink>
           <RouterLink class="link" :to="definedRoutes.accountCreationRoute">Create Account</RouterLink>
           <RouterLink class="link" :to="definedRoutes.aboutViewRoute">About</RouterLink>

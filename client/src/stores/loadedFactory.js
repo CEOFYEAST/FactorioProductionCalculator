@@ -4,9 +4,10 @@ import * as UTILITY from "@ceofyeast/prodchaincalculators/utility"
 
 export const useLoadedFactory = defineStore('loadedFactory', {
     state: () => ({ 
-        loadedFactory: UTILITY.createProductionChain(),
+        loadedFactory: UTILITY.createProductionChainObject(),
         userDemand: {},
-        itemNamesAndIDs: {},
+        itemIDs: {},
+        itemNamesAndIDs: {}
     }),
     getters: {
         timeUnit: (state) => state.loadedFactory.timeUnit,
@@ -14,11 +15,12 @@ export const useLoadedFactory = defineStore('loadedFactory', {
     },
     actions: {
         refreshStoreState(){
-            this.userDemand = UTILITY.getUserDemand(this.prodChain),
+            this.userDemand = UTILITY.getUserDemand(this.prodChain)
+            this.itemIDs = UTILITY.getItemIDs()
             this.itemNamesAndIDs = UTILITY.getItemNamesAndIDs()
         },
         clear(){
-            this.loadedFactory = UTILITY.createProductionChain(this.loadedFactory.timeUnit)
+            this.loadedFactory = UTILITY.createProductionChainObject(this.loadedFactory.timeUnit)
             this.refreshStoreState()
         },
         setTimeUnit(newTimeUnit){

@@ -25,7 +25,7 @@ export default {
                 definedRoutes.aboutViewRoute,
                 definedRoutes.accountAccessRoute,
                 definedRoutes.accountCreationRoute,
-                definedRoutes.widgetsRoute
+                definedRoutes.userDataRoute
             ],
             // the routes whose views should be medium-sized
             mediumRoutes: [
