@@ -1,50 +1,69 @@
 import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
 import * as IRPTU from "@ceofyeast/prodchaincalculators/irptu"
 import * as UTILITY from "@ceofyeast/prodchaincalculators/utility"
+import {addRecipesLoadedListener} from "@ceofyeast/prodchaincalculators/recipes"
 
-export const useLoadedFactory = defineStore('loadedFactory', {
-    state: () => ({ 
-        loadedFactory: UTILITY.createProductionChainObject(),
-        userDemand: {},
-        itemIDs: {},
-        itemNamesAndIDs: {}
-    }),
-    getters: {
-        timeUnit: (state) => state.loadedFactory.timeUnit,
-        prodChain: (state) => state.loadedFactory.prodChain
-    },
-    actions: {
-        refreshStoreState(){
-            this.userDemand = UTILITY.getUserDemand(this.prodChain)
-            this.itemIDs = UTILITY.getItemIDs()
-            this.itemNamesAndIDs = UTILITY.getItemNamesAndIDs()
-        },
-        clear(){
-            this.loadedFactory = UTILITY.createProductionChainObject(this.loadedFactory.timeUnit)
-            this.refreshStoreState()
-        },
-        setTimeUnit(newTimeUnit){
-            UTILITY.recalculateTimeUnit(this.loadedFactory, newTimeUnit)
-            this.refreshStoreState()
-        },
-        addDemand(itemID, amount, timeUnit){
-            if (arguments.length === 3) {
-                IRPTU.addIRPTU(itemID, amount, this.loadedFactory, timeUnit)
-            }
-            else {
-                IRPTU.addIRPTU(itemID, amount, this.loadedFactory)
-            }
-            this.refreshStoreState()
-        },
-        subtractDemand(itemID, amount, timeUnit){
-            if (arguments.length === 3) {
-                IRPTU.subtractIRPTU(itemID, amount, this.loadedFactory, timeUnit)
-            }
-            else {
-                IRPTU.subtractIRPTU(itemID, amount, this.loadedFactory)
-            }
-            this.refreshStoreState()
+export const useLoadedFactory = defineStore('loadedFactory', () => {
+    const loadedFactory = ref(UTILITY.createProductionChainObject())
+    const userDemand = ref({})
+    const itemIDs = ref({})
+    const itemNamesAndIDs = ref({})
+
+    const timeUnit = computed(() => loadedFactory.value.timeUnit)
+    const prodChain = computed(() => loadedFactory.value.prodChain)
+
+    function initializeRecipesData(){
+        console.log("Recipes loaded listener called")
+        itemIDs.value = UTILITY.getItemIDs()
+        itemNamesAndIDs.value = UTILITY.getItemNamesAndIDs()
+    }
+    addRecipesLoadedListener(initializeRecipesData)
+
+    function refreshStoreState() {
+        userDemand.value = UTILITY.getUserDemand(prodChain.value)
+    }
+
+    function clear() {
+        loadedFactory.value = UTILITY.createProductionChainObject(loadedFactory.value.timeUnit)
+        refreshStoreState()
+    }
+
+    function setTimeUnit(newTimeUnit) {
+        UTILITY.recalculateTimeUnit(loadedFactory.value, newTimeUnit)
+        refreshStoreState()
+    }
+
+    function addDemand(itemID, amount, timeUnit) {
+        if (arguments.length === 3) {
+            IRPTU.addIRPTU(itemID, amount, loadedFactory.value, timeUnit)
+        } else {
+            IRPTU.addIRPTU(itemID, amount, loadedFactory.value)
         }
+        refreshStoreState()
+    }
+
+    function subtractDemand(itemID, amount, timeUnit) {
+        if (arguments.length === 3) {
+            IRPTU.subtractIRPTU(itemID, amount, loadedFactory.value, timeUnit)
+        } else {
+            IRPTU.subtractIRPTU(itemID, amount, loadedFactory.value)
+        }
+        refreshStoreState()
+    }
+
+    return {
+        loadedFactory,
+        userDemand,
+        itemIDs,
+        itemNamesAndIDs,
+        timeUnit,
+        prodChain,
+        refreshStoreState,
+        clear,
+        setTimeUnit,
+        addDemand,
+        subtractDemand
     }
 })
 
