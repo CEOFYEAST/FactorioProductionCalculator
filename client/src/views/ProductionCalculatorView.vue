@@ -83,6 +83,7 @@
 <script>
   import { useLoadedFactory } from '@/stores/loadedFactory'
   import { addRecipesLoadedListener } from '@ceofyeast/prodchaincalculators/recipes'
+  import { addValidationFailedListener } from '@ceofyeast/prodchaincalculators/validators'
 
   let LFS = {}
   
@@ -129,9 +130,11 @@
       },
       handleResourcesLoaded(){
         this.resourcesLoaded = true
-      }
+      },
+      handleValidationError
     },
     beforeCreate(){
+        // essential to set before creation so that the computed properties can refer to the proper values
         LFS = useLoadedFactory()
     },
     created(){
