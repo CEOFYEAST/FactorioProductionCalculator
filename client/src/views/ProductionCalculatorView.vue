@@ -1,8 +1,10 @@
 <template>
     <div id="ProductionCalculatorView-root" class="root">
 
-      <h2>Calculator Controls</h2>
-      <div style="border: 2px solid black; margin-bottom: 10px; padding: 10px;">
+      <h2 v-if="!resourcesLoaded">Loading...</h2>
+
+      <h2 v-if="resourcesLoaded">Calculator Controls</h2>
+      <div v-if="resourcesLoaded" style="border: 2px solid black; margin-bottom: 10px; padding: 10px;">
 
         <h3>Update User Demand</h3>
         <div style="margin-bottom: 20px; border: 1px solid black; padding: 10px;">
@@ -53,8 +55,8 @@
 
       </div>
 
-      <h2>Factory Data</h2>
-      <div style="border: 2px solid black; margin-bottom: 10px; padding: 10px;">
+      <h2 v-if="resourcesLoaded">Factory Data</h2>
+      <div v-if="resourcesLoaded" style="border: 2px solid black; margin-bottom: 10px; padding: 10px;">
 
         <h3>Time Unit</h3>
         <div style="border: 1px solid black; margin-bottom: 10px;">{{ timeUnit }}</div>
@@ -80,6 +82,7 @@
 
 <script>
   import { useLoadedFactory } from '@/stores/loadedFactory'
+  import { addRecipesLoadedListener } from '@ceofyeast/prodchaincalculators/recipes'
 
   let LFS = {}
   
@@ -87,6 +90,7 @@
     name: 'Production Calculator View',
     data() {
       return {
+        resourcesLoaded: false,
         selectedItemID: "inserter",
         selectedItemIRPTU: 10,
         requestTimeUnit: "minute",
@@ -95,13 +99,13 @@
     },
     computed: {
       userDemand(){
-          return LFS.userDemand
+        return LFS.userDemand
       },
       prodChain(){
-          return LFS.prodChain
+        return LFS.prodChain
       },
       timeUnit(){
-          return LFS.timeUnit
+        return LFS.timeUnit
       },
     },
     methods: {
@@ -122,10 +126,19 @@
         for(let i = 0; i < LFS.itemIDs.length; i++){
           LFS.addDemand(LFS.itemIDs[i], 1)
         }
+      },
+      handleResourcesLoaded(){
+        this.resourcesLoaded = true
       }
     },
     beforeCreate(){
         LFS = useLoadedFactory()
+    },
+    created(){
+      import('@ceofyeast/prodchaincalculators/recipes').then((recipesMod) => {
+        this.resourcesLoaded = recipesMod.recipesLoaded
+      })
+      addRecipesLoadedListener(this.handleResourcesLoaded)
     }
   }
 </script>

@@ -55,6 +55,8 @@ export default {
     },
     data () {
         return {
+            username: "",
+            userPassword: "",
             userData: {},
             showStatusMessage: false,
             submissionSuccess: false,

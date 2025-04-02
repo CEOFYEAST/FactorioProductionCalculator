@@ -7,7 +7,7 @@ const Fastify = require('fastify')
 const DBUrl = require('./scripts/secure.module.js')
 const PORT = 3000
 const HOST = 'localhost'
-const registerDB = false
+const registerDB = true
 
 const app = Fastify({
   logger: true,

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import * as IRPTU from "@ceofyeast/prodchaincalculators/irptu"
 import * as UTILITY from "@ceofyeast/prodchaincalculators/utility"
-import {addRecipesLoadedListener} from "@ceofyeast/prodchaincalculators/recipes"
+import {addRecipesLoadedListener, recipesLoaded} from "@ceofyeast/prodchaincalculators/recipes"
 
 export const useLoadedFactory = defineStore('loadedFactory', () => {
     const loadedFactory = ref(UTILITY.createProductionChainObject())
@@ -18,7 +18,6 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         itemIDs.value = UTILITY.getItemIDs()
         itemNamesAndIDs.value = UTILITY.getItemNamesAndIDs()
     }
-    addRecipesLoadedListener(initializeRecipesData)
 
     function refreshStoreState() {
         userDemand.value = UTILITY.getUserDemand(prodChain.value)
@@ -51,6 +50,10 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         }
         refreshStoreState()
     }
+
+    addRecipesLoadedListener(initializeRecipesData)
+
+    if(recipesLoaded) initializeRecipesData();
 
     return {
         loadedFactory,

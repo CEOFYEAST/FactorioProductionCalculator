@@ -35,6 +35,8 @@ export default {
     },
     data () {
         return {
+            username: "",
+            userPassword: "",
             submitted: false,
             LOADING_MESSAGE: "Loading...",
             accountAccessRoute: definedRoutes.accountAccessRoute
