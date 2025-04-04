@@ -20,33 +20,63 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
     }
 
     function refreshStoreState() {
-        userDemand.value = UTILITY.getUserDemand(prodChain.value)
+        try {
+            userDemand.value = UTILITY.getUserDemand(prodChain.value)
+        } catch(err) {
+            if(err.name != "ValidationError") throw(err)
+        }
     }
 
     function clear() {
-        loadedFactory.value = UTILITY.createProductionChainObject(loadedFactory.value.timeUnit)
+        try {
+            loadedFactory.value = UTILITY.createProductionChainObject(loadedFactory.value.timeUnit)
+        } catch(err) {
+            if(err.name != "ValidationError") throw(err)
+        }
+        
         refreshStoreState()
     }
 
     function setTimeUnit(newTimeUnit) {
-        UTILITY.recalculateTimeUnit(loadedFactory.value, newTimeUnit)
+        try {
+            UTILITY.recalculateTimeUnit(loadedFactory.value, newTimeUnit)
+        } catch(err) {
+            if(err.name != "ValidationError") throw(err)
+        }
+        
         refreshStoreState()
     }
 
     function addDemand(itemID, amount, timeUnit) {
         if (arguments.length === 3) {
-            IRPTU.addIRPTU(itemID, amount, loadedFactory.value, timeUnit)
+            try {
+                IRPTU.addIRPTU(itemID, amount, loadedFactory.value, timeUnit)
+            } catch(err) {
+                if(err.name != "ValidationError") throw(err)
+            }
         } else {
-            IRPTU.addIRPTU(itemID, amount, loadedFactory.value)
+            try {
+                IRPTU.addIRPTU(itemID, amount, loadedFactory.value)
+            } catch(err) {
+                if(err.name != "ValidationError") throw(err)
+            }
         }
         refreshStoreState()
     }
 
     function subtractDemand(itemID, amount, timeUnit) {
         if (arguments.length === 3) {
-            IRPTU.subtractIRPTU(itemID, amount, loadedFactory.value, timeUnit)
+            try {
+                IRPTU.subtractIRPTU(itemID, amount, loadedFactory.value, timeUnit)
+            } catch(err) {
+                if(err.name != "ValidationError") throw(err)
+            }
         } else {
-            IRPTU.subtractIRPTU(itemID, amount, loadedFactory.value)
+            try {
+                IRPTU.subtractIRPTU(itemID, amount, loadedFactory.value)
+            } catch(err) {
+                if(err.name != "ValidationError") throw(err)
+            }
         }
         refreshStoreState()
     }

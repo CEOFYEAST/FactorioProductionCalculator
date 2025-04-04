@@ -1,6 +1,11 @@
 <template>
     <div id="ProductionCalculatorView-root" class="root">
 
+      <div v-if="!(validationErrorMssg === '')" style="background-color: red; color: white; padding: 20px; border-radius: 5px; z-index: 1000;">
+        <span>ERROR: {{ validationErrorMssg }}</span>
+        <button @click="validationErrorMssg = ''" style="margin-left: 20px; background-color: white; color: red; border: none; cursor: pointer;">Close</button>
+      </div>
+
       <h2 v-if="!resourcesLoaded">Loading...</h2>
 
       <h2 v-if="resourcesLoaded">Calculator Controls</h2>
@@ -19,10 +24,14 @@
             <input id="selectedItemIRPTU" type="number" v-model="selectedItemIRPTU" style="margin-left: 10px;" />
           </div>
 
-          <div style="margin-bottom: 10px;">
-            <label for="itemID">Enter Request Time Unit</label>
-            <input id="itemID" type="text" v-model="requestTimeUnit" style="margin-left: 10px;" />
-          </div>
+            <div style="margin-bottom: 10px;">
+            <label for="requestTimeUnit">Select Request Time Unit</label>
+            <select id="requestTimeUnit" v-model="requestTimeUnit" style="margin-left: 10px;">
+              <option value="second">Second</option>
+              <option value="minute">Minute</option>
+              <option value="hour">Hour</option>
+            </select>
+            </div>
 
           <div>
             <button @click="addToFactory()" style="margin-right: 10px;">Add Specified Item to the Factory</button>
@@ -91,6 +100,7 @@
     name: 'Production Calculator View',
     data() {
       return {
+        validationErrorMssg: "",
         resourcesLoaded: false,
         selectedItemID: "inserter",
         selectedItemIRPTU: 10,
@@ -131,7 +141,9 @@
       handleResourcesLoaded(){
         this.resourcesLoaded = true
       },
-      handleValidationError
+      handleValiationFailed(err){
+        this.validationErrorMssg = err.message
+      }
     },
     beforeCreate(){
         // essential to set before creation so that the computed properties can refer to the proper values
@@ -142,6 +154,7 @@
         this.resourcesLoaded = recipesMod.recipesLoaded
       })
       addRecipesLoadedListener(this.handleResourcesLoaded)
+      addValidationFailedListener(this.handleValiationFailed)
     }
   }
 </script>
