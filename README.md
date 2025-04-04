@@ -16,7 +16,15 @@ However, I plan to implement user profiles; this will allow users to continue mo
 
 ## Current Release
 
-The current release is the User System release; this release was created to show off my progress on the user system including an API, client-side user data store and account views, and server-side MongoDB integration. Enjoy!
+The current release is the Production Calculator release; this release was created to show off my progress on the production calculator, which is a core feature of the website. The user can create a production chain, add and remove demand from this production chain, clear the chain entirely, and recalculate the time unit of the chain. The user's inputs, as well as the intermediary demand calculated as a result of said inputs, are dynamically displayed by the site. This new functionality can be found under the "Production Calculator" tab.
+
+Creating this release involved writing a package, creating an automated testing suite for that package, and coding a visual interface to expose the functionality of the package to the user.
+
+The current user interface for the calculator is super gross; I plan on revamping all the visuals for the final release.
+
+## Next Steps
+
+My plan going forwards is to create a better visual interface for the package, add crafter data calculation to the package, and leverage the user system to store prod chain data in user accounts.
 
 ## Keep Up With Updates
 
