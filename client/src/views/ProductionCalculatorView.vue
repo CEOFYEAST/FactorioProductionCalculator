@@ -24,14 +24,14 @@
             <input id="selectedItemIRPTU" type="number" v-model="selectedItemIRPTU" style="margin-left: 10px;" />
           </div>
 
-            <div style="margin-bottom: 10px;">
+          <div style="margin-bottom: 10px;">
             <label for="requestTimeUnit">Select Request Time Unit</label>
             <select id="requestTimeUnit" v-model="requestTimeUnit" style="margin-left: 10px;">
               <option value="second">Second</option>
               <option value="minute">Minute</option>
               <option value="hour">Hour</option>
             </select>
-            </div>
+          </div>
 
           <div>
             <button @click="addToFactory()" style="margin-right: 10px;">Add Specified Item to the Factory</button>
@@ -50,7 +50,6 @@
           </div>
         </div>
 
-        
         <h3>Recalculate Time Unit</h3>
         <div style="margin-bottom: 20px; border: 1px solid black; padding: 10px;">
             <label for="timeUnit">Select New Time Unit</label>
@@ -60,7 +59,6 @@
               <option value="hour">Hour</option>
             </select>
         </div>
-        
 
       </div>
 
@@ -78,9 +76,33 @@
         </div>
 
         <h3>Production Chain</h3>
-        <div style="max-height: 300px; overflow-y: scroll; border: 1px solid gray; padding: 10px;">
-          <div v-for="(value, key) in prodChain" :key="key" style="border: 1px solid black; margin-bottom: 10px;">
-            <div>{{ key }}: {{ value }}</div>
+        <div class="production-chain-grid">
+          <div class="column">
+            <ProductionNode
+              v-for="item in column1Items"
+              :key="item.id"
+              :itemId="item.id"
+              :itemData="item.data"
+              :timeUnit="timeUnit"
+            />
+          </div>
+          <div class="column">
+            <ProductionNode
+              v-for="item in column2Items"
+              :key="item.id"
+              :itemId="item.id"
+              :itemData="item.data"
+              :timeUnit="timeUnit"
+            />
+          </div>
+          <div class="column">
+            <ProductionNode
+              v-for="item in column3Items"
+              :key="item.id"
+              :itemId="item.id"
+              :itemData="item.data"
+              :timeUnit="timeUnit"
+            />
           </div>
         </div>
 
@@ -93,11 +115,15 @@
   import { useLoadedFactory } from '@/stores/loadedFactory'
   import { addRecipesLoadedListener } from '@ceofyeast/prodchaincalculators/recipes'
   import { addValidationFailedListener } from '@ceofyeast/prodchaincalculators/validators'
+  import ProductionNode from '@/components/ProductionNode.vue'
 
   let LFS = {}
   
   export default {
     name: 'Production Calculator View',
+    components: {
+      ProductionNode
+    },
     data() {
       return {
         validationErrorMssg: "",
@@ -118,6 +144,21 @@
       timeUnit(){
         return LFS.timeUnit
       },
+      prodChainArray() {
+        return Object.entries(this.prodChain).map(([id, data]) => ({
+          id,
+          data
+        }))
+      },
+      column1Items() {
+        return this.prodChainArray.filter((_, index) => index % 3 === 0)
+      },
+      column2Items() {
+        return this.prodChainArray.filter((_, index) => index % 3 === 1)
+      },
+      column3Items() {
+        return this.prodChainArray.filter((_, index) => index % 3 === 2)
+      }
     },
     methods: {
       clearFactory(){
@@ -158,7 +199,27 @@
     }
   }
 </script>
-  
+
+<style scoped>
+.production-chain-grid {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  max-height: 600px;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-width: 250px;
+}
+</style>
 
 <!--
 Loading/Reloading
@@ -175,10 +236,10 @@ Menus
     Could use a form that redirects to a method instead of an HTTPS request for the menus
 
 Node Output Data
- - The # of crafters required to meet the node’s demand
- - The node’s demand
- - Visual link to the other “child” nodes that require the given “parent” node
- - The portion of the parent node’s demand required by each child node
+ - The # of crafters required to meet the node's demand
+ - The node's demand
+ - Visual link to the other "child" nodes that require the given "parent" node
+ - The portion of the parent node's demand required by each child node
 
 
 -->
