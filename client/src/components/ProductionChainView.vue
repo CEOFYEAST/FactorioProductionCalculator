@@ -5,28 +5,28 @@
         <defs>
           <marker
             id="arrowhead"
-            markerWidth="10"
-            markerHeight="7"
-            refX="9"
-            refY="3.5"
-            orient="auto"
+            markerWidth="6"
+            markerHeight="4"
+            refX="6"
+            refY="2"
+            orient="auto-start-reverse"
           >
-            <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+            <path d="M 0 0 L 6 2 L 0 4 z" class="arrow-head" />
           </marker>
         </defs>
         <g v-for="connection in connections" :key="`${connection.from}-${connection.to}`">
-          <line
-            :x1="connection.x1"
-            :y1="connection.y1"
-            :x2="connection.x2"
-            :y2="connection.y2"
+          <path
+            :d="connection.path"
+            :stroke="connection.color"
             class="connection-line"
+            fill="none"
             marker-end="url(#arrowhead)"
           />
           <text
-            :x="(connection.x1 + connection.x2) / 2"
-            :y="(connection.y1 + connection.y2) / 2"
+            :x="getTextPosition(connection).x"
+            :y="getTextPosition(connection).y"
             class="connection-label"
+            :fill="connection.color"
           >
             {{ formatNumber(connection.amount) }}
           </text>
@@ -187,34 +187,65 @@ export default {
     updateConnections() {
       this.connections = [];
       
+      // Define colors for different levels
+      const levelColors = [
+        '#2196F3', // Blue
+        '#4CAF50', // Green
+        '#FFC107', // Amber
+        '#FF5722', // Deep Orange
+        '#9C27B0', // Purple
+      ];
+      
       Object.entries(this.prodChain).forEach(([itemId, data]) => {
         const sourceLayout = this.layout?.getNodeLayout(itemId);
         if (!sourceLayout) return;
 
+        const sourceNodeSize = this.nodeSizes.get(itemId) || { width: 200, height: 100 };
+        // Calculate edge points for source node
         const sourceX = sourceLayout.position.x + this.nodeOffset.x;
         const sourceY = sourceLayout.position.y + this.nodeOffset.y;
+        const sourceRight = sourceX + (sourceNodeSize.width / 2);
 
         Object.entries(data.dependentItems).forEach(([dependentId, amount]) => {
           const targetLayout = this.layout?.getNodeLayout(dependentId);
           if (!targetLayout) return;
 
+          const targetNodeSize = this.nodeSizes.get(dependentId) || { width: 200, height: 100 };
+          // Calculate edge points for target node
           const targetX = targetLayout.position.x + this.nodeOffset.x;
           const targetY = targetLayout.position.y + this.nodeOffset.y;
+          const targetLeft = targetX - (targetNodeSize.width / 2);
+
+          // Get color based on source level
+          const color = levelColors[sourceLayout.level % levelColors.length];
+
+          // Calculate control points for curved line
+          const controlPoint1X = sourceRight + (targetLeft - sourceRight) * 0.25;
+          const controlPoint2X = sourceRight + (targetLeft - sourceRight) * 0.75;
 
           this.connections.push({
             from: itemId,
             to: dependentId,
             amount,
-            x1: sourceX,
-            y1: sourceY,
-            x2: targetX,
-            y2: targetY
+            color,
+            path: `M ${sourceRight} ${sourceY} C ${controlPoint1X} ${sourceY}, ${controlPoint2X} ${targetY}, ${targetLeft} ${targetY}`
           });
         });
       });
     },
     formatNumber(num) {
       return Number(num).toFixed(2)
+    },
+    getTextPosition(connection) {
+      // Parse the path to find the midpoint
+      const match = connection.path.match(/M ([\d.]+) ([\d.]+) C ([\d.]+) ([\d.]+), ([\d.]+) ([\d.]+), ([\d.]+) ([\d.]+)/);
+      if (!match) return { x: 0, y: 0 };
+
+      const [, startX, startY, , , , , endX, endY] = match.map(Number);
+      return {
+        x: (startX + endX) / 2,
+        y: (startY + endY) / 2
+      };
     }
   },
   mounted() {
@@ -234,8 +265,7 @@ export default {
 .production-chain-view {
   position: relative;
   width: 100%;
-  height: 800px;
-  /* margin: 20px 0; */
+  height: 100%;
   overflow: auto;
 }
 
@@ -243,7 +273,6 @@ export default {
   position: relative;
   background-color: #f5f5f5;
   border-radius: 8px;
-  /* padding: 16px; */
 }
 
 .production-chain-nodes {
@@ -263,24 +292,24 @@ export default {
 }
 
 .connection-line {
-  stroke: #666;
-  stroke-width: 1.5;
+  stroke-width: 2;
+  fill: none;
+}
+
+.arrow-head {
+  fill: currentColor;
+  stroke: none;
 }
 
 .connection-label {
-  fill: #666;
   font-size: 12px;
   text-anchor: middle;
   dominant-baseline: middle;
-  background: white;
-}
-
-.connection-label::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: white;
-  z-index: -1;
+  font-weight: 500;
+  text-shadow: 
+    -1px -1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+    1px 1px 0 white;
 }
 </style> 
