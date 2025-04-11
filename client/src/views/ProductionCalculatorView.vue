@@ -76,35 +76,10 @@
         </div>
 
         <h3>Production Chain</h3>
-        <div class="production-chain-grid">
-          <div class="column">
-            <ProductionNode
-              v-for="item in column1Items"
-              :key="item.id"
-              :itemId="item.id"
-              :itemData="item.data"
-              :timeUnit="timeUnit"
-            />
-          </div>
-          <div class="column">
-            <ProductionNode
-              v-for="item in column2Items"
-              :key="item.id"
-              :itemId="item.id"
-              :itemData="item.data"
-              :timeUnit="timeUnit"
-            />
-          </div>
-          <div class="column">
-            <ProductionNode
-              v-for="item in column3Items"
-              :key="item.id"
-              :itemId="item.id"
-              :itemData="item.data"
-              :timeUnit="timeUnit"
-            />
-          </div>
-        </div>
+        <ProductionChainView
+          :prodChain="prodChain"
+          :timeUnit="timeUnit"
+        />
 
       </div>
 
@@ -115,14 +90,15 @@
   import { useLoadedFactory } from '@/stores/loadedFactory'
   import { addRecipesLoadedListener } from '@ceofyeast/prodchaincalculators/recipes'
   import { addValidationFailedListener } from '@ceofyeast/prodchaincalculators/validators'
-  import ProductionNode from '@/components/ProductionNode.vue'
+  import ProductionChainView from '@/components/ProductionChainView.vue'
 
   let LFS = {}
+  let updateTimeout = null
   
   export default {
     name: 'Production Calculator View',
     components: {
-      ProductionNode
+      ProductionChainView
     },
     data() {
       return {
@@ -131,7 +107,17 @@
         selectedItemID: "inserter",
         selectedItemIRPTU: 10,
         requestTimeUnit: "minute",
-        selectedTimeUnit: "" // Default value for the time unit
+        selectedTimeUnit: "", // Default value for the time unit
+        nodeRefs: new Map(),
+        connections: []
+      }
+    },
+    watch: {
+      prodChain: {
+        handler() {
+          this.debouncedUpdateConnections()
+        },
+        deep: true
       }
     },
     computed: {
@@ -184,6 +170,60 @@
       },
       handleValiationFailed(err){
         this.validationErrorMssg = err.message
+      },
+      registerNode(id, el) {
+        if (el) {
+          this.nodeRefs.set(id, el)
+          this.debouncedUpdateConnections()
+        }
+      },
+      debouncedUpdateConnections() {
+        if (updateTimeout) {
+          clearTimeout(updateTimeout)
+        }
+        updateTimeout = setTimeout(() => {
+          this.updateConnections()
+        }, 100)
+      },
+      updateConnections() {
+        // Clear existing connections
+        this.connections = []
+        
+        // Get all nodes at once to avoid repeated DOM queries
+        const nodePositions = new Map()
+        this.nodeRefs.forEach((node, id) => {
+          if (node?.$el) {
+            const rect = node.$el.getBoundingClientRect()
+            nodePositions.set(id, {
+              x: rect.x + rect.width / 2,
+              y: rect.y + rect.height / 2
+            })
+          }
+        })
+
+        // Create connections using cached positions
+        Object.entries(this.prodChain).forEach(([itemId, data]) => {
+          const sourcePos = nodePositions.get(itemId)
+          if (!sourcePos) return
+
+          Object.entries(data.dependentItems).forEach(([dependentId, amount]) => {
+            const targetPos = nodePositions.get(dependentId)
+            if (!targetPos) return
+
+            this.connections.push({
+              from: itemId,
+              to: dependentId,
+              amount,
+              x1: sourcePos.x,
+              y1: sourcePos.y,
+              x2: targetPos.x,
+              y2: targetPos.y
+            })
+          })
+        })
+      },
+      formatNumber(num) {
+        return Number(num).toFixed(2)
       }
     },
     beforeCreate(){
@@ -196,29 +236,21 @@
       })
       addRecipesLoadedListener(this.handleResourcesLoaded)
       addValidationFailedListener(this.handleValiationFailed)
+    },
+    mounted() {
+      window.addEventListener('resize', this.debouncedUpdateConnections)
+    },
+    beforeUnmount() {
+      if (updateTimeout) {
+        clearTimeout(updateTimeout)
+      }
+      window.removeEventListener('resize', this.debouncedUpdateConnections)
     }
   }
 </script>
 
 <style scoped>
-.production-chain-grid {
-  display: flex;
-  gap: 16px;
-  padding: 16px;
-  max-height: 600px;
-  overflow-y: auto;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-}
-
-.column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  min-width: 250px;
-}
+/* Remove the production chain related styles as they're now in ProductionChainView */
 </style>
 
 <!--
