@@ -27,6 +27,11 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         }
     }
 
+    function loadFactoryData(toLoad){
+        loadedFactory.value = toLoad
+        refreshStoreState()
+    }
+
     function clear() {
         try {
             loadedFactory.value = UTILITY.createProductionChainObject(loadedFactory.value.timeUnit)
@@ -96,7 +101,8 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         clear,
         setTimeUnit,
         addDemand,
-        subtractDemand
+        subtractDemand,
+        loadFactoryData
     }
 })
 
