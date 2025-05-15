@@ -28,9 +28,15 @@ export const useUserStore = defineStore('user', {
              */
             this.saveSlotData[slotID] = factoryData
 
+            Object.keys(this.saveSlotData).forEach(slot => {
+                console.log(`Slot ${slot}:`, JSON.stringify(this.saveSlotData[slot], null, 2));
+            });
+
             handleSlotUpdate(this.saveSlotData)
         },
         loadSlot(slotID, loadFactoryCallback){
+            console.log(JSON.stringify(this.saveSlotData[slotID], null, 2))
+
             loadFactoryCallback(this.saveSlotData[slotID])
         }
         // toggleSignedIn() {

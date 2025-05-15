@@ -37,6 +37,7 @@ export default {
     methods: {
         selectSlot(slotId) {
             this.selectedSlot = slotId;
+            console.log("Slot Selected:, Slot ID: " + this.selectedSlot)
         },
         save() {
             UDS.saveToSlot(this.selectedSlot, LFS.loadedFactory)
