@@ -9,46 +9,24 @@ export const useUserStore = defineStore('user', {
     } }),
     actions: {
         tryCreateAccount(username, password){
-            const {success, statusMessage} = sendCreationRequest(username, password)
-
-            this.creationStatusMessage = statusMessage
+            sendCreationRequest(username, password).then(({success, statusMessage}) => {
+                this.creationStatusMessage = statusMessage
+            })
         },
         tryLogin(username, password){
-            const {success, statusMessage, userData} = sendLoginRequest(username, password)
-
-            this.accessStatusMessage = statusMessage
-
-            if(success) this.signedIn = true
+            sendLoginRequest(username, password).then(({success, statusMessage, userData}) => {
+                this.accessStatusMessage = statusMessage
+                this.signedIn = success
+            })            
         },
         saveToSlot(slotID, factoryData){
-            /**
-             * - Update local save slot copy
-             * - Pass copy back to DB via API
-             * - (Would probably be better to have the backend execute the changes, and then re-populate the front end)
-             */
             this.saveSlotData[slotID] = factoryData
-
-            Object.keys(this.saveSlotData).forEach(slot => {
-                console.log(`Slot ${slot}:`, JSON.stringify(this.saveSlotData[slot], null, 2));
-            });
 
             handleSlotUpdate(this.saveSlotData)
         },
         loadSlot(slotID, loadFactoryCallback){
-            console.log(JSON.stringify(this.saveSlotData[slotID], null, 2))
-
             loadFactoryCallback(this.saveSlotData[slotID])
         }
-        // toggleSignedIn() {
-        //     this.signedIn = !(this.signedIn)
-        // },
-        // addUserData(newData) {
-        //     if(typeof(newData) == "object") this.data = newData;
-        //     console.log("New Data Keys: " + Object.keys(this.data))
-        // },
-        // removeUserData() {
-        //     this.data = undefined
-        // }
     },
     getters:{
         username(state) {

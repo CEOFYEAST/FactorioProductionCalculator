@@ -3,7 +3,7 @@
 
         <h1>Create Account</h1>
 
-        <form @submit.prevent="createUser" class="flex column">
+        <form @submit.prevent="tryCreateUser" class="flex column">
             <p>Creating an account allows you to store production values for up to three factories across sessions.</p>
             <input type="text" placeholder="Username" id="user-name" v-model="username" required><br>
             <input type="password" placeholder="Password" id="user-password" v-model="userPassword" required><br>
@@ -13,7 +13,8 @@
                 <div class="x3"></div>
             </div>
             <div v-show="submitted">
-                <p ref="statusMessage">Loading...</p>
+                <!-- Bind the status message to the creationStatusMessage in the store -->
+                <p>{{ creationStatusMessage }}</p>
             </div>
             <div>
                 <p>Already have an account? <RouterLink :to="accountAccessRoute">Log In.</RouterLink></p>
@@ -25,8 +26,10 @@
 
 <script>
 import TopNav from '@/components/TheNav.vue'
-import { definedRoutes } from '../scripts/router'
-import axios from '@/scripts/axios';
+import { useUserStore } from '@/stores/user'
+import { definedRoutes } from '@/scripts/router'
+
+let UDS = {}
 
 export default {
     name: 'account creation form',
@@ -43,33 +46,24 @@ export default {
         }
     },
     methods: {
-        createUser() {
+        tryCreateUser() {
             this.submitted = true
 
             var bodyFormData = new FormData();
             bodyFormData.append('username', this.username);
             bodyFormData.append('userPassword', this.userPassword);
 
-            axios
-            .post(definedRoutes.accountCreationRoute, {
-                username: this.username,
-                userPassword: this.userPassword
-            }, {
-                headers: { 
-                    "Content-Type": "application/x-www-form-urlencoded" 
-                }
-            })
-            .then(response => {               
-                this.$refs.statusMessage.innerHTML = response.data.statusMessage
-            })
-            .catch(error => {
-                if(error == undefined) return
-
-                if(Object.hasOwn(error, 'response')) this.$refs.statusMessage.innerHTML = error.response.data.statusMessage;
-                else this.$refs.statusMessage.innerHTML = "Failed to connect to the server"
-            })
-            .finally() 
+            // Call the user store's tryCreateAccount method
+            UDS.tryCreateAccount(this.username, this.userPassword)
         }
+    },
+    computed: {
+      creationStatusMessage(){
+        return UDS.creationStatusMessage
+      },
+    },
+    created(){
+        UDS = useUserStore()
     }
 }
 </script>
