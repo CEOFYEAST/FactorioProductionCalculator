@@ -45,8 +45,10 @@
 <script>
 import TopNav from '@/components/TheNav.vue'
 import { definedRoutes } from '../scripts/router'
-import axios from '@/scripts/axios';
+import { sendLoginRequest } from '@/scripts/userAPI'
 import { useUserStore } from '@/stores/user'
+
+let UDS = {}
 
 export default {
     name: 'account access form',
@@ -61,7 +63,6 @@ export default {
             showStatusMessage: false,
             submissionSuccess: false,
             accountCreationRoute: definedRoutes.accountCreationRoute,
-            userStore: {}
         }
     },
     methods: {
@@ -72,39 +73,21 @@ export default {
             bodyFormData.append('username', this.username);
             bodyFormData.append('userPassword', this.userPassword);
 
-            axios
-            .post(definedRoutes.accountAccessRoute, {
-                username: this.username,
-                userPassword: this.userPassword
-            }, {
-                headers: { 
-                    "Content-Type": "application/x-www-form-urlencoded" 
-                }
-            })
-            .then(response => {           
-                this.submissionSuccess = true
-                this.$refs.statusMessage.innerHTML = response.data.statusMessage
+            UDS.tryLogin(this.username, this.userPassword)
 
-                if(response.status != 200) return;
-
-                this.userData = response.data.userData
-                this.showStatusMessage = false
-                this.userStore.toggleSignedIn()
-                this.userStore.addUserData(this.userData)
-            })
-            .catch(error => {
-                if(error == undefined) return
-
-                if(Object.hasOwn(error, 'response')) this.$refs.statusMessage.innerHTML = error.response.data.statusMessage;
-                else this.$refs.statusMessage.innerHTML = "Failed to connect to the server"
-                
-                this.submissionSuccess = false
-            })
-            .finally() 
+            this.submissionSuccess = true
+        }
+    },
+    computed: {
+        accessStatusMessage(){
+            return UDS.accessStatusMessage
+        },
+        signedIn(){
+            return UDS.signedIn
         }
     },
     created() {
-        this.userStore = useUserStore()
+       UDS = useUserStore()
     }
 }
 </script>
