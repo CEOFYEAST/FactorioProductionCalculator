@@ -1,8 +1,8 @@
 import axios from '@/scripts/axios';
 import { definedRoutes } from './router';
 
-export function sendLoginRequest(username, password){
-    axios
+export async function sendLoginRequest(username, password){
+    await axios
     .post(definedRoutes.accountAccessRoute, {
         username: username,
         userPassword: userPassword
@@ -11,26 +11,31 @@ export function sendLoginRequest(username, password){
             "Content-Type": "application/x-www-form-urlencoded" 
         }
     })
-    .then(response => {           
-        this.submissionSuccess = true
-        this.$refs.statusMessage.innerHTML = response.data.statusMessage
+    .then(response => {       
+        let toReturn = {
+            success: false,
+            statusMessage: "",
+            userData: undefined
+        }
+        toReturn.statusMessage = response.data.statusMessage
 
-        if(response.status != 200) return;
-
-        this.userData = response.data.userData
-        this.showStatusMessage = false
-        this.userStore.toggleSignedIn()
-        this.userStore.addUserData(this.userData)
+        if(response.status == 200 || response.status == 201) {
+            toReturn.success = true
+            toReturn.userData = response.data.userData
+        }
+       
     })
     .catch(error => {
-        if(error == undefined) return
-
-        if(Object.hasOwn(error, 'response')) this.$refs.statusMessage.innerHTML = error.response.data.statusMessage;
-        else this.$refs.statusMessage.innerHTML = "Failed to connect to the server"
-        
-        this.submissionSuccess = false
+         if(error != undefined){
+            if(Object.hasOwn(error, 'response')) toReturn.statusMessage = error.response.data.statusMessage;
+            else toReturn.statusMessage = "Failed to connect to the server"
+        }
     })
-    .finally() 
+    .finally(() => {
+        console.log("Responding With: " + toReturn)
+    })
+
+    return toReturn
 }
 
 export async function sendCreationRequest(username, password){
@@ -51,7 +56,7 @@ export async function sendCreationRequest(username, password){
     .then(response => {           
         toReturn.statusMessage = response.data.statusMessage
 
-        if(response.status == 200) toReturn.success = true
+        if(response.status == 200 || response.status == 201) toReturn.success = true
     })
     .catch(error => {
         if(error != undefined){
