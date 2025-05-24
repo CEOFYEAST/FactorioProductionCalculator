@@ -5,9 +5,9 @@
 
         <form id="sign-in-form" @submit.prevent="accessUser" class="flex column">
 
-            <input :disabled="signedIn" type="text" placeholder="Username" id="user-name" v-model="username" required><br>
-            <input :disabled="signedIn" type="password" placeholder="Password" id="user-password" v-model="userPassword" required><br>
-s
+            <input :disabled="signedIn" type="text" placeholder="Username" id="user-name" v-model="usernameInput" required><br>
+            <input :disabled="signedIn" type="password" placeholder="Password" id="user-password" v-model="userPasswordInput" required><br>
+
             <div id="submit-container" class="flex">
                 <div class="x3"></div>
                 <button v-if="!(signedIn)" id="submit" type="submit">Submit</button>
@@ -16,7 +16,7 @@ s
             </div>
 
             <div v-show="showStatusMessage">
-                <p>{{ creationStatusMessage }}</p>
+                <p>{{ accessStatusMessage }}</p>
             </div>
 
             <div v-if="!(signedIn)" id="create-account-pointer-container">
@@ -25,27 +25,16 @@ s
             </div>
 
             <div v-if="signedIn" id="current-user-pointer-container">
-                <p>User currently signed in: {{ userStore.username }}</p>
+                <p>User currently signed in: {{ username }}</p>
             </div>
 
         </form>
-
-        <!-- <div v-if="signedIn" id="logged-in-blurb" class="flex column middle center">
-            <h2>Account is currently signed in</h2>
-            <hr/>
-            <button @click="userStore.toggleSignedIn()" id="logout-button">Log Out</button>
-        </div> -->
-
-        <!-- <h2 v-show="submissionSuccess">User Data:</h2>
-        <div v-show="submissionSuccess" style="border: solid black 2px;">{{ userData }}</div> -->
-
     </div>
 </template>
 
 <script>
 import TopNav from '@/components/TheNav.vue'
 import { definedRoutes } from '../scripts/router'
-import { sendLoginRequest } from '@/scripts/userAPI'
 import { useUserStore } from '@/stores/user'
 
 let UDS = {}
@@ -57,13 +46,11 @@ export default {
     },
     data () {
         return {
-            username: "",
-            userPassword: "",
-            userData: {},
+            usernameInput: "",
+            userPasswordInput: "",
             showStatusMessage: false,
             submissionSuccess: false,
             accountCreationRoute: definedRoutes.accountCreationRoute,
-
         }
     },
     methods: {
@@ -71,10 +58,10 @@ export default {
             this.showStatusMessage = true
 
             var bodyFormData = new FormData();
-            bodyFormData.append('username', this.username);
-            bodyFormData.append('userPassword', this.userPassword);
+            bodyFormData.append('usernameInput', this.usernameInput);
+            bodyFormData.append('userPasswordInput', this.userPasswordInput);
 
-            UDS.tryLogin(this.username, this.userPassword)
+            UDS.tryLogin(this.usernameInput, this.userPasswordInput)
 
             this.submissionSuccess = true
         },
@@ -88,6 +75,9 @@ export default {
         },
         signedIn(){
             return UDS.signedIn
+        },
+        username(){
+            return UDS.username
         }
     },
     created() {

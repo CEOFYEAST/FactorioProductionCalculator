@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { sendCreationRequest, sendLoginRequest, handleSlotUpdate } from '@/scripts/userAPI'
 
 export const useUserStore = defineStore('user', {
-    state: () => ({ signedIn: false, creationStatusMessage: "", accessStatusMessage: "", saveSlotData: {
+    state: () => ({ data: null, username: "", signedIn: false, creationStatusMessage: "", accessStatusMessage: "", saveSlotData: {
         1: {},
         2: {},
         3: {}
@@ -19,14 +19,19 @@ export const useUserStore = defineStore('user', {
             }
         },
         tryCreateAccount(username, password){
+            this.creationStatusMessage = "Loading"
+            
             sendCreationRequest(username, password).then(({success, statusMessage}) => {
                 this.creationStatusMessage = statusMessage
             })
         },
         tryLogin(username, password){
+            this.accessStatusMessage = "Loading"
+
             sendLoginRequest(username, password).then(({success, statusMessage, userData}) => {
                 this.accessStatusMessage = statusMessage
                 this.signedIn = success
+                this.data = userData
             })            
         },
         logout(){
@@ -44,8 +49,8 @@ export const useUserStore = defineStore('user', {
     },
     getters:{
         username(state) {
-            if(state.data != undefined) return state.data.username
-            else return undefined
+            if(state.data != null) return state.data.username
+            else return ""
         }
     },
 })

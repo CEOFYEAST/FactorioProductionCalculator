@@ -2,28 +2,28 @@ import axios from '@/scripts/axios';
 import { definedRoutes } from './router';
 
 export async function sendLoginRequest(username, password){
+    let toReturn = {
+        success: false,
+        statusMessage: "",
+        userData: undefined
+    }
+
     await axios
     .post(definedRoutes.accountAccessRoute, {
         username: username,
-        userPassword: userPassword
+        userPassword: password
     }, {
         headers: { 
             "Content-Type": "application/x-www-form-urlencoded" 
         }
     })
     .then(response => {       
-        let toReturn = {
-            success: false,
-            statusMessage: "",
-            userData: undefined
-        }
         toReturn.statusMessage = response.data.statusMessage
 
         if(response.status == 200 || response.status == 201) {
             toReturn.success = true
             toReturn.userData = response.data.userData
         }
-       
     })
     .catch(error => {
          if(error != undefined){
@@ -45,7 +45,7 @@ export async function sendCreationRequest(username, password){
     }
 
     await axios
-    .post(definedRoutes.accountAccessRoute, {
+    .post(definedRoutes.accountCreationRoute, {
         username: username,
         userPassword: password
     }, {

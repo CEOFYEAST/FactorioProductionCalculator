@@ -6,7 +6,7 @@
         <button @click="validationErrorMssg = ''" style="margin-left: 20px; background-color: white; color: red; border: none; cursor: pointer;">Close</button>
       </div>
 
-      <h2 v-if="!resourcesLoaded">Loading...</h2>
+      <h2 v-if="!resourcesLoaded">Loading Recipes...</h2>
 
       <h2 v-if="resourcesLoaded">Calculator Controls</h2>
       <div v-if="resourcesLoaded" style="border: 2px solid black; margin-bottom: 10px; padding: 10px;">
