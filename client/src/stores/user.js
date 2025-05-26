@@ -16,22 +16,28 @@ export const useUserStore = defineStore('user', {
             this.accessStatusMessage = ""
             this.saveSlotData = {...defaultSaveSlots}
         },
-        tryCreateAccount(username, password){
+        async tryCreateAccount(username, password){
             this.creationStatusMessage = "Loading"
+            let requestSuccess = false
             
-            sendCreationRequest(username, password).then(({success, statusMessage}) => {
+            await sendCreationRequest(username, password).then(({success, statusMessage}) => {
                 this.creationStatusMessage = statusMessage
+                requestSuccess = success
             })
+
+            return requestSuccess
         },
-        tryLogin(username, password){
+        async tryLogin(username, password){
             this.accessStatusMessage = "Loading"
 
-            sendLoginRequest(username, password).then(({success, statusMessage, username}) => {
+            await sendLoginRequest(username, password).then(({success, statusMessage, username}) => {
                 this.accessStatusMessage = statusMessage
                 this.signedIn = success
                 console.log("Reply Username: " + username)
                 this.username = username
-            })            
+            })
+
+            return this.signedIn
         },
         logout(){
             this.signedIn = false

@@ -49,7 +49,6 @@ export default {
             usernameInput: "",
             userPasswordInput: "",
             showStatusMessage: false,
-            submissionSuccess: false,
             accountCreationRoute: definedRoutes.accountCreationRoute,
         }
     },
@@ -61,9 +60,12 @@ export default {
             bodyFormData.append('usernameInput', this.usernameInput);
             bodyFormData.append('userPasswordInput', this.userPasswordInput);
 
-            UDS.tryLogin(this.usernameInput, this.userPasswordInput)
-
-            this.submissionSuccess = true
+            UDS.tryLogin(this.usernameInput, this.userPasswordInput).then((loginSuccess) => {
+                if(loginSuccess) {
+                    this.usernameInput = ""
+                    this.userPasswordInput = ""
+                } else this.userPasswordInput = ""
+            })
         },
         logout(){
             UDS.logout()

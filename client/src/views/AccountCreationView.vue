@@ -5,14 +5,14 @@
 
         <form @submit.prevent="tryCreateUser" class="flex column">
             <p>Creating an account allows you to store production values for up to three factories across sessions.</p>
-            <input type="text" placeholder="Username" id="user-name" v-model="username" required><br>
-            <input type="password" placeholder="Password" id="user-password" v-model="userPassword" required><br>
+            <input type="text" placeholder="Username" id="user-name" v-model="usernameInput" required><br>
+            <input type="password" placeholder="Password" id="user-password" v-model="userPasswordInput" required><br>
             <div class="flex">
                 <div class="x3"></div>
                 <button id="submit" type="submit" class="x2">Submit</button>
                 <div class="x3"></div>
             </div>
-            <div v-show="submitted">
+            <div v-show="showStatusMessage">
                 <!-- Bind the status message to the creationStatusMessage in the store -->
                 <p>{{ creationStatusMessage }}</p>
             </div>
@@ -38,23 +38,28 @@ export default {
     },
     data () {
         return {
-            username: "",
-            userPassword: "",
-            submitted: false,
+            usernameInput: "",
+            userPasswordInput: "",
+            showStatusMessage: false,
             LOADING_MESSAGE: "Loading...",
             accountAccessRoute: definedRoutes.accountAccessRoute
         }
     },
     methods: {
         tryCreateUser() {
-            this.submitted = true
+            this.showStatusMessage = true
 
             var bodyFormData = new FormData();
-            bodyFormData.append('username', this.username);
-            bodyFormData.append('userPassword', this.userPassword);
+            bodyFormData.append('usernameInput', this.usernameInput);
+            bodyFormData.append('userPasswordInput', this.userPasswordInput);
 
             // Call the user store's tryCreateAccount method
-            UDS.tryCreateAccount(this.username, this.userPassword)
+            UDS.tryCreateAccount(this.usernameInput, this.userPasswordInput).then((creationSuccess) => {
+                if(creationSuccess) {
+                    this.usernameInput = ""
+                    this.userPasswordInput = ""
+                } else this.userPasswordInput = ""
+            })
         }
     },
     computed: {
