@@ -27,7 +27,7 @@ if(registerDB){
 }
 app.register(require('@fastify/cookie'))
 app.register(require('@fastify/cors'), {
-  origin: true, // or your frontend URL
+  origin: true,
   credentials: true
 })
 app.register(require('@fastify/formbody'), {})

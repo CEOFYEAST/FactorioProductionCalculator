@@ -40,7 +40,6 @@ const handleUserAccess = (req, reply) => {
                     replyObj.statusMessage = "Account successfully accessed";
                     replyObj.username = username;
                     req.session.authenticated = true;
-                    console.log("Session Username: " + req.session.username)
                     req.session.username = username;
                     return reply.code(200).send(replyObj);
                 }
