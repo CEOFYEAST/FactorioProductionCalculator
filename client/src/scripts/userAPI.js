@@ -5,7 +5,7 @@ export async function sendLoginRequest(username, password){
     let toReturn = {
         success: false,
         statusMessage: "",
-        userData: undefined
+        username: ""
     }
 
     await axios
@@ -15,14 +15,15 @@ export async function sendLoginRequest(username, password){
     }, {
         headers: { 
             "Content-Type": "application/x-www-form-urlencoded" 
-        }
+        },
+        withCredentials: true
     })
     .then(response => {       
         toReturn.statusMessage = response.data.statusMessage
 
         if(response.status == 200 || response.status == 201) {
             toReturn.success = true
-            toReturn.userData = response.data.userData
+            toReturn.username = response.data.username
         }
     })
     .catch(error => {
@@ -71,6 +72,7 @@ export async function sendCreationRequest(username, password){
     return toReturn
 }
 
-export function handleSlotUpdate(saveSlotsData){
-    
+export async function handleSlotUpdate(saveSlotsData){
+    await axios
+    .post()
 }

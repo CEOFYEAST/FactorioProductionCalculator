@@ -5,7 +5,7 @@ const usersCollectionName = "users";
 let statusResponse = { statusMessage: "Server error" };
 
 // the schema for a user data response
-let statusAndUserResponse = { statusMessage: "Server error", userData: {} };
+let statusAndUserResponse = { statusMessage: "Server error", username: "" };
 
 /**
  * Handles the overall process of accessing a user account, including the response
@@ -21,23 +21,28 @@ const handleUserAccess = (req, reply) => {
         checkForUserWithUsername(coll, username).then((usernameExists) => {
             //if(!usernameExists) reply.code(403).send({ statusMessage: "Account with the given username does not exist" });
             if(!usernameExists) {
-                let obj = { ...statusResponse };
-                obj.statusMessage = "Account with the given username does not exist";
-                return reply.code(403).send(obj);
+                let replyObj = { ...statusResponse };
+                replyObj.statusMessage = "Account with the given username does not exist";
+                req.session.authenticated = false;
+                return reply.code(403).send(replyObj);
             }
 
             fetchUserFromCollection(coll, username, userPassword).then((user) => {
                 let userExists = user != null;
                 if(!userExists){
-                    let obj = { ...statusResponse };
-                    obj.statusMessage = "Incorrect password";
-                    return reply.code(403).send(obj);
+                    let replyObj = { ...statusResponse };
+                    replyObj.statusMessage = "Incorrect password";
+                    req.session.authenticated = false;
+                    return reply.code(403).send(replyObj);
                 }
                 else {
-                    let obj = { ...statusAndUserResponse };
-                    obj.statusMessage = "Account successfully accessed";
-                    obj.userData = user;
-                    return reply.code(200).send(obj);
+                    let replyObj = { ...statusAndUserResponse };
+                    replyObj.statusMessage = "Account successfully accessed";
+                    replyObj.username = username;
+                    req.session.authenticated = true;
+                    console.log("Session Username: " + req.session.username)
+                    req.session.username = username;
+                    return reply.code(200).send(replyObj);
                 }
             });
         })
