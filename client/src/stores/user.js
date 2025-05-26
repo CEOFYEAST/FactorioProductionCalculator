@@ -1,22 +1,20 @@
 import { defineStore } from 'pinia'
 import { sendCreationRequest, sendLoginRequest, handleSlotUpdate } from '@/scripts/userAPI'
 
+const defaultSaveSlots = {
+    1: {},
+    2: {},
+    3: {},
+}
+
 export const useUserStore = defineStore('user', {
-    state: () => ({ username: "", signedIn: false, creationStatusMessage: "", accessStatusMessage: "", saveSlotData: {
-        1: {},
-        2: {},
-        3: {}
-    } }),
+    state: () => ({ username: "", signedIn: false, creationStatusMessage: "", accessStatusMessage: "", saveSlotData: {...defaultSaveSlots}}),
     actions: {
         refreshUserStore(){
             this.signedIn = false
             this.creationStatusMessage = ""
             this.accessStatusMessage = ""
-            this.saveSlotData = {
-                1: {},
-                2: {},
-                3: {},
-            }
+            this.saveSlotData = {...defaultSaveSlots}
         },
         tryCreateAccount(username, password){
             this.creationStatusMessage = "Loading"
