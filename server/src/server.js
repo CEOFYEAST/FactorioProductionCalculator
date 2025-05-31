@@ -39,10 +39,15 @@ app.register(require('@fastify/session'), {
   cookieName: 'sessionId',
   secret: Secret,
   cookie: {
-    maxAge: 1800000, secure: false 
+    maxAge: 1800000, 
+    secure: false ,
+    sameSite: "strict",
+    httpOnly: true,
+    path: "/"
   }
 })
-app.register(require('./routes/users.js'))
+app.register(require('./routes/accounts.js'))
+app.register(require('./save-slots.js'))
 app.register(require('./routes/recipes.js'))
 
 // Start listening.

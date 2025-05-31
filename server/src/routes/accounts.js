@@ -1,4 +1,5 @@
-const {handleUserAccess, handleUserCreation} = require('../controllers/users')
+const {handleUserAccess, handleUserCreation} = require('../controllers/accounts')
+const {StatusOnlyResponseSchema} = require('../schemas/shared-schemas')
 
 const UserRequestSchema = {
     type: 'object',
@@ -16,15 +17,6 @@ const LoginResponseSchema = {
     properties: {
         statusMessage: { type: 'string' },
         username: { type: 'string' },
-    }
-}
-
-const StatusOnlyResponseSchema = {
-    type: 'object',
-    description: 'a status message response',
-    required: ['statusMessage'],
-    properties: {
-        statusMessage: { type: 'string' }
     }
 }
 
@@ -51,14 +43,14 @@ const createUserOpts = {
     handler: handleUserCreation
 }
 
-function userRoutes(fastify, options, done){
+function accountsRoutes(fastify, options, done){
     // get all items
-    fastify.post('/users/access', accessUserOpts)
+    fastify.post('/accounts/access', accessUserOpts)
     
     // add item
-    fastify.post('/users/create', createUserOpts)
+    fastify.post('/accounts/create', createUserOpts)
 
     done()
 }
 
-module.exports = userRoutes
+module.exports = accountsRoutes
