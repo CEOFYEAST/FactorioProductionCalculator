@@ -1,0 +1,7 @@
+{
+  "maxAge": 1800000,
+  "secure": false,
+  "sameSite": "strict",
+  "httpOnly": true,
+  "path": "/"
+}
