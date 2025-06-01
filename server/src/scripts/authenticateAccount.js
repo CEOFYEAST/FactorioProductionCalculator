@@ -1,5 +1,5 @@
-const CredentialsCollectionName = readConfig(process.env["CREDENTIALS_COLLECTION"])
-const DatabaseName = readConfig(process.env["DATABASE"])
+const CredentialsCollectionName = process.env["CREDENTIALS_COLLECTION"]
+const DatabaseName = process.env["DATABASE"]
 
 async function authenticateAccount(app, username, userPassword){
     await app.ready()
@@ -9,4 +9,6 @@ async function authenticateAccount(app, username, userPassword){
     let result = await coll.findOne(query);
     return (result != null && result.password == userPassword)
 }
+
+module.exports = authenticateAccount
 

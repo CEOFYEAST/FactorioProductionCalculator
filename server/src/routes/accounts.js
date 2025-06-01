@@ -25,7 +25,8 @@ const accessUserOpts = {
         body: UserRequestSchema,
         response: {
             200: LoginResponseSchema,
-            403: StatusOnlyResponseSchema
+            403: StatusOnlyResponseSchema,
+            404: StatusOnlyResponseSchema
         }
     },
     handler: handleUserAccess

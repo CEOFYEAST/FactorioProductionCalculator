@@ -1,5 +1,6 @@
 const queryAccount = require('../scripts/queryAccount')
 const createAccount = require('../scripts/createAccount')
+const authenticateAccount = require('../scripts/authenticateAccount')
 
 let statusResponse = { statusMessage: "Server error" };
 let statusAndUserResponse = { statusMessage: "Server error", username: "" };
@@ -17,7 +18,7 @@ const handleUserAccess = (req, reply) => {
             let replyObj = { ...statusResponse };
             replyObj.statusMessage = "Account with the given username does not exist";
             req.session.authenticated = false;
-            return reply.code(403).send(replyObj);
+            return reply.code(404).send(replyObj);
         }
 
         authenticateAccount(req.app, username, userPassword).then((userAuthenticated) => {
@@ -54,17 +55,20 @@ const handleUserCreation = (req, reply) => {
             return reply.code(400).send(obj);
         }
 
-        createAccount(req.app, username, userPassword).then((success) => {
-            if(!success) {
-                let obj = { ...statusResponse };
-                obj.statusMessage = "Server error; account cannot be created";
-                return reply.code(500).send(obj);
-            }
-            else {
-                let obj = { ...statusResponse };
-                obj.statusMessage = "Account successfully created";
-                return reply.code(201).send(obj);
-            }
+        createAccount(req.app, username, userPassword).then(() => {
+
+            queryAccount(req.app, username).then((creationSuccess) => {
+                if(!creationSuccess) {
+                    let obj = { ...statusResponse };
+                    obj.statusMessage = "Server error; account was not created";
+                    return reply.code(500).send(obj);
+                }
+                else {
+                    let obj = { ...statusResponse };
+                    obj.statusMessage = "Account successfully created";
+                    return reply.code(201).send(obj);
+                }
+            })
         })  
     })
 }
