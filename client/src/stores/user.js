@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { sendCreationRequest, sendLoginRequest, handleSlotUpdate } from '@/scripts/userAPI'
+import { sendCreationRequest, sendLoginRequest } from '@/scripts/accountsAPI'
+import { handleSlotUpdate, handleSlotFetch } from '@/scripts/saveSlotsAPI'
 
 const defaultSaveSlots = {
     1: {},
@@ -47,6 +48,10 @@ export const useUserStore = defineStore('user', {
             this.saveSlotData[slotID] = factoryData
 
             handleSlotUpdate(this.saveSlotData)
+        },
+        async fetchSlotsData(){
+            let slots = await handleSlotFetch()
+            this.saveSlotData = { ...slots }
         },
         loadSlot(slotID, loadFactoryCallback){
             loadFactoryCallback(this.saveSlotData[slotID])

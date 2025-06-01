@@ -11,7 +11,6 @@ let statusAndDataResponse = { statusMessage: "Server error", username: "" };
  * @param {*The response, including the user account accessed, or an error code if the given user couldn't be found} reply 
  */
 const handleUserAccess = (req, reply) => {
-    console.log("Request: ", req.body)
     const { username, userPassword } = req.body
 
     queryAccount(req.app, username).then((userExists) => {
