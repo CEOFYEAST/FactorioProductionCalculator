@@ -7,4 +7,4 @@ const StatusOnlyResponseSchema = {
     }
 }
 
-module.exports = StatusOnlyResponseSchema
+module.exports = { StatusOnlyResponseSchema }

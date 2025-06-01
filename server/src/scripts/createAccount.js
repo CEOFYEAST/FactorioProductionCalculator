@@ -1,6 +1,6 @@
-const CredentialsCollectionName = readConfig(process.env["CREDENTIALS_COLLECTION"])
-const SaveSlotsCollectionName = readConfig(process.env["SAVE_SLOTS_COLLECTION"])
-const DatabaseName = readConfig(process.env["DATABASE"])
+const CredentialsCollectionName = process.env["CREDENTIALS_COLLECTION"]
+const SaveSlotsCollectionName = process.env["SAVE_SLOTS_COLLECTION"]
+const DatabaseName = process.env["DATABASE"]
 
 async function createAccount(app, username, userPassword){
     await Promise.all([
@@ -29,7 +29,7 @@ async function insertSaveSlots(app, username){
     await app.ready()
     let db = app.mongo.client.db(DatabaseName);
     let coll = db.collection(SaveSlotsCollectionName);
-    for(let i in Range(1,3)) {
+    for (let i = 1; i <= 3; i++) {
         let toInsert = {
             ...slotSchema,
             index: i

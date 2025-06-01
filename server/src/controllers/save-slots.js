@@ -1,5 +1,3 @@
-handleSlotsUpdate, handleSlotsFetch
-
 const handleSlotsFetch = (req, reply) => {
     if(!(req.session.authenticated)){
         // send 401 code + status message response
@@ -21,3 +19,5 @@ const handleSlotsUpdate = (req, reply) => {
     // update save slot data
     // send success response 
 }
+
+module.exports = {handleSlotsUpdate, handleSlotsFetch}

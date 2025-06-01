@@ -45,7 +45,7 @@ app.register(require('@fastify/session'), {
   }
 })
 app.register(require('./routes/accounts.js'))
-app.register(require('./save-slots.js'))
+app.register(require('./routes/save-slots.js'))
 app.register(require('./routes/recipes.js'))
 
 // Start listening.

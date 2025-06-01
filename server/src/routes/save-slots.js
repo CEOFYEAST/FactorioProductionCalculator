@@ -50,7 +50,7 @@ const fetchSlotsOpts = {
 } 
 
 const updateSlotsOpts = {
-     schema: {
+    schema: {
         body: SlotsUpdateRequestSchema,
         response: {
             200: SlotsUpdate_SuccessResponseSchema,

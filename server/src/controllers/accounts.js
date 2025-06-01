@@ -1,7 +1,7 @@
-// the schema for a status message-only response
-let statusResponse = { statusMessage: "Server error" };
+const queryAccount = require('../scripts/queryAccount')
+const createAccount = require('../scripts/createAccount')
 
-// the schema for a user data response
+let statusResponse = { statusMessage: "Server error" };
 let statusAndUserResponse = { statusMessage: "Server error", username: "" };
 
 /**
@@ -48,7 +48,7 @@ const handleUserCreation = (req, reply) => {
     const { username, userPassword } = req.body
 
     queryAccount(req.app, username).then((userExists) => {
-        if(usernameExists) {
+        if(userExists) {
             let obj = { ...statusResponse };
             obj.statusMessage = "Account with the given username already exists";
             return reply.code(400).send(obj);
