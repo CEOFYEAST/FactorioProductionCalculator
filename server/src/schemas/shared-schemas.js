@@ -7,4 +7,16 @@ const StatusOnlyResponseSchema = {
     }
 }
 
-module.exports = { StatusOnlyResponseSchema }
+const BackendSlotSchema = {
+    username: '',
+    index: 1,
+    data: {}
+}
+
+const FrontendSlotSchema = {
+    1: {},
+    2: {},
+    3: {}
+}
+
+module.exports = { StatusOnlyResponseSchema, BackendSlotSchema, FrontendSlotSchema }

@@ -19,12 +19,10 @@ const SlotsUpdateRequestSchema = {
 
 const SlotsFetch_SuccessResponseSchema = {
     description: 'a success response including slots data',
-    required: ['statusMessage', '1', '2', '3'],
+    required: ['statusMessage', 'data'],
     properties: {
         statusMessage: { type: 'string' },
-        1: { type: 'object' },
-        2: { type: 'object' },
-        3: { type: 'object' }
+        data: { type: 'object' }
     }
 }
 
@@ -41,9 +39,7 @@ const fetchSlotsOpts = {
         body: SlotsFetchRequestSchema,
         response: {
             200: SlotsFetch_SuccessResponseSchema,
-            400: StatusOnlyResponseSchema,
             401: StatusOnlyResponseSchema,
-            403: StatusOnlyResponseSchema
         }
     },
     handler: handleSlotsFetch

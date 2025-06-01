@@ -1,17 +1,29 @@
+const fetchSaveSlots = require('../scripts/fetchSaveSlots')
+const updateSaveSlots = require('../scripts/updateSaveSlots')
+
+let statusResponse = { statusMessage: "Server error" };
+let statusAndDataResponse = { statusMessage: "Server error", data: "" };
+
 const handleSlotsFetch = (req, reply) => {
     if(!(req.session.authenticated)){
-        // send 401 code + status message response
+        let obj = { ...statusResponse };
+        obj.statusMessage = "User is not authenticated";
+        return reply.code(401).send(obj);
     }
-
-    // get username from session
-    // (maybe) check if user exists
-    // fetch save slot data
-    // return save slot data
+    fetchSaveSlots(req.app, req.session.username).then((slotsData) => {
+        let obj = { ...statusAndDataResponse };
+        obj.data = { ...slotsData };
+        obj.statusMessage = "Save slots data successfully fetched";
+        console.log(obj)
+        return reply.code(200).send(obj);
+    })
 }
 
 const handleSlotsUpdate = (req, reply) => {
     if(!(req.session.authenticated)){
-        // send 401 code + status message response
+        let obj = { ...statusResponse };
+        obj.statusMessage = "User is not authenticated";
+        return reply.code(401).send(obj);
     }
 
     // get username from session

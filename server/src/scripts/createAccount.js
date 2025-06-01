@@ -1,3 +1,4 @@
+const {BackendSlotSchema} = require('../schemas/shared-schemas')
 const CredentialsCollectionName = process.env["CREDENTIALS_COLLECTION"]
 const SaveSlotsCollectionName = process.env["SAVE_SLOTS_COLLECTION"]
 const DatabaseName = process.env["DATABASE"]
@@ -21,17 +22,12 @@ async function insertCredentials(app, username, userPassword){
 }
 
 async function insertSaveSlots(app, username){
-    let slotSchema = {
-        username: username,
-        index: 1,
-        data: {}
-    }
     await app.ready()
     let db = app.mongo.client.db(DatabaseName);
     let coll = db.collection(SaveSlotsCollectionName);
     for (let i = 1; i <= 3; i++) {
         let toInsert = {
-            ...slotSchema,
+            ...BackendSlotSchema,
             index: i
         }
         await coll.insertOne(toInsert);

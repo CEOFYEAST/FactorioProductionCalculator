@@ -1,5 +1,5 @@
-const SaveSlotsCollectionName = readConfig(process.env["SAVE_SLOTS_COLLECTION"])
-const DatabaseName = readConfig(process.env["DATABASE"])
+const SaveSlotsCollectionName = process.env["SAVE_SLOTS_COLLECTION"]
+const DatabaseName = process.env["DATABASE"]
 
 async function updateSaveSlots(app, username, currentSlotData) {
     await app.ready();
@@ -11,5 +11,7 @@ async function updateSaveSlots(app, username, currentSlotData) {
         await coll.updateOne(query, update, { upsert: true });
     }
 }
+
+module.exports = updateSaveSlots
 
 
