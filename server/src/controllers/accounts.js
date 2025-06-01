@@ -3,7 +3,7 @@ const createAccount = require('../scripts/createAccount')
 const authenticateAccount = require('../scripts/authenticateAccount')
 
 let statusResponse = { statusMessage: "Server error" };
-let statusAndUserResponse = { statusMessage: "Server error", username: "" };
+let statusAndDataResponse = { statusMessage: "Server error", username: "" };
 
 /**
  * Handles the overall process of accessing a user account, including the response
@@ -11,6 +11,7 @@ let statusAndUserResponse = { statusMessage: "Server error", username: "" };
  * @param {*The response, including the user account accessed, or an error code if the given user couldn't be found} reply 
  */
 const handleUserAccess = (req, reply) => {
+    console.log("Request: ", req.body)
     const { username, userPassword } = req.body
 
     queryAccount(req.app, username).then((userExists) => {
@@ -29,7 +30,7 @@ const handleUserAccess = (req, reply) => {
                 return reply.code(403).send(replyObj);
             }
             else {
-                let replyObj = { ...statusAndUserResponse };
+                let replyObj = { ...statusAndDataResponse };
                 replyObj.statusMessage = "Account successfully accessed";
                 replyObj.username = username;
                 req.session.authenticated = true;

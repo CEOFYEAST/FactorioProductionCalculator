@@ -14,7 +14,6 @@ const handleSlotsFetch = (req, reply) => {
         let obj = { ...statusAndDataResponse };
         obj.data = { ...slotsData };
         obj.statusMessage = "Save slots data successfully fetched";
-        console.log(obj)
         return reply.code(200).send(obj);
     })
 }
@@ -25,11 +24,11 @@ const handleSlotsUpdate = (req, reply) => {
         obj.statusMessage = "User is not authenticated";
         return reply.code(401).send(obj);
     }
-
-    // get username from session
-    // (maybe) check if user exists
-    // update save slot data
-    // send success response 
+    updateSaveSlots(req.app, req.session.username, req.body).then(() => {
+        let obj = { ...statusResponse };
+        obj.statusMessage = "Save slots data successfully updated";
+        return reply.code(201).send(obj);
+    })
 }
 
 module.exports = {handleSlotsUpdate, handleSlotsFetch}
