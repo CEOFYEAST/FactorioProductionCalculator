@@ -14,7 +14,6 @@ const handleSlotsFetch = (req, reply) => {
         let obj = { ...statusAndDataResponse };
         obj.data = { ...slotsData };
         obj.statusMessage = "Save slots data successfully fetched";
-        console.log("\n Data: \n", obj.data)
         return reply.code(200).send(obj);
     })
 }

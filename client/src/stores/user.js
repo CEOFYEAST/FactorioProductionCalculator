@@ -34,7 +34,6 @@ export const useUserStore = defineStore('user', {
             await sendLoginRequest(username, password).then(({success, statusMessage, username}) => {
                 this.accessStatusMessage = statusMessage
                 this.signedIn = success
-                console.log("Reply Username: " + username)
                 this.username = username
             })
 
@@ -48,13 +47,14 @@ export const useUserStore = defineStore('user', {
         },
         saveToSlot(slotID, factoryData){
             this.saveSlotData[slotID] = factoryData
-
-            handleSlotUpdate(this.saveSlotData)
+            this.triggerSlotsUpdate()
+        },
+        async triggerSlotsUpdate(){
+            let response = await handleSlotUpdate(this.saveSlotData)
         },
         async fetchSlotsData(){
             let response = await handleSlotFetch()
             if(response.success) this.saveSlotData = { ...response.data }
-            console.log(response.data)
         },
         loadSlot(slotID, loadFactoryCallback){
             loadFactoryCallback(this.saveSlotData[slotID])

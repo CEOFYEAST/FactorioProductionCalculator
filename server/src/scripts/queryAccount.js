@@ -7,7 +7,6 @@ async function queryAccount(app, username){
     let coll = db.collection(CredentialsCollectionName);
     const query = { username: username };
     let result = await coll.findOne(query);
-    console.log("Result:", result != null);
     return result != null;
 }
 

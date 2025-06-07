@@ -4,7 +4,7 @@ import { definedRoutes } from './router';
 export async function sendLoginRequest(username, password){
     let toReturn = {
         success: false,
-        statusMessage: "",
+        statusMessage: "No message returned",
         username: ""
     }
 
@@ -33,7 +33,6 @@ export async function sendLoginRequest(username, password){
         }
     })
     .finally(() => {
-        console.log("Responding With: " + toReturn)
     })
 
     return toReturn
@@ -42,7 +41,7 @@ export async function sendLoginRequest(username, password){
 export async function sendCreationRequest(username, password){
     let toReturn = {
         success: false,
-        statusMessage: ""
+        statusMessage: "No message returned"
     }
 
     await axios
@@ -66,13 +65,7 @@ export async function sendCreationRequest(username, password){
         }
     })
     .finally(() => {
-        console.log("Responding With: " + toReturn)
     })
 
     return toReturn
-}
-
-export async function handleSlotUpdate(saveSlotsData){
-    await axios
-    .post()
 }
