@@ -1,5 +1,5 @@
 const {handleUserAccess, handleUserCreation} = require('../controllers/accounts')
-const {StatusOnlyResponseSchema} = require('../schemas/shared-schemas')
+const {StatusOnlyResponseSchema} = require('../schemas/shared')
 
 const UserRequestSchema = {
     type: 'object',

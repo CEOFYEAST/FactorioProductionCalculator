@@ -2,7 +2,7 @@ const fetchSaveSlots = require('../scripts/fetchSaveSlots')
 const updateSaveSlots = require('../scripts/updateSaveSlots')
 
 let statusResponse = { statusMessage: "Server error" };
-let statusAndDataResponse = { statusMessage: "Server error", data: "" };
+let statusAndDataResponse = { statusMessage: "Server error", data: {} };
 
 const handleSlotsFetch = (req, reply) => {
     if(!(req.session.authenticated)){
@@ -14,6 +14,7 @@ const handleSlotsFetch = (req, reply) => {
         let obj = { ...statusAndDataResponse };
         obj.data = { ...slotsData };
         obj.statusMessage = "Save slots data successfully fetched";
+        console.log("\n Data: \n", obj.data)
         return reply.code(200).send(obj);
     })
 }

@@ -9,7 +9,7 @@ import ProductionCalculatorView from '@/views/ProductionCalculatorView.vue'
 export const definedRoutes = await {
   accountAccessRoute: '/accounts/access',
   accountCreationRoute: '/accounts/create',
-  saveSlotsFetchRoute: '/save-slots/fetch',
+  saveSlotsFetchRoute: '/save-slots/access',
   saveSlotsUpdateRoute: '/save-slots/update',
   aboutViewRoute: '/',
   userDataRoute: '/user-data',

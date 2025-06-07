@@ -38,6 +38,8 @@ export const useUserStore = defineStore('user', {
                 this.username = username
             })
 
+            if(this.signedIn) this.fetchSlotsData();
+
             return this.signedIn
         },
         logout(){
@@ -50,8 +52,9 @@ export const useUserStore = defineStore('user', {
             handleSlotUpdate(this.saveSlotData)
         },
         async fetchSlotsData(){
-            let slots = await handleSlotFetch()
-            this.saveSlotData = { ...slots }
+            let response = await handleSlotFetch()
+            if(response.success) this.saveSlotData = { ...response.data }
+            console.log(response.data)
         },
         loadSlot(slotID, loadFactoryCallback){
             loadFactoryCallback(this.saveSlotData[slotID])

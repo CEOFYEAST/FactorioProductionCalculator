@@ -1,4 +1,4 @@
-const {BackendSlotSchema} = require('../schemas/shared-schemas')
+const {BackendSlotSchema} = require('../schemas/shared')
 const CredentialsCollectionName = process.env["CREDENTIALS_COLLECTION"]
 const SaveSlotsCollectionName = process.env["SAVE_SLOTS_COLLECTION"]
 const DatabaseName = process.env["DATABASE"]
