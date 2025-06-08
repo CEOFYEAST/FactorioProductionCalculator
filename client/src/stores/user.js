@@ -9,13 +9,24 @@ const defaultSaveSlots = {
 }
 
 export const useUserStore = defineStore('user', {
-    state: () => ({ username: "", signedIn: false, creationStatusMessage: "", accessStatusMessage: "", saveSlotData: {...defaultSaveSlots}}),
+    state: () => ({ username: "", signedIn: false, creationStatusMessage: "", accessStatusMessage: "", saveSlotsStatusMessage: "", saveSlotData: {...defaultSaveSlots}}),
     actions: {
         refreshUserStore(){
             this.signedIn = false
             this.creationStatusMessage = ""
             this.accessStatusMessage = ""
             this.saveSlotData = {...defaultSaveSlots}
+        },
+        logout(){
+            this.signedIn = false
+            this.refreshUserStore()
+        },
+        saveToSlot(slotID, factoryData){
+            this.saveSlotData[slotID] = factoryData
+            this.triggerSlotsUpdate()
+        },
+        loadSlot(slotID, loadFactoryCallback){
+            loadFactoryCallback(this.saveSlotData[slotID])
         },
         async tryCreateAccount(username, password){
             this.creationStatusMessage = "Loading"
@@ -41,24 +52,17 @@ export const useUserStore = defineStore('user', {
 
             return this.signedIn
         },
-        logout(){
-            this.signedIn = false
-            this.refreshUserStore()
-        },
-        saveToSlot(slotID, factoryData){
-            this.saveSlotData[slotID] = factoryData
-            this.triggerSlotsUpdate()
-        },
         async triggerSlotsUpdate(){
+            this.saveSlotsStatusMessage = "Updating Slots Data"
             let response = await handleSlotUpdate(this.saveSlotData)
+            this.saveSlotsStatusMessage = response.statusMessage
         },
         async fetchSlotsData(){
+            this.saveSlotsStatusMessage = "Fetching Slots Data"
             let response = await handleSlotFetch()
             if(response.success) this.saveSlotData = { ...response.data }
+            this.saveSlotsStatusMessage = response.statusMessage
         },
-        loadSlot(slotID, loadFactoryCallback){
-            loadFactoryCallback(this.saveSlotData[slotID])
-        }
     }
 })
  

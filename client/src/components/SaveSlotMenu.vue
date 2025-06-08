@@ -15,6 +15,9 @@
             <button :disabled="!selectedSlot" @click="save">Save</button>
             <button :disabled="!selectedSlot" @click="load">Load</button>
         </div>
+        <div v-show="showStatusMessage">
+            <p>{{ saveSlotsStatusMessage }}</p>
+        </div>
     </div>
 </template>
 
@@ -32,6 +35,7 @@ export default {
         return {
             saveSlotData: UDS.saveSlotData,
             selectedSlot: null,
+            showStatusMessage: true,
         };
     },
     methods: {
@@ -45,12 +49,17 @@ export default {
             UDS.loadSlot(this.selectedSlot, LFS.loadFactoryData)
         },
     },
+    computed: {
+        saveSlotsStatusMessage(){
+            return UDS.saveSlotsStatusMessage
+        },
+    },
     beforeCreate(){
         // essential to set before creation so that the computed properties can refer to the proper values
         UDS = useUserStore()
         LFS = useLoadedFactory()
     },
-};
+}
 </script>
 
 <style scoped>
