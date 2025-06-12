@@ -1,9 +1,10 @@
 const queryAccount = require('../scripts/queryAccount')
 const createAccount = require('../scripts/createAccount')
 const authenticateAccount = require('../scripts/authenticateAccount')
+const createToken = require('../scripts/createToken')
 
-let statusResponse = { statusMessage: "Server error" };
-let statusAndDataResponse = { statusMessage: "Server error", username: "" };
+let statusResponse = { statusMessage: null };
+let statusAndDataResponse = { statusMessage: null, username: null, token: null };
 
 /**
  * Handles the overall process of accessing a user account, including the response
@@ -17,7 +18,6 @@ const handleUserAccess = (req, reply) => {
         if(!userExists) {
             let replyObj = { ...statusResponse };
             replyObj.statusMessage = "Account with the given username does not exist";
-            req.session.authenticated = false;
             return reply.code(404).send(replyObj);
         }
 
@@ -25,16 +25,17 @@ const handleUserAccess = (req, reply) => {
             if(!userAuthenticated){
                 let replyObj = { ...statusResponse };
                 replyObj.statusMessage = "Incorrect password";
-                req.session.authenticated = false;
                 return reply.code(403).send(replyObj);
             }
             else {
                 let replyObj = { ...statusAndDataResponse };
                 replyObj.statusMessage = "Account successfully accessed";
                 replyObj.username = username;
-                req.session.authenticated = true;
-                req.session.username = username;
-                return reply.code(200).send(replyObj);
+                replyObj.token = createToken(username, "2h").then(token => {
+                    replyObj.token = token
+                    console.log("Token: ", token)
+                    return reply.code(200).send(replyObj);
+                })
             }
         });
     })

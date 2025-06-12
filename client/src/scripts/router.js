@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AccountAccessView from '@/views/AccountAccessView.vue'
 import AccountCreationView from '@/views/AccountCreationView.vue'
 import AboutView from '@/views/AboutView.vue'
-import UserDataView from '@/views/UserDataView.vue'
+import SaveSlotsView from '@/views/SaveSlotsView.vue'
 import ProductionCalculatorView from '@/views/ProductionCalculatorView.vue'
 
 export const definedRoutes = await {
@@ -12,12 +12,12 @@ export const definedRoutes = await {
   saveSlotsFetchRoute: '/save-slots/access',
   saveSlotsUpdateRoute: '/save-slots/update',
   aboutViewRoute: '/',
-  userDataRoute: '/user-data',
+  saveSlotsRoute: '/save-slots',
   prodChainCalculatorRoute: '/prod-chain-calculator'
 }
 
 const routes = [
-  { path: definedRoutes.userDataRoute, component: UserDataView },
+  { path: definedRoutes.saveSlotsRoute, component: SaveSlotsView },
   { path: definedRoutes.accountAccessRoute, component: AccountAccessView },
   { path: definedRoutes.accountCreationRoute, component: AccountCreationView },
   { path: definedRoutes.aboutViewRoute, component: AboutView },

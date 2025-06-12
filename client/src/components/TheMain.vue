@@ -1,7 +1,7 @@
 <template>
     <div 
     id="TheMain-root" 
-    :class="{ small: sizeControllers.isSmall, medium: sizeControllers.isMedium, large: sizeControllers.isLarge }"
+    :class="{ small: sizeControllers.isSmall, medium: sizeControllers.isMedium, large: sizeControllers.isLarge, full: sizeControllers.isFull }"
     >
         <RouterView />
     </div>
@@ -19,21 +19,26 @@ export default {
                 isSmall: false,
                 isMedium: false,
                 isLarge: false,
+                isFull: false,
             },
-            // the routes whose views should be smaller
+            // the routes whose views should have a smaller width
             smallRoutes: [
                 definedRoutes.aboutViewRoute,
                 definedRoutes.accountAccessRoute,
                 definedRoutes.accountCreationRoute,
-                definedRoutes.userDataRoute
+                definedRoutes.saveSlotsRoute
             ],
-            // the routes whose views should be medium-sized
+            // the routes whose views should have a medium-sized width
             mediumRoutes: [
             
             ],
-            // the routes whose views should be large
+            // the routes whose view should have a large width
             largeRoutes: [
                 
+            ],
+            // the routes whose view should take up the full width of the screen
+            fullRoutes: [
+                definedRoutes.prodChainCalculatorRoute
             ]
         }
     },
@@ -54,11 +59,16 @@ export default {
                 console.log("--------------\n Large Route \n--------------")
                 this.sizeControllers.isLarge = true;
             }
+             else if(this.fullRoutes.find((value) => value == route) != undefined) {
+                console.log("--------------\n Full Route \n--------------")
+                this.sizeControllers.isFull = true;
+            }
         },
         disableSizeClasses() {
             this.sizeControllers.isSmall = false,
             this.sizeControllers.isMedium = false,
-            this.sizeControllers.isLarge = false
+            this.sizeControllers.isLarge = false,
+            this.sizeControllers.isFull = false
         }
     },
     mounted() {
@@ -95,6 +105,11 @@ export default {
     width: 80%;
     min-width: 80%;
     max-width: 80%;
+}
+#TheMain-root.full {
+    width: 95%;
+    min-width: 95%;
+    max-width: 95%;
 }
 #TheMain-root:only-child {
     display: flex;

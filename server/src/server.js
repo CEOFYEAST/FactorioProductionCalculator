@@ -5,8 +5,6 @@
 const readConfig = require('./scripts/readConfig.js')
 const Fastify = require('fastify')
 const DBUrl = process.env["DB_URL"]
-const Secret = process.env["COOKIE_SIG"]
-const CookieConfig = readConfig(process.env["SESSION_CONFIG"])
 const PORT = 3000
 const HOST = 'localhost'
 const registerDB = true
@@ -36,13 +34,6 @@ app.register(require('@fastify/formbody'), {})
 app.register(require('@fastify/swagger'), {})
 app.register(require('@fastify/swagger-ui'), {
   routePrefix: '/documentation'
-})
-app.register(require('@fastify/session'), {
-  cookieName: 'sessionId',
-  secret: Secret,
-  cookie: {
-    ...CookieConfig
-  }
 })
 app.register(require('./routes/accounts.js'))
 app.register(require('./routes/save-slots.js'))

@@ -13,10 +13,11 @@ const UserRequestSchema = {
 const LoginResponseSchema = {
     type: 'object',
     description: 'a success response including user data',
-    required: ['statusMessage', 'username'],
+    required: ['statusMessage', 'username', 'token'],
     properties: {
         statusMessage: { type: 'string' },
         username: { type: 'string' },
+        token: { type: 'string' },
     }
 }
 
