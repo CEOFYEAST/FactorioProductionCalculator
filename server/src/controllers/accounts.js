@@ -33,7 +33,6 @@ const handleUserAccess = (req, reply) => {
                 replyObj.username = username;
                 replyObj.token = createToken(username, "2h").then(token => {
                     replyObj.token = token
-                    console.log("Token: ", token)
                     return reply.code(200).send(replyObj);
                 })
             }

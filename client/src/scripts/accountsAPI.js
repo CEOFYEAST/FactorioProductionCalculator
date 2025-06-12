@@ -24,6 +24,9 @@ export async function sendLoginRequest(username, password){
         if(response.status == 200 || response.status == 201) {
             toReturn.success = true
             toReturn.username = response.data.username
+            if (response.data.token) {
+                localStorage.setItem('token', response.data.token);
+            }
         }
     })
     .catch(error => {

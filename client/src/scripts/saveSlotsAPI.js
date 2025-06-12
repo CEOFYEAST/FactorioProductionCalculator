@@ -8,10 +8,13 @@ export async function handleSlotFetch(){
         data: {}
     }
 
+    const token = localStorage.getItem('token');
+
     await axios
     .post(definedRoutes.saveSlotsFetchRoute, {}, {
         headers: { 
-            "Content-Type": "application/json" 
+            "Content-Type": "application/json",
+            "Authorization": token ? `Bearer ${token}` : undefined
         },
         withCredentials: true
     })
@@ -41,10 +44,13 @@ export async function handleSlotUpdate(saveSlotData){
         success: false,
     }
 
+    const token = localStorage.getItem('token');
+
     await axios
     .post(definedRoutes.saveSlotsUpdateRoute, {...saveSlotData}, {
         headers: { 
-            "Content-Type": "application/json" 
+            "Content-Type": "application/json",
+             "Authorization": token ? `Bearer ${token}` : undefined
         },
         withCredentials: true
     })
