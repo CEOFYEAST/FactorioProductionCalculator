@@ -12,14 +12,12 @@ class Store extends EventEmitter {
     }
 
     get (sessionId, callback) {
-        console.log(`\n Getting Session: ${sessionId} w/ App ${this.app} \n`)
         querySession(this.app, sessionId).then((session) => {
             callback(null, session)
         })
     }
 
     set (sessionId, session, callback) {
-        console.log(`\n Setting Session: ${sessionId} w/ App ${this.app} \n`)
         createSession(this.app, sessionId, session).then(() => {
             callback()
         })
