@@ -6,7 +6,7 @@ const DatabaseName = process.env["DATABASE"]
 async function createAccount(app, username, userPassword){
     await Promise.all([
         insertCredentials(app, username, userPassword),
-        insertSaveSlots(app, username)
+        insertSaveSlots(app)
     ])
 }
 
@@ -21,7 +21,7 @@ async function insertCredentials(app, username, userPassword){
     await coll.insertOne(credentials);
 }
 
-async function insertSaveSlots(app, username){
+async function insertSaveSlots(app){
     await app.ready()
     let db = app.mongo.client.db(DatabaseName);
     let coll = db.collection(SaveSlotsCollectionName);

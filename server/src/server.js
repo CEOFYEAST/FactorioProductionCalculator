@@ -4,6 +4,7 @@
 
 const readConfig = require('./scripts/readConfig.js')
 const Fastify = require('fastify')
+const Store = require('./scripts/store.js')
 const DBUrl = process.env["DB_URL"]
 const Secret = process.env["COOKIE_SIG"]
 const CookieConfig = readConfig(process.env["SESSION_CONFIG"])
@@ -38,6 +39,7 @@ app.register(require('@fastify/swagger-ui'), {
   routePrefix: '/documentation'
 })
 app.register(require('@fastify/session'), {
+  store: new Store(),
   cookieName: 'sessionId',
   secret: Secret,
   cookie: {
