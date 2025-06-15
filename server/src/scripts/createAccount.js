@@ -11,13 +11,13 @@ async function createAccount(app, username, userPassword){
 }
 
 async function insertCredentials(app, username, userPassword){
+    await app.ready()
+    let db = app.mongo.client.db(DatabaseName);
+    let coll = db.collection(CredentialsCollectionName);
     let credentials = { 
         username: username, 
         password: userPassword,
     }
-    await app.ready()
-    let db = app.mongo.client.db(DatabaseName);
-    let coll = db.collection(CredentialsCollectionName);
     await coll.insertOne(credentials);
 }
 

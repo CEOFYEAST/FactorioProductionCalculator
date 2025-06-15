@@ -15,6 +15,8 @@ const app = Fastify({
   logger: true,
   pluginTimeout: 10000
 })
+console.log(`\n App ${app} \n`)
+const store = new Store(app)
 
 app.decorateRequest('app', {
   getter () {
@@ -39,7 +41,7 @@ app.register(require('@fastify/swagger-ui'), {
   routePrefix: '/documentation'
 })
 app.register(require('@fastify/session'), {
-  store: new Store(),
+  store: store,
   cookieName: 'sessionId',
   secret: Secret,
   cookie: {

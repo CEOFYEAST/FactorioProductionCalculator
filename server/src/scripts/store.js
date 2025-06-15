@@ -1,28 +1,32 @@
 'use strict'
 
 const EventEmitter = require('node:events').EventEmitter
+const querySession = require('./querySession')
+const createSession = require('./createSession')
 
 class Store extends EventEmitter {
-    constructor (storeMap = new Map()) {
-        super()
-        this.store = storeMap
-        EventEmitter.call(this)
+    constructor (app) {
+        super(app)
+        console.log(`\n Constructing Session Store w/ App ${app} \n`)
+        this.app = app
     }
 
     get (sessionId, callback) {
-        console.log(`\n Getting Session: ${sessionId} \n`)
-        const session = this.store.get(sessionId)
-        callback(null, session)
+        console.log(`\n Getting Session: ${sessionId} w/ App ${this.app} \n`)
+        querySession(this.app, sessionId).then((session) => {
+            callback(null, session)
+        })
     }
 
     set (sessionId, session, callback) {
-        console.log(`\n Setting Session: ${sessionId} \n`)
-        this.store.set(sessionId, session)
-        callback()
+        console.log(`\n Setting Session: ${sessionId} w/ App ${this.app} \n`)
+        createSession(this.app, sessionId, session).then(() => {
+            callback()
+        })
     }
 
     destroy (sessionId, callback) {
-        console.log(`\n Destroying Session: ${sessionId} \n`)
+        console.log(`\n Destroying Session: ${sessionId} w/ App ${this.app} \n`)
         this.store.delete(sessionId)
         callback()
     }
