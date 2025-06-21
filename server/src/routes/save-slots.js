@@ -29,10 +29,10 @@ const updateSlotsOpts = {
 
 function accountsRoutes(fastify, options, done){
     // get all items
-    fastify.post('/save-slots/access', fetchSlotsOpts)
+    fastify.post('/user/save-slots/access', fetchSlotsOpts)
     
     // add item
-    fastify.post('/save-slots/update', updateSlotsOpts)
+    fastify.post('/user/save-slots/update', updateSlotsOpts)
 
     done()
 }

@@ -46,10 +46,10 @@ const createUserOpts = {
 
 function accountsRoutes(fastify, options, done){
     // get all items
-    fastify.post('/accounts/access', accessUserOpts)
+    fastify.post('/user/account/access', accessUserOpts)
     
     // add item
-    fastify.post('/accounts/create', createUserOpts)
+    fastify.post('/user/account/create', createUserOpts)
 
     done()
 }
