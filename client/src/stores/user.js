@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { sendCreationRequest, sendLoginRequest } from '@/scripts/accountsAPI'
+import { sendCreationRequest, sendLoginRequest, sendLogoutRequest } from '@/scripts/accountsAPI'
 import { handleSlotUpdate, handleSlotFetch } from '@/scripts/saveSlotsAPI'
 
 const defaultSaveSlots = {
@@ -7,6 +7,8 @@ const defaultSaveSlots = {
     2: {},
     3: {},
 }
+
+const LOADING_MESSAGE = "Loading"
 
 export const useUserStore = defineStore('user', {
     state: () => ({ username: "", signedIn: false, creationStatusMessage: "", accessStatusMessage: "", saveSlotsStatusMessage: "", saveSlotData: {...defaultSaveSlots}}),
@@ -17,10 +19,6 @@ export const useUserStore = defineStore('user', {
             this.accessStatusMessage = ""
             this.saveSlotData = {...defaultSaveSlots}
         },
-        logout(){
-            this.signedIn = false
-            this.refreshUserStore()
-        },
         saveToSlot(slotID, factoryData){
             this.saveSlotData[slotID] = factoryData
             this.triggerSlotsUpdate()
@@ -28,8 +26,24 @@ export const useUserStore = defineStore('user', {
         loadSlot(slotID, loadFactoryCallback){
             loadFactoryCallback(this.saveSlotData[slotID])
         },
+        async tryLogout(){
+            this.logoutStatusMessage = LOADING_MESSAGE
+            let requestSuccess = false
+            
+            await sendLogoutRequest().then(({success, statusMessage}) => {
+                requestSuccess = success
+                if(success)
+                {
+                    this.signedIn = false
+                    this.refreshUserStore()
+                }
+                this.logoutStatusMessage = statusMessage
+            })
+
+            return requestSuccess
+        },
         async tryCreateAccount(username, password){
-            this.creationStatusMessage = "Loading"
+            this.creationStatusMessage = LOADING_MESSAGE
             let requestSuccess = false
             
             await sendCreationRequest(username, password).then(({success, statusMessage}) => {
@@ -40,7 +54,7 @@ export const useUserStore = defineStore('user', {
             return requestSuccess
         },
         async tryLogin(username, password){
-            this.accessStatusMessage = "Loading"
+            this.accessStatusMessage = LOADING_MESSAGE
 
             await sendLoginRequest(username, password).then(({success, statusMessage, username}) => {
                 this.accessStatusMessage = statusMessage

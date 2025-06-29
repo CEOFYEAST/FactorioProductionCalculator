@@ -69,3 +69,32 @@ export async function sendCreationRequest(username, password){
 
     return toReturn
 }
+
+export async function sendLogoutRequest(){
+    let toReturn = {
+        success: false,
+        statusMessage: "No message returned"
+    }
+
+    await axios
+    .post(definedRoutes.accountLogoutRoute, {}, {
+        headers: { 
+            "Content-Type": "application/x-www-form-urlencoded" 
+        }
+    })
+    .then(response => {           
+        toReturn.statusMessage = response.data.statusMessage
+
+        if(response.status == 200 || response.status == 201) toReturn.success = true
+    })
+    .catch(error => {
+        if(error != undefined){
+            if(Object.hasOwn(error, 'response')) toReturn.statusMessage = error.response.data.statusMessage;
+            else toReturn.statusMessage = "Failed to connect to the server"
+        }
+    })
+    .finally(() => {
+    })
+
+    return toReturn
+}

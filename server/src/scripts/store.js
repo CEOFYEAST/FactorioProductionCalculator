@@ -3,6 +3,7 @@
 const EventEmitter = require('node:events').EventEmitter
 const querySession = require('./querySession')
 const createSession = require('./createSession')
+const destroySession = require('./destroySession')
 
 class Store extends EventEmitter {
     constructor (app) {
@@ -25,8 +26,9 @@ class Store extends EventEmitter {
 
     destroy (sessionId, callback) {
         console.log(`\n Destroying Session: ${sessionId} w/ App ${this.app} \n`)
-        this.store.delete(sessionId)
-        callback()
+        destroySession(this.app, sessionId).then((sessionWasDestroyed) => {
+            callback(sessionWasDestroyed)
+        })
     }
 }
 

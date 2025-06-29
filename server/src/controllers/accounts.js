@@ -73,7 +73,35 @@ const handleUserCreation = (req, reply) => {
     })
 }
 
+const handleUserLogout = (req, reply) => {
+    if(!(req.session) || !(req.session.sessionId))
+    {
+        let obj = { ...statusResponse };
+        obj.statusMessage = "User has no session";
+        return reply.code(400).send(obj);
+    }
+
+    try {
+        req.session.destroy((sessionWasDestroyed) => {
+            let statusMessage = "No session was destroyed"
+            if(sessionWasDestroyed)
+            {
+                statusMessage = "User session was successfully destroyed"
+            }
+            const obj = { ...statusResponse };
+            obj.statusMessage = statusMessage;
+            return reply.code(200).send(obj);
+        })
+    } catch(err) {
+        console.log(err.message)
+        let obj = { ...statusResponse };
+        obj.statusMessage = "Server error occurred when attempting to destroy user session";
+        return reply.code(500).send(obj);
+    }
+}
+
 module.exports = {
     handleUserAccess,
-    handleUserCreation
+    handleUserCreation,
+    handleUserLogout
 }

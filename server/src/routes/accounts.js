@@ -1,4 +1,4 @@
-const {handleUserAccess, handleUserCreation} = require('../controllers/accounts')
+const {handleUserAccess, handleUserCreation, handleUserLogout} = require('../controllers/accounts')
 const {StatusOnlyResponseSchema} = require('../schemas/shared')
 
 const UserRequestSchema = {
@@ -44,13 +44,22 @@ const createUserOpts = {
     handler: handleUserCreation
 }
 
-function accountsRoutes(fastify, options, done){
-    // get all items
-    fastify.post('/user/account/access', accessUserOpts)
-    
-    // add item
-    fastify.post('/user/account/create', createUserOpts)
+const logoutUserOpts = {
+    schema: {
+        body: {},
+        response: {
+            200: StatusOnlyResponseSchema,
+            400: StatusOnlyResponseSchema,
+            500: StatusOnlyResponseSchema
+        }
+    },
+    handler: handleUserLogout
+}
 
+function accountsRoutes(fastify, options, done){
+    fastify.post('/user/account/access', accessUserOpts)
+    fastify.post('/user/account/create', createUserOpts)
+    fastify.post('/user/account/logout', logoutUserOpts)
     done()
 }
 
