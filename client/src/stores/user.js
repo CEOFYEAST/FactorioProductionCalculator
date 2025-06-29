@@ -52,6 +52,18 @@ export const useUserStore = defineStore('user', {
         async tryCreateAccount(username, password){
             this.creationStatusMessage = LOADING_MESSAGE
             let requestSuccess = false
+
+            // Check username length
+            if (username.length < 6 || username.length > 32) {
+                this.creationStatusMessage = "Username must be between 6 and 32 characters"
+                return false
+            }
+
+            // Check password length
+            if (password.length < 8 || password.length > 32) {
+                this.creationStatusMessage = "Password must be between 8 and 32 characters"
+                return false
+            }
             
             await sendCreationRequest(username, password).then(({success, statusMessage}) => {
                 this.creationStatusMessage = statusMessage

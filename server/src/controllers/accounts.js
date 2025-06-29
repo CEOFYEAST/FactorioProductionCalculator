@@ -48,6 +48,20 @@ const handleUserAccess = (req, reply) => {
 const handleUserCreation = (req, reply) => {
     const { username, userPassword } = req.body
 
+    // Check username length
+    if (username.length < 6 || username.length > 32) {
+        let obj = { ...statusResponse };
+        obj.statusMessage = "Username must be between 6 and 32 characters";
+        return reply.code(400).send(obj);
+    }
+
+    // Check password length
+    if (password.length < 8 || password.length > 32) {
+        let obj = { ...statusResponse };
+        obj.statusMessage = "Password must be between 8 and 32 characters";
+        return reply.code(400).send(obj);
+    }
+
     queryAccount(req.app, username).then((userExists) => {
         if(userExists) {
             let obj = { ...statusResponse };
