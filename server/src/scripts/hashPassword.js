@@ -10,7 +10,7 @@ async function hashPassword(password) {
     });
     return hash;
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
   }
 }
 

@@ -1,5 +1,6 @@
 const CredentialsCollectionName = process.env["CREDENTIALS_COLLECTION"]
 const DatabaseName = process.env["DATABASE"]
+const verifyPassword = require('./verifyPassword')
 
 async function authenticateAccount(app, username, userPassword){
     await app.ready()
@@ -7,7 +8,9 @@ async function authenticateAccount(app, username, userPassword){
     let coll = db.collection(CredentialsCollectionName);
     const query = { username: username };
     let result = await coll.findOne(query);
-    return (result != null && result.password == userPassword)
+    if(result == null) return false;
+    const hash = result.password
+    return await verifyPassword(hash, userPassword)
 }
 
 module.exports = authenticateAccount

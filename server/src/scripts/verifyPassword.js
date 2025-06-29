@@ -5,7 +5,7 @@ async function verifyPassword(hash, password) {
         const isMatch = await argon2.verify(hash, password);
         return isMatch
     } catch (err) {
-        console.log(err.message);
+        console.error(err.message);
     }
 }
 

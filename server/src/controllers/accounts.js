@@ -1,6 +1,7 @@
 const queryAccount = require('../scripts/queryAccount')
 const createAccount = require('../scripts/createAccount')
 const authenticateAccount = require('../scripts/authenticateAccount')
+const hashPassword = require('../scripts/hashPassword')
 
 let statusResponse = { statusMessage: "Server error" };
 let statusAndDataResponse = { statusMessage: "Server error", username: "" };
@@ -62,28 +63,34 @@ const handleUserCreation = (req, reply) => {
         return reply.code(400).send(obj);
     }
 
-    queryAccount(req.app, username).then((userExists) => {
-        if(userExists) {
-            let obj = { ...statusResponse };
-            obj.statusMessage = "Account with the given username already exists";
-            return reply.code(400).send(obj);
-        }
+    hashPassword(userPassword).then((passwordHash) => {
 
-        createAccount(req.app, username, userPassword).then(() => {
+        //REMOVE
+        console.log("Hash: ", passwordHash)
 
-            queryAccount(req.app, username).then((creationSuccess) => {
-                if(!creationSuccess) {
-                    let obj = { ...statusResponse };
-                    obj.statusMessage = "Server error; account was not created";
-                    return reply.code(500).send(obj);
-                }
-                else {
-                    let obj = { ...statusResponse };
-                    obj.statusMessage = "Account successfully created";
-                    return reply.code(201).send(obj);
-                }
-            })
-        })  
+        queryAccount(req.app, username).then((userExists) => {
+            if(userExists) {
+                let obj = { ...statusResponse };
+                obj.statusMessage = "Account with the given username already exists";
+                return reply.code(400).send(obj);
+            }
+
+            createAccount(req.app, username, passwordHash).then(() => {
+
+                queryAccount(req.app, username).then((creationSuccess) => {
+                    if(!creationSuccess) {
+                        let obj = { ...statusResponse };
+                        obj.statusMessage = "Server error; account was not created";
+                        return reply.code(500).send(obj);
+                    }
+                    else {
+                        let obj = { ...statusResponse };
+                        obj.statusMessage = "Account successfully created";
+                        return reply.code(201).send(obj);
+                    }
+                })
+            })  
+        })
     })
 }
 
