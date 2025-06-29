@@ -56,7 +56,7 @@ const handleUserCreation = (req, reply) => {
     }
 
     // Check password length
-    if (password.length < 8 || password.length > 32) {
+    if (userPassword.length < 8 || userPassword.length > 32) {
         let obj = { ...statusResponse };
         obj.statusMessage = "Password must be between 8 and 32 characters";
         return reply.code(400).send(obj);
