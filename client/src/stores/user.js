@@ -33,6 +33,7 @@ export const useUserStore = defineStore('user', {
         },
         loadSlot(slotID, loadFactoryCallback){
             loadFactoryCallback(this.saveSlotData[slotID])
+            this.saveSlotsStatusMessage = `Contents of save slot ${slotID} loaded`
         },
         async tryLogout(){
             this.logoutStatusMessage = LOADING_MESSAGE

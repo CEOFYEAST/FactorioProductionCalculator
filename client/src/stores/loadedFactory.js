@@ -28,7 +28,6 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
     }
 
     function loadFactoryData(toLoad){
-        console.log("To Load Value: ", Object.keys(toLoad))
         loadedFactory.value = toLoad
         refreshStoreState()
     }
