@@ -81,7 +81,10 @@ export const useUserStore = defineStore('user', {
         async fetchSlotsData(){
             this.saveSlotsStatusMessage = "Fetching Slots Data"
             let response = await handleSlotFetch()
-            if(response.success) this.saveSlotData = { ...response.data }
+            if(response.success)
+            {
+                this.saveSlotData = { ...response.data }
+            }
             this.saveSlotsStatusMessage = response.statusMessage
         },
     }

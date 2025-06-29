@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "main": "src/server.js",
   "scripts": {
-    "start": "doppler run -- node src/server.js",
+    "start": "doppler run -- node --inspect src/server.js",
     "dev": "doppler run -- nodemon server",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },

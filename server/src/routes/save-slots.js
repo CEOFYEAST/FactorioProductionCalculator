@@ -1,6 +1,11 @@
 const {handleSlotsUpdate, handleSlotsFetch} = require('../controllers/save-slots')
-const {StatusOnlyResponseSchema} = require('../schemas/shared')
-const {SlotsFetchRequestSchema, SlotsUpdateRequestSchema, SlotsFetch_SuccessResponseSchema, SlotsUpdate_SuccessResponseSchema} = require("../schemas/save-slots")
+const {StatusOnlyResponseSchema} = require('../schemas/fastify-shared')
+const {
+    SlotsFetchRequestSchema, 
+    SlotsUpdateRequestSchema, 
+    SlotsFetch_SuccessResponseSchema, 
+    SlotsUpdate_SuccessResponseSchema
+} = require("../schemas/fastify-save-slots")
 
 const fetchSlotsOpts = {
     schema: {

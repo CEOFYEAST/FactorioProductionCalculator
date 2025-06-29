@@ -34,4 +34,9 @@ const SlotsUpdate_SuccessResponseSchema = {
     }
 }
 
-module.exports = {SlotsFetchRequestSchema, SlotsUpdateRequestSchema, SlotsFetch_SuccessResponseSchema, SlotsUpdate_SuccessResponseSchema}
+module.exports = {
+    SlotsFetchRequestSchema, 
+    SlotsUpdateRequestSchema, 
+    SlotsFetch_SuccessResponseSchema, 
+    SlotsUpdate_SuccessResponseSchema
+}

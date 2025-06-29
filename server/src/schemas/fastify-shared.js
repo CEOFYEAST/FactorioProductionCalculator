@@ -7,18 +7,6 @@ const StatusOnlyResponseSchema = {
     }
 }
 
-const BackendSlotSchema = {
-    username: '',
-    index: 1,
-    data: {}
-}
-
-const FrontendSlotSchema = {
-    1: {},
-    2: {},
-    3: {}
-}
-
 const ProdChainObjectSchema = {
     type: 'object',
     required: ['slot1', 'slot2', 'slot3'],
@@ -30,4 +18,4 @@ const ProdChainObjectSchema = {
     additionalProperties: false // Only allow these properties
 }
 
-module.exports = { StatusOnlyResponseSchema, BackendSlotSchema, FrontendSlotSchema }
+module.exports = { StatusOnlyResponseSchema }

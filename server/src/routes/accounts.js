@@ -1,5 +1,5 @@
 const {handleUserAccess, handleUserCreation, handleUserLogout} = require('../controllers/accounts')
-const {StatusOnlyResponseSchema} = require('../schemas/shared')
+const {StatusOnlyResponseSchema} = require('../schemas/fastify-shared')
 
 const UserRequestSchema = {
     type: 'object',

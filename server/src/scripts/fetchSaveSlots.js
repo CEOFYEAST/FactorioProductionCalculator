@@ -1,9 +1,9 @@
-const {FrontendSlotSchema} = require('../schemas/shared')
+const {FrontendSlotsSchema} = require('../schemas/db-shared')
 const SaveSlotsCollectionName = process.env["SAVE_SLOTS_COLLECTION"]
 const DatabaseName = process.env["DATABASE"]
 
 async function fetchSaveSlots(app, username){
-    let toReturn = { ...FrontendSlotSchema }
+    let toReturn = { ...FrontendSlotsSchema }
     await app.ready()
     let db = app.mongo.client.db(DatabaseName);
     let coll = db.collection(SaveSlotsCollectionName);
