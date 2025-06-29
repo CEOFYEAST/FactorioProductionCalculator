@@ -85,7 +85,7 @@ export async function sendLogoutRequest(){
     .then(response => {           
         toReturn.statusMessage = response.data.statusMessage
 
-        if(response.status == 200 || response.status == 201) toReturn.success = true
+        toReturn.success = (response.status === 200 || response.status === 201)
     })
     .catch(error => {
         if(error != undefined){

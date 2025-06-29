@@ -15,7 +15,7 @@
         <div id="right-column" class="flex row middle center">
           <div v-if="signedIn" id="user-widget" class="flex row middle center">
             <div id="username-display">{{ username }}</div>
-            <button @click="logout()" id="dropdown-logout-button">Log Out</button>
+            <button @click="tryLogout()" id="dropdown-logout-button">Log Out</button>
           </div>
         </div>
 
@@ -30,7 +30,7 @@ import { link } from '@/scripts/globals.module';
 
 const userStore = useUserStore()
 let { signedIn, username } = storeToRefs(userStore)
-const { logout } = userStore
+const { tryLogout } = userStore
 </script>
 
 <style scoped>

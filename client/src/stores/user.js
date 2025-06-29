@@ -11,7 +11,15 @@ const defaultSaveSlots = {
 const LOADING_MESSAGE = "Loading"
 
 export const useUserStore = defineStore('user', {
-    state: () => ({ username: "", signedIn: false, creationStatusMessage: "", accessStatusMessage: "", saveSlotsStatusMessage: "", saveSlotData: {...defaultSaveSlots}}),
+    state: () => ({ 
+        username: "", 
+        signedIn: false, 
+        creationStatusMessage: "", 
+        accessStatusMessage: "", 
+        saveSlotsStatusMessage: "", 
+        logoutStatusMessage: "",
+        saveSlotData: {...defaultSaveSlots}
+    }),
     actions: {
         refreshUserStore(){
             this.signedIn = false
@@ -34,7 +42,6 @@ export const useUserStore = defineStore('user', {
                 requestSuccess = success
                 if(success)
                 {
-                    this.signedIn = false
                     this.refreshUserStore()
                 }
                 this.logoutStatusMessage = statusMessage

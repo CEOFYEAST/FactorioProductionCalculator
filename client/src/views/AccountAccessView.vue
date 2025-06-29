@@ -11,7 +11,7 @@
             <div id="submit-container" class="flex">
                 <div class="x3"></div>
                 <button v-if="!(signedIn)" id="submit" type="submit">Submit</button>
-                <button v-if="signedIn" @click="logout()" id="logout-button">Log Out</button>
+                <button v-if="signedIn" @click="logout()" id="logout-button" type="button">Log Out</button>
                 <div class="x3"></div>
             </div>
 
@@ -68,7 +68,7 @@ export default {
             })
         },
         logout(){
-            UDS.logout()
+            UDS.tryLogout()
         }
     },
     computed: {
