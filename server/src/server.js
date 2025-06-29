@@ -13,7 +13,8 @@ const HOST = 'localhost'
 const registerDB = true
 const app = Fastify({
   logger: true,
-  pluginTimeout: 10000
+  pluginTimeout: 10000,
+  trustProxy: true
 })
 console.log(`\n App ${app} \n`)
 const store = new Store(app)
