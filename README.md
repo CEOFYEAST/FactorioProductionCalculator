@@ -16,15 +16,13 @@ However, I plan to implement user profiles; this will allow users to continue mo
 
 ## Current Release
 
-The current release is the Production Calculator release; this release was created to show off my progress on the production calculator, which is a core feature of the website. The user can create a production chain, add and remove demand from this production chain, clear the chain entirely, and recalculate the time unit of the chain. The user's inputs, as well as the intermediary demand calculated as a result of said inputs, are dynamically displayed by the site. This new functionality can be found under the "Production Calculator" tab.
+The current release is the Save Slots & Security release; this release includes a system for editing and saving calculated production data across sessions for up to three factories. This release also takes steps to increase the overall security of the site; passwords are now hashed upon entering the server, and user sessions are stored in a secure fashion on the backend. 
 
-Creating this release involved writing a package, creating an automated testing suite for that package, and coding a visual interface to expose the functionality of the package to the user.
-
-The current user interface for the calculator is super gross; I plan on revamping all the visuals for the final release.
+Creating this release involved implementing secure server sessions, adding hashing and length requirements for passwords, writing APIs for save slots and user account functionality, creating a package and manual testing dashboard for the backend route handlers, and designing a visual interface for the save slots menu. I hope you enjoy!
 
 ## Next Steps
 
-My plan going forwards is to create a better visual interface for the package, add crafter data calculation to the package, and leverage the user system to store prod chain data in user accounts.
+My plan going forwards is to create a better visual interface for the calculator, and add crafter and energy use calculations to the package.
 
 ## Keep Up With Updates
 

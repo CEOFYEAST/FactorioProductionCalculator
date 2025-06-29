@@ -3,8 +3,10 @@
         
         <div class="flex column">
             <h1>Factorio Production Calculator</h1>
-            <h2>(Production Calculator Release)</h2>
-            <h3>The current release is the Production Calculator release; this release was created to show off my progress on the production calculator, which is a core feature of the website. The user can create a production chain, add and remove demand from this production chain, clear the chain entirely, and recalculate the time unit of the chain. The user's inputs, as well as the intermediary demand calculated as a result of said inputs, are dynamically displayed by the site. This new functionality can be found under the "Prod Chain Calculator" tab. Creating this release involved writing a package, creating an automated testing suite for that package, and coding a visual interface to expose the functionality of the package to the user.</h3>
+            <h2>(Save Slots & Security Release)</h2>
+            <h3>
+                The current release is the Save Slots & Security release; this release includes a system for editing and saving calculated production data across sessions for up to three factories. This release also takes steps to increase the overall security of the site; passwords are now hashed upon entering the server, and user sessions are stored in a secure fashion on the backend. Creating this release involved implementing secure server sessions, adding hashing and length requirements for passwords, writing APIs for save slots and user account functionality, creating a package and manual testing dashboard for the backend route handlers, and designing a visual interface for the save slots menu. I hope you enjoy!
+            </h3>
             <hr/>
             <h3>A web app created to aid users in designing their Factorio factories.</h3>
         </div>
