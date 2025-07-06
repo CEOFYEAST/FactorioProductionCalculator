@@ -15,7 +15,7 @@ async function createSession(app, sessionId, session){
         sessionId: sessionId,
         session: session
     }
-    if(existingSession) {
+    if(existingSession !== null && existingSession !== undefined) {
         console.log(`\n Replacing Session: ${sessionId} w/ App ${app} \n`)
         await coll.replaceOne({sessionId: sessionId}, toInsert)
     }
