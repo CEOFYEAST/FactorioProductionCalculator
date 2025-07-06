@@ -3,6 +3,7 @@ const DatabaseName = process.env["DATABASE"]
 const SessionsCollectionName = process.env["SESSIONS_COLLECTION"]
 
 async function createSession(app, sessionId, session){
+    console.log("\n         [createSession]         \n")
     if(app === undefined || app === null) return
     console.log(`\n Setting Session: ${sessionId} w/ App ${app} \n`)
     const existingSession = await querySession(app, sessionId)
@@ -14,7 +15,10 @@ async function createSession(app, sessionId, session){
         sessionId: sessionId,
         session: session
     }
-    if(existingSession) await coll.replaceOne({sessionId: sessionId}, toInsert)
+    if(existingSession) {
+        console.log(`\n Replacing Session: ${sessionId} w/ App ${app} \n`)
+        await coll.replaceOne({sessionId: sessionId}, toInsert)
+    }
     else await coll.insertOne(toInsert)
     console.log(`\n Session Set: ${sessionId} w/ App ${app} \n`)
 }

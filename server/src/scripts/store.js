@@ -14,12 +14,14 @@ class Store extends EventEmitter {
 
     get (sessionId, callback) {
         querySession(this.app, sessionId).then((session) => {
+            console.log("\n Calling session grabbed callback \n")
             callback(null, session)
         })
     }
 
     set (sessionId, session, callback) {
         createSession(this.app, sessionId, session).then(() => {
+            console.log("\n Calling session set callback \n")
             callback()
         })
     }
@@ -27,6 +29,7 @@ class Store extends EventEmitter {
     destroy (sessionId, callback) {
         console.log(`\n Destroying Session: ${sessionId} w/ App ${this.app} \n`)
         destroySession(this.app, sessionId).then((sessionWasDestroyed) => {
+            console.log("\n Calling session destroyed callback \n")
             callback(sessionWasDestroyed)
         })
     }

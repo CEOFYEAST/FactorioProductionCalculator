@@ -6,6 +6,7 @@ const SessionsCollectionName = process.env["SESSIONS_COLLECTION"]
  * @returns Boolean indicating whether any documents were destroyed
  */
 async function destroySession(app, sessionId){
+    console.log("\n         [destroySession]         \n")
     if(app === undefined || app === null) return
     console.log(`\n Destroying Session: ${sessionId} w/ App ${app} \n`)
     await app.ready()

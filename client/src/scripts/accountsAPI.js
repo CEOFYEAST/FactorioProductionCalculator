@@ -51,7 +51,8 @@ export async function sendCreationRequest(username, password){
     }, {
         headers: { 
             "Content-Type": "application/x-www-form-urlencoded" 
-        }
+        },
+        withCredentials: true
     })
     .then(response => {           
         toReturn.statusMessage = response.data.statusMessage
@@ -80,7 +81,8 @@ export async function sendLogoutRequest(){
     .post(definedRoutes.accountLogoutRoute, {}, {
         headers: { 
             "Content-Type": "application/x-www-form-urlencoded" 
-        }
+        },
+        withCredentials: true
     })
     .then(response => {           
         toReturn.statusMessage = response.data.statusMessage
