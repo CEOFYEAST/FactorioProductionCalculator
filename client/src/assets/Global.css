@@ -2,6 +2,18 @@ p {
     font-size: 1.25em;
 }
 
+:root {
+    --primary-color: greenyellow;
+    --secondary-color: orange;
+    --tertiary-color: lightgray;
+    --header-font-family: 'Tahoma', sans-serif bold;
+    --body-font-family: 'Tahoma', sans-serif;
+    --header-text-color: #333;
+    --body-text-color: #333;
+    --header-font-size: 32px;
+    --body-font-size: 16px;
+}
+
 .flex { display: flex; }
 .flex.top { align-items: start; }
 .flex.middle { align-items: center; }

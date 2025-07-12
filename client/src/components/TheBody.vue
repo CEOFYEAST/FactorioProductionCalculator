@@ -6,7 +6,7 @@
   </template>
   
   <script setup>
-  import TheNav from '@/components/TheNav.vue'
+  import TheNav from '@/components/TheNewNav.vue'
   import TheMain from '@/components/TheMain.vue'
   </script>
   
