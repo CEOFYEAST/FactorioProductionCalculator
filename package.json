@@ -1,0 +1,24 @@
+{
+  "name": "fpc-app",
+  "version": "1.0.0",
+  "description": "A web app created to aid users in designing their Factorio factories.",
+  "main": "index.js",
+  "scripts": {
+    "start": "doppler run -- node src/server.js",
+    "dev": "doppler run -- nodemon node_modules/@ceofyeast/fpc-server/src/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CEOFYEAST/FactorioProductionCalculator.git"
+  },
+  "author": "ceofyeast",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CEOFYEAST/FactorioProductionCalculator/issues"
+  },
+  "homepage": "https://github.com/CEOFYEAST/FactorioProductionCalculator#readme",
+  "dependencies": {
+    "@ceofyeast/fpc-client": "^0.1.0",
+    "@ceofyeast/fpc-server": "^1.0.0"
+  }
+}
