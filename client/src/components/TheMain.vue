@@ -1,9 +1,16 @@
 <template>
-    <div 
-    id="TheMain-root" 
-    :class="{ small: sizeControllers.isSmall, medium: sizeControllers.isMedium, large: sizeControllers.isLarge }"
-    >
-        <RouterView />
+    <div id="TheMain-root" class="full">
+        <div 
+        class="container"
+        :class="{ 
+            small: sizeControllers.isSmall, 
+            medium: sizeControllers.isMedium, 
+            large: sizeControllers.isLarge,
+            full: sizeControllers.isFull
+        }"
+        >
+            <RouterView />
+        </div>
     </div>
 </template>
 
@@ -14,34 +21,38 @@ export default {
     name: 'the main',
     data() {
         return {
-            // used to control the size of TheMain using class binding
+            breakpoint: 768, // Mobile breakpoint in pixels
             sizeControllers: {
                 isSmall: false,
                 isMedium: false,
                 isLarge: false,
+                isFull: false
             },
-            // the routes whose views should be smaller
-            smallRoutes: [
+            smallRoutes: [],
+            mediumRoutes: [
                 definedRoutes.aboutViewRoute,
                 definedRoutes.accountAccessRoute,
                 definedRoutes.accountCreationRoute,
                 definedRoutes.userDataRoute
             ],
-            // the routes whose views should be medium-sized
-            mediumRoutes: [
-            
-            ],
-            // the routes whose views should be large
-            largeRoutes: [
-                
+            largeRoutes: [],
+            fullRoutes: [
+                definedRoutes.prodChainCalculatorRoute
             ]
         }
     },
     methods: {
-        // sets the current size of TheMain based on the supplied route
         setSize(route) {
-            this.disableSizeClasses()
+            this.disableSizeClasses();
             
+            // Always use full size if screen is smaller than breakpoint
+            if(window.innerWidth < this.breakpoint) {
+                console.log("--------------\n Mobile View - Force Full Width \n--------------")
+                this.sizeControllers.isFull = true;
+                return; // Exit early to prevent other classes from being applied
+            }
+            
+            // Only apply route-based sizing on larger screens
             if(this.smallRoutes.find((value) => value == route) != undefined) {
                 console.log("--------------\n Small Route \n--------------")
                 this.sizeControllers.isSmall = true;
@@ -54,52 +65,83 @@ export default {
                 console.log("--------------\n Large Route \n--------------")
                 this.sizeControllers.isLarge = true;
             }
+            else if(this.fullRoutes.find((value) => value == route) != undefined) {
+                console.log("--------------\n Full Route \n--------------")
+                this.sizeControllers.isFull = true;
+            }
         },
         disableSizeClasses() {
             this.sizeControllers.isSmall = false,
             this.sizeControllers.isMedium = false,
-            this.sizeControllers.isLarge = false
+            this.sizeControllers.isLarge = false,
+            this.sizeControllers.isFull = false
+        },
+        
+        // Handle window resizing
+        handleResize() {
+            // Re-apply sizing logic with current route
+            if(router.currentRoute && router.currentRoute.value) {
+                this.setSize(router.currentRoute.value.fullPath);
+            }
         }
     },
     mounted() {
         router.afterEach((to, from) => {
             this.setSize(to.fullPath);
-        })
+        });
+        
+        // Add resize event listener
+        window.addEventListener('resize', this.handleResize);
+    },
+    beforeUnmount() {
+        // Remove resize event listener
+        window.removeEventListener('resize', this.handleResize);
     }
 }
 </script>
 
 <style scoped>
 #TheMain-root {
-    /*align-items: center;*/
+    background-color: gray;
+    display: flex;
+    justify-content: center;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    max-width: 50%;
     width: 50%;
     min-width: 50%;
-    max-width: 50%;
-    padding: 20px 20px;
-    height: 100%;
+    max-height: 100%;
+    min-height: 100%;
     background-color: white;
-    border-left: 4px black solid;
-    border-right: 4px black solid;
+    border-left: var(--strong-border);
+    border-right: var(--strong-border);
 }
-#TheMain-root.small {
+.container.small {
+    max-width: 40%;
     width: 40%;
     min-width: 40%;
-    max-width: 40%;
 }
-#TheMain-root.medium {
+.container.medium {
+    max-width: 60%;
     width: 60%;
     min-width: 60%;
-    max-width: 60%;
 }
-#TheMain-root.large {
+.container.large {
+    max-width: 80%;
     width: 80%;
     min-width: 80%;
-    max-width: 80%;
 }
-#TheMain-root:only-child {
-    display: flex;
-    max-width: max-content;
-    min-width: max-content;
-    justify-content: center;
+.container.full {
+    border-left: none;
+    border-right: none;
+    max-width: 100%;
+    width: 100%;
+    min-width: 100%;
+}
+.container > * {
+    padding-left: 20px;
+    padding-right: 20px;
 }
 </style>

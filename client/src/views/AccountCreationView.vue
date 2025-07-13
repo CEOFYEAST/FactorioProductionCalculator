@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import TopNav from '@/components/TheNav.vue'
 import { useUserStore } from '@/stores/user'
 import { definedRoutes } from '@/scripts/router'
 
@@ -33,9 +32,6 @@ let UDS = {}
 
 export default {
     name: 'account creation form',
-    components: {
-        TopNav
-    },
     data () {
         return {
             usernameInput: "",

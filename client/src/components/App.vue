@@ -1,5 +1,5 @@
 <template>
-  <div id="App-root" class="root">
+  <div id="App-root" class="full">
     <TheBody/>
   </div>
 </template>
@@ -15,10 +15,14 @@ export default {
 }
 </script>
 
-<style scoped>
-#App-root {
+<style>
+.full {
+  max-width: 100%;
   width: 100%;
+  min-width: 100%;
+  max-height: 100%;
   height: 100%;
+  min-height: 100%;
 }
 </style>
 

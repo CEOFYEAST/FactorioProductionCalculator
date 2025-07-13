@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import TopNav from '@/components/TheNav.vue'
 import { definedRoutes } from '../scripts/router'
 import { useUserStore } from '@/stores/user'
 
@@ -41,9 +40,6 @@ let UDS = {}
 
 export default {
     name: 'account access form',
-    components: {
-        TopNav
-    },
     data () {
         return {
             usernameInput: "",

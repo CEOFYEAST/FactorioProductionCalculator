@@ -1,12 +1,12 @@
 <template>
-    <div id="TheBody-root" class="root">
-      <TheNav/>
+    <div id="TheBody-root" class="full">
+      <TheTopNav/>
       <TheMain/>
     </div>
   </template>
   
   <script setup>
-  import TheNav from '@/components/TheNewNav.vue'
+  import TheTopNav from '@/components/TheTopNav.vue'
   import TheMain from '@/components/TheMain.vue'
   </script>
   
@@ -21,8 +21,6 @@
   }
   #TheBody-root {
     background-color: gray;
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;

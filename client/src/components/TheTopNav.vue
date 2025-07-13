@@ -1,5 +1,5 @@
 <template>
-    <div id="TheNewNav-root" class="root">
+    <div id="TheNewNav-root">
         <div class="container">
             <div class="container__filler"></div>
             <button 
@@ -70,7 +70,7 @@ export default defineComponent({
 .container__item {
     height: 100%;
     border: none;
-    padding: 0px 10px 0px 10px;
+    padding: 0px 15px 0px 15px;
     transition: .3s;
     border-bottom: var(--strong-border);
     font-family: var(--header-font-family);
@@ -84,7 +84,7 @@ export default defineComponent({
 }
 .container__item--selected {
     color: var(--active-color);
-    /* border-bottom: var(--active-border); */
+    border: var(--strong-border);
     border-bottom: none;
     background-color: var(--primary-color);
 }
