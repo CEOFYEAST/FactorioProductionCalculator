@@ -7,13 +7,17 @@ p {
     --secondary-color: greenyellow;
     --active-color: orange;
     --inactive-color: lightgray;
+
     --header-font-family: 'Tahoma', sans-serif, bold;
     --body-font-family: 'Tahoma', sans-serif;
-    --header-text-color: #333;
+    --header-text-color: #555252;
     --body-text-color: #333;
     --header-font-size: 20px;
     --body-font-size: 16px;
-    --strong-border: 4px solid black;
+    
+    --strong-border: 2px solid #555252;
+    --active-border: 2px solid var(--active-color);
+    --active-gradient: linear-gradient(to top, rgba(255, 165, 0, 0.4), transparent);
 }
 
 .flex { display: flex; }

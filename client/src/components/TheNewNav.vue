@@ -2,17 +2,16 @@
     <div id="TheNewNav-root" class="root">
         <div class="container">
             <div class="container__filler"></div>
-            <button class="container__item">
-                Calculator
-            </button>
-            <button class="container__item">
-                About
-            </button>
-            <button class="container__item container__item--selected">
-                Sign In
-            </button>
-            <button class="container__item">
-                Create Account
+            <button 
+                v-for="item in navItems"
+                :key="item.name"
+                @click="setActive(item.name)"
+                :class="[
+                    'container__item', 
+                    { 'container__item--selected': activeItemName === item.name }
+                ]"
+            >
+                {{ item.name }}
             </button>
             <div class="container__filler"></div>
         </div>
@@ -20,9 +19,41 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+import { definedRoutes } from '@/scripts/router'
 
-}
+export default defineComponent({
+    data() {
+        return {
+            // Define nav items using the actual routes from your router
+            navItems: [
+                { name: 'Calculator', route: definedRoutes.prodChainCalculatorRoute },
+                { name: 'About', route: definedRoutes.aboutViewRoute },
+                { name: 'Sign In', route: definedRoutes.accountAccessRoute },
+                { name: 'Create Account', route: definedRoutes.accountCreationRoute }
+            ],
+            // Set default active item
+            activeItemName: 'About'
+        }
+    },
+    methods: {
+        setActive(itemName) {
+            // Update the active item name
+            this.activeItemName = itemName;
+            
+            // Find the route for the selected item
+            const selectedItem = this.navItems.find(item => item.name === itemName)
+            
+            if (selectedItem) {
+                // Navigate to the selected route
+                this.$router.push(selectedItem.route)
+            }
+        }
+    },
+    mounted() {
+        this.setActive('About')
+    }
+})
 </script>
 
 <style>
@@ -44,6 +75,7 @@ export default {
     border-bottom: var(--strong-border);
     font-family: var(--header-font-family);
     font-size: var(--header-font-size);
+    color: var(--header-text-color);
     background-color: var(--secondary-color);
 }
 .container__filler {
@@ -51,6 +83,8 @@ export default {
     border-bottom: var(--strong-border);
 }
 .container__item--selected {
+    color: var(--active-color);
+    /* border-bottom: var(--active-border); */
     border-bottom: none;
     background-color: var(--primary-color);
 }
