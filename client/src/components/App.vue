@@ -1,5 +1,5 @@
 <template>
-  <div id="App-root" class="full">
+  <div class="App-container container--full">
     <TheBody/>
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style>
-.full {
+.container--full {
   max-width: 100%;
   width: 100%;
   min-width: 100%;

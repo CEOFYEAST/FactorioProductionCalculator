@@ -1,20 +1,18 @@
 <template>
-    <div id="TheNewNav-root">
-        <div class="container">
-            <div class="container__filler"></div>
-            <button 
-                v-for="item in navItems"
-                :key="item.name"
-                @click="setActive(item.name)"
-                :class="[
-                    'container__item', 
-                    { 'container__item--selected': activeItemName === item.name }
-                ]"
-            >
-                {{ item.name }}
-            </button>
-            <div class="container__filler"></div>
-        </div>
+    <div class="TheSideNav-container">
+        <div class="container__filler"></div>
+        <button 
+            v-for="item in navItems"
+            :key="item.name"
+            @click="setActive(item.name)"
+            :class="[
+                'container__item', 
+                { 'container__item--selected': activeItemName === item.name }
+            ]"
+        >
+            {{ item.name }}
+        </button>
+        <div class="container__filler"></div>
     </div>
 </template>
 
@@ -57,16 +55,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
-#TheNewNav-root {
+.TheSideNav-container {
     max-width: 35px;
     width: 35px;
     min-width: 35px;
     max-height: 100%;
     height: 100%;
-    min-height: 100%
-}
-.container {
-    min-width: 100%;
     min-height: 100%;
     display: flex;
     flex-direction: column;

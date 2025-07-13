@@ -1,16 +1,14 @@
 <template>
-    <div id="TheMain-root" class="full">
-        <div 
-        class="container"
-        :class="{ 
-            small: sizeControllers.isSmall, 
-            medium: sizeControllers.isMedium, 
-            large: sizeControllers.isLarge,
-            full: sizeControllers.isFull
-        }"
-        >
-            <RouterView />
-        </div>
+    <div 
+    class="TheMain-container"
+    :class="{ 
+        small: sizeControllers.isSmall, 
+        medium: sizeControllers.isMedium, 
+        large: sizeControllers.isLarge,
+        full: sizeControllers.isFull
+    }"
+    >
+        <RouterView />
     </div>
 </template>
 
@@ -101,12 +99,7 @@ export default {
 </script>
 
 <style scoped>
-#TheMain-root {
-    background-color: gray;
-    display: flex;
-    justify-content: center;
-}
-.container {
+.TheMain-container {
     display: flex;
     justify-content: center;
     max-width: 50%;
@@ -118,29 +111,29 @@ export default {
     border-left: var(--strong-border);
     border-right: var(--strong-border);
 }
-.container.small {
+.TheMain-container.small {
     max-width: 40%;
     width: 40%;
     min-width: 40%;
 }
-.container.medium {
+.TheMain-container.medium {
     max-width: 60%;
     width: 60%;
     min-width: 60%;
 }
-.container.large {
+.TheMain-container.large {
     max-width: 80%;
     width: 80%;
     min-width: 80%;
 }
-.container.full {
+.TheMain-container.full {
     border-left: none;
     border-right: none;
     max-width: 100%;
     width: 100%;
     min-width: 100%;
 }
-.container > * {
+.TheMain-container > * {
     padding-left: 20px;
     padding-right: 20px;
 }
