@@ -1,15 +1,20 @@
 <template>
     <div id="TheNewNav-root" class="root">
         <div class="container">
+            <div class="container__filler"></div>
             <button class="container__item">
-                View 1
+                Calculator
             </button>
             <button class="container__item">
-                View 2
+                About
+            </button>
+            <button class="container__item container__item--selected">
+                Sign In
             </button>
             <button class="container__item">
-                View 3
+                Create Account
             </button>
+            <div class="container__filler"></div>
         </div>
     </div>
 </template>
@@ -27,21 +32,29 @@ export default {
 .container {
     min-width: 100%;
     height: 35px;
-    background-color: var(--primary-color);
+    display: flex;
+    flex-direction: row;
+    background-color: var(--secondary-color);
 }
 .container__item {
     height: 100%;
-    margin-right: 10px;
-    background-color: white;
     border: none;
-    transition: .5s;
-    border-bottom: 2px solid gray;
+    padding: 0px 10px 0px 10px;
+    transition: .3s;
+    border-bottom: var(--strong-border);
+    font-family: var(--header-font-family);
+    font-size: var(--header-font-size);
+    background-color: var(--secondary-color);
+}
+.container__filler {
+    flex-grow: 1;
+    border-bottom: var(--strong-border);
 }
 .container__item--selected {
-    border-bottom: 2px solid blue;
+    border-bottom: none;
+    background-color: var(--primary-color);
 }
 .container__item:hover {
-    background-color: var(--secondary-color);
-    border-bottom: 2px solid var(--secondary-color);
+    background-color: var(--active-color);
 }
 </style>
