@@ -1,95 +1,20 @@
 <template>
-    <div id="ProductionCalculatorView-root" class="root">
+    <div id="ProductionCalculatorView-root" class="full">
 
-      <div v-if="!(validationErrorMssg === '')" style="background-color: red; color: white; padding: 20px; border-radius: 5px; z-index: 1000;">
-        <span>ERROR: {{ validationErrorMssg }}</span>
-        <button @click="validationErrorMssg = ''" style="margin-left: 20px; background-color: white; color: red; border: none; cursor: pointer;">Close</button>
+      <div class="container full">
+        <div class="container__nav">
+          <TheSideNav/>
+        </div>
+        <div class="container__calculator">
+
+        </div>
       </div>
-
-      <h2 v-if="!resourcesLoaded">Loading Recipes...</h2>
-
-      <h2 v-if="resourcesLoaded">Calculator Controls</h2>
-      <div v-if="resourcesLoaded" style="border: 2px solid black; margin-bottom: 10px; padding: 10px;">
-
-        <h3>Update User Demand</h3>
-        <div style="margin-bottom: 20px; border: 1px solid black; padding: 10px;">
-
-          <div style="margin-bottom: 10px;">
-            <label for="itemID">Enter Item ID</label>
-            <input id="itemID" type="text" v-model="selectedItemID" style="margin-left: 10px;" />
-          </div>
-
-          <div style="margin-bottom: 10px;">
-            <label for="selectedItemIRPTU">Enter Item IRPTU</label>
-            <input id="selectedItemIRPTU" type="number" v-model="selectedItemIRPTU" style="margin-left: 10px;" />
-          </div>
-
-            <div style="margin-bottom: 10px;">
-            <label for="requestTimeUnit">Select Request Time Unit</label>
-            <select id="requestTimeUnit" v-model="requestTimeUnit" style="margin-left: 10px;">
-              <option value="second">Second</option>
-              <option value="minute">Minute</option>
-              <option value="hour">Hour</option>
-            </select>
-            </div>
-
-          <div>
-            <button @click="addToFactory()" style="margin-right: 10px;">Add Specified Item to the Factory</button>
-            <button @click="removeFromFactory()">Remove Specified Item from the Factory</button>
-          </div>
-        </div>
-
-        <h3>Misc. Controls</h3>
-        <div style="margin-bottom: 20px; border: 1px solid black; padding: 10px;">
-          <div style="margin: 10px;">
-            <button @click="clearFactory()">Clear Factory</button>
-          </div>
-
-          <div style="margin: 10px;">
-            <button @click="addOneOfEach()">Add One of Each Item to the Factory</button>
-          </div>
-        </div>
-
-        
-        <h3>Recalculate Time Unit</h3>
-        <div style="margin-bottom: 20px; border: 1px solid black; padding: 10px;">
-            <label for="timeUnit">Select New Time Unit</label>
-            <select id="timeUnit" v-model="selectedTimeUnit" @change="changeTimeUnit(selectedTimeUnit)" style="margin-left: 10px;">
-              <option value="second">Second</option>
-              <option value="minute">Minute</option>
-              <option value="hour">Hour</option>
-            </select>
-        </div>
-        
-
-      </div>
-
-      <h2 v-if="resourcesLoaded">Factory Data</h2>
-      <div v-if="resourcesLoaded" style="border: 2px solid black; margin-bottom: 10px; padding: 10px;">
-
-        <h3>Time Unit</h3>
-        <div style="border: 1px solid black; margin-bottom: 10px;">{{ timeUnit }}</div>
-
-        <h3>User Demand</h3>
-        <div style="max-height: 300px; overflow-y: scroll; border: 1px solid gray; padding: 10px;">
-          <div v-for="(value, key) in userDemand" :key="key" style="border: 1px solid black; margin-bottom: 10px;">
-            <div>{{ key }}: {{ value }}</div>
-          </div>
-        </div>
-
-        <h3>Production Chain</h3>
-        <div style="max-height: 300px; overflow-y: scroll; border: 1px solid gray; padding: 10px;">
-          <div v-for="(value, key) in prodChain" :key="key" style="border: 1px solid black; margin-bottom: 10px;">
-            <div>{{ key }}: {{ value }}</div>
-          </div>
-        </div>
-
-      </div>
-
+      
     </div>
   </template>
 
 <script>
+  import TheSideNav from '@/components/TheSideNav.vue'
   import { useLoadedFactory } from '@/stores/loadedFactory'
   import { addRecipesLoadedListener } from '@ceofyeast/prodchaincalculators/recipes'
   import { addValidationFailedListener } from '@ceofyeast/prodchaincalculators/validators'
@@ -98,6 +23,9 @@
   
   export default {
     name: 'Production Calculator View',
+    components: {
+      TheSideNav: TheSideNav
+    },
     data() {
       return {
         validationErrorMssg: "",
@@ -158,6 +86,22 @@
     }
   }
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-width: 100%;
+}
+.container__nav {
+  height: 100%;
+  min-height: 100%;
+}
+.container__calculator {
+  flex-grow: 1;
+}
+</style>
   
 
 <!--

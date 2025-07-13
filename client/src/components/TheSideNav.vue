@@ -1,5 +1,5 @@
 <template>
-    <div id="TheNewNav-root" class="root">
+    <div id="TheNewNav-root">
         <div class="container">
             <div class="container__filler"></div>
             <button 
@@ -27,13 +27,13 @@ export default defineComponent({
         return {
             // Define nav items using the actual routes from your router
             navItems: [
-                { name: 'Calculator', route: definedRoutes.prodChainCalculatorRoute },
-                { name: 'About', route: definedRoutes.aboutViewRoute },
-                { name: 'Sign In', route: definedRoutes.accountAccessRoute },
-                { name: 'Create Account', route: definedRoutes.accountCreationRoute }
+                { name: '1', route: definedRoutes.prodChainCalculatorRoute },
+                { name: '2', route: definedRoutes.aboutViewRoute },
+                { name: '3', route: definedRoutes.accountAccessRoute },
+                { name: '4', route: definedRoutes.accountCreationRoute }
             ],
             // Set default active item
-            activeItemName: 'About'
+            activeItemName: '2'
         }
     },
     methods: {
@@ -46,7 +46,7 @@ export default defineComponent({
             
             if (selectedItem) {
                 // Navigate to the selected route
-                this.$router.push(selectedItem.route)
+                //this.$router.push(selectedItem.route)
             }
         }
     },
@@ -56,23 +56,28 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style scoped>
 #TheNewNav-root {
-    min-width: 100%;
+    max-width: 35px;
+    width: 35px;
+    min-width: 35px;
+    max-height: 100%;
+    height: 100%;
+    min-height: 100%
 }
 .container {
     min-width: 100%;
-    height: 35px;
+    min-height: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     background-color: var(--secondary-color);
 }
 .container__item {
-    height: 100%;
+    width: 100%;
     border: none;
-    padding: 0px 15px 0px 15px;
+    padding: 15px 0px 15px 0px;
     transition: .3s;
-    border-bottom: var(--strong-border);
+    border-right: var(--strong-border);
     font-family: var(--header-font-family);
     font-size: var(--header-font-size);
     color: var(--header-text-color);
@@ -80,12 +85,12 @@ export default defineComponent({
 }
 .container__filler {
     flex-grow: 1;
-    border-bottom: var(--strong-border);
+    border-right: var(--strong-border);
 }
 .container__item--selected {
     color: var(--active-color);
     border: var(--strong-border);
-    border-bottom: none;
+    border-right: none;
     background-color: var(--primary-color);
 }
 .container__item:hover {
