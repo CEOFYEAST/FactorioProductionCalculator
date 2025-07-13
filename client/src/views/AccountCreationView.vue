@@ -1,23 +1,30 @@
 <template>
-    <div id="AccountCreationView-root" class="root">
+    <div class="AccountCreationView-container">
 
-        <h1>Create Account</h1>
+        <h1 class="container__header">Create Account</h1>
 
-        <form @submit.prevent="tryCreateUser" class="flex column">
-            <p>Creating an account allows you to store production values for up to three factories across sessions.</p>
-            <input type="text" placeholder="Username" id="user-name" v-model="usernameInput" required><br>
-            <input type="password" placeholder="Password" id="user-password" v-model="userPasswordInput" required><br>
-            <div class="flex">
-                <div class="x3"></div>
-                <button id="submit" type="submit" class="x2">Submit</button>
-                <div class="x3"></div>
+        <form class="form" @submit.prevent="tryCreateUser">
+
+            <p class="form__p">Creating an account allows you to store production values for up to three factories across sessions.</p>
+            
+            <input class="form__input" type="text" placeholder="Username" v-model="usernameInput" required><br>
+            <input class="form__input" type="password" placeholder="Password" v-model="userPasswordInput" required><br>
+            
+            <div class="submit-container">
+                <div class="submit-container__filler"></div>
+                <button class="submit-container__button" type="submit">Submit</button>
+                <div class="submit-container__filler"></div>
             </div>
-            <div v-show="showStatusMessage">
+
+            <div class="status-container" v-show="showStatusMessage">
                 <!-- Bind the status message to the creationStatusMessage in the store -->
-                <p>{{ creationStatusMessage }}</p>
+                <p class="status-container__p">{{ creationStatusMessage }}</p>
             </div>
-            <div>
-                <p>Already have an account? <RouterLink :to="accountAccessRoute">Log In.</RouterLink></p>
+
+            <div class="pointer-container">
+                <p class="pointer-container__p">
+                    Already have an account? 
+                <RouterLink :to="accountAccessRoute">Log In.</RouterLink></p>
             </div>
         </form> 
 
@@ -71,26 +78,30 @@ export default {
 
 
 <style scoped>
-    * {
-        margin-top: 10px;
-    }
-    input {
-        font-size: 16px;
-        padding-left:5px;
-    }
-    h1 {
-        text-align: center;
-    }
-    p {
-        text-align: center;
-        /*
-        align-self: center;
-        width: 60%;
-        flex-wrap: wrap;
-        */
-    }
-    #submit {
-        height: 25px;
-    }
-    
+.container__header {
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+.form__p, .pointer-container__p {
+
+}
+.form__input {
+    font-size: 16px;
+    padding-left:5px;
+}
+
+.submit-container {
+    display: flex;
+}
+.submit-container__filler {
+    flex-grow: 3;
+}
+.submit-container__button {
+    height: 25px;
+    width: 200px;
+}
 </style>

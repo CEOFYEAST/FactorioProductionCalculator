@@ -1,31 +1,38 @@
 <template>
-    <div id="AccountAccessView-root" class="root">
+    <div class="AccountAccessView-container">
 
-        <h1>Sign In</h1>
+        <h1 class="container__header">Sign In</h1>
 
-        <form id="sign-in-form" @submit.prevent="accessUser" class="flex column">
+        <form class="form" @submit.prevent="accessUser">
 
-            <input :disabled="signedIn" type="text" placeholder="Username" id="user-name" v-model="usernameInput" required><br>
-            <input :disabled="signedIn" type="password" placeholder="Password" id="user-password" v-model="userPasswordInput" required><br>
+            <input class="form__input" :disabled="signedIn" type="text" placeholder="Username" v-model="usernameInput" required><br>
+            <input class="form__input" :disabled="signedIn" type="password" placeholder="Password" v-model="userPasswordInput" required><br>
 
-            <div id="submit-container" class="flex">
-                <div class="x3"></div>
-                <button v-if="!(signedIn)" id="submit" type="submit">Submit</button>
-                <button v-if="signedIn" @click="logout()" id="logout-button" type="button">Log Out</button>
-                <div class="x3"></div>
+            <div class="submit-container">
+                <div class="submit-container__filler"></div>
+                <button class="submit-container__button" v-if="!(signedIn)" type="submit">Submit</button>
+                <button class="submit-container__button" v-if="signedIn" @click="logout()" type="button">Log Out</button>
+                <div class="submit-container__filler"></div>
             </div>
 
-            <div v-show="showStatusMessage">
-                <p>{{ accessStatusMessage }}</p>
+            <div class="status-container" v-show="showStatusMessage">
+                <p class="status-container__p">{{ accessStatusMessage }}</p>
             </div>
 
-            <div v-if="!(signedIn)" id="create-account-pointer-container">
-                <p id="create-account-pointer-link">Don't have an account? <RouterLink :to="accountCreationRoute">Create One.</RouterLink></p>
-                <p id="create-account-pointer">Creating an account allows you to store production vals. for up to three factories across sessions.</p>
+            <div v-if="!(signedIn)" class="pointer-container">
+                <p class="pointer-container__p">
+                    Don't have an account? 
+                    <RouterLink :to="accountCreationRoute">
+                        Create One.
+                    </RouterLink>
+                </p>
+                <p class="pointer-container__p">
+                    Creating an account allows you to store production vals. for up to three factories across sessions.
+                </p>
             </div>
 
-            <div v-if="signedIn" id="current-user-pointer-container">
-                <p>User currently signed in: {{ username }}</p>
+            <div v-if="signedIn" class="pointer-container">
+                <p class="pointer-container__p">User currently signed in: {{ username }}</p>
             </div>
 
         </form>
@@ -86,30 +93,30 @@ export default {
 
 
 <style scoped>
-    * {
-        margin-top: 10px;
-    }
-    h1, h2, h3 {
-        text-align: center;
-    }
-    p {
-        text-align: center;
-    }
-    input {
-        font-size: 16px;
-        padding-left:5px;
-    }
-    #submit, #logout-button {
-        height: 25px;
-        width: 200px;
-    }
-    /* #logged-in-blurb {
-        justify-content: center;
-        align-content: center;
-        background-color: purple;
-    }
-    #logout-button {
-        justify-self: center;
-        width: 25%;
-    } */
+.container__header {
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+.form__p, .pointer-container__p {
+
+}
+.form__input {
+    font-size: 16px;
+    padding-left:5px;
+}
+
+.submit-container {
+    display: flex;
+}
+.submit-container__filler {
+    flex-grow: 3;
+}
+.submit-container__button {
+    height: 25px;
+    width: 200px;
+}
 </style>

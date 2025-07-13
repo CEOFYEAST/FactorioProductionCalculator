@@ -1,5 +1,5 @@
 <template>
-    <div id="AboutView-container" class="container--full">
+    <div class="AboutView-container">
         
         <h1>Factorio Production Calculator</h1>
         <h2 class="container__header-two">(Save Slots & Security Release)</h2>

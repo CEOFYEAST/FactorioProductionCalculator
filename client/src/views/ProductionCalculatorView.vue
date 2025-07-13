@@ -1,15 +1,14 @@
 <template>
-    <div id="ProductionCalculatorView-root" class="full">
+    <div class="ProductionCalculatorView-container">
 
-      <div class="container full">
-        <div class="container__nav">
-          <TheSideNav/>
-        </div>
-        <div class="container__calculator">
-
-        </div>
+      <div class="container__nav">
+        <TheSideNav/>
       </div>
-      
+
+      <div class="container__calculator">
+
+      </div>
+
     </div>
   </template>
 
@@ -88,7 +87,7 @@
 </script>
 
 <style scoped>
-.container {
+.ProductionCalculatorView-container {
   display: flex;
   flex-direction: row;
   width: 100%;

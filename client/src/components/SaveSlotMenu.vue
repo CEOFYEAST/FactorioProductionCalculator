@@ -1,19 +1,19 @@
 <template>
-    <div class="save-slot-menu">
+    <div class="SaveSlotMenu-container">
         <h2>Save Slot Menu</h2>
         <div class="save-slots">
             <div
                 v-for="slotID in Object.keys(saveSlotData)"
                 :key="slotID"
-                :class="['save-slot', { selected: selectedSlot === slotID }]"
+                :class="['save-slots__save-slot', { 'save-slots__save-slot--selected': selectedSlot === slotID }]"
                 @click="selectSlot(slotID)"
             >
                 Save Slot {{ slotID }}
             </div>
         </div>
-        <div class="buttons">
-            <button :disabled="!selectedSlot" @click="save">Save</button>
-            <button :disabled="!selectedSlot" @click="load">Load</button>
+        <div class="controls">
+            <button class="controls__button" :disabled="!selectedSlot" @click="save">Save</button>
+            <button class="controls__button" :disabled="!selectedSlot" @click="load">Load</button>
         </div>
         <div v-show="showStatusMessage">
             <p>{{ saveSlotsStatusMessage }}</p>
@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style scoped>
-.save-slot-menu {
+.SaveSlotMenu-container {
     text-align: center;
 }
 
@@ -73,7 +73,7 @@ export default {
     margin-bottom: 20px;
 }
 
-.save-slot {
+.save-slots__save-slot {
     padding: 10px 20px;
     margin: 0 10px;
     border: 1px solid #ccc;
@@ -81,19 +81,19 @@ export default {
     user-select: none;
 }
 
-.save-slot.selected {
+.save-slots__save-slot--selected {
     background-color: #007bff;
     color: white;
     border-color: #0056b3;
 }
 
-.buttons button {
+.controls__button {
     margin: 0 10px;
     padding: 10px 20px;
     cursor: pointer;
 }
 
-.buttons button:disabled {
+.controls__button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }

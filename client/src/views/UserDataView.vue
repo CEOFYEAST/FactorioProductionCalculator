@@ -1,5 +1,5 @@
 <template>
-    <div id="WidgetsView-root" class="root">
+    <div class="UserDataView-container">
         <h2 v-show="!(signedIn)">No User Is Currently Signed In</h2>
 
         <SaveSlotMenu v-show="signedIn"/>
