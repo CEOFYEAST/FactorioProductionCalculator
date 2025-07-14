@@ -19,7 +19,7 @@ export default {
     name: 'the main',
     data() {
         return {
-            breakpoint: 768, // Mobile breakpoint in pixels
+            breakpoint: 820, // Mobile breakpoint in pixels
             sizeControllers: {
                 isSmall: false,
                 isMedium: false,
@@ -106,7 +106,8 @@ export default {
     width: 50%;
     min-width: 50%;
     max-height: 100%;
-    min-height: 100%;
+    /* TO-DO Find better solution for main window encroaching over the body window*/
+    min-height: 95%;
     background-color: white;
     border-left: var(--strong-border);
     border-right: var(--strong-border);

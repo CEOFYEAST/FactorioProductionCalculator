@@ -26,9 +26,9 @@ export default defineComponent({
             // Define nav items using the actual routes from your router
             navItems: [
                 { name: 'Calculator', route: definedRoutes.prodChainCalculatorRoute },
-                { name: 'About', route: definedRoutes.aboutViewRoute },
                 { name: 'Sign In', route: definedRoutes.accountAccessRoute },
-                { name: 'Create Account', route: definedRoutes.accountCreationRoute }
+                { name: 'Create Account', route: definedRoutes.accountCreationRoute },
+                { name: 'About', route: definedRoutes.aboutViewRoute },
             ],
             // Set default active item
             activeItemName: 'About'
@@ -57,7 +57,9 @@ export default defineComponent({
 <style scoped>
 .TheTopNav-container {
     min-width: 100%;
-    height: 35px;
+    min-height: 45px;
+    height: 45px;
+    max-height: 45px;
     display: flex;
     flex-direction: row;
     background-color: var(--secondary-color);
@@ -81,7 +83,8 @@ export default defineComponent({
     color: var(--active-color);
     border: var(--strong-border);
     border-bottom: none;
-    background-color: var(--primary-color);
+    border-top: none;
+    background-color: var(--primary-color) !important;
 }
 .container__item:hover {
     background-color: var(--active-color);
