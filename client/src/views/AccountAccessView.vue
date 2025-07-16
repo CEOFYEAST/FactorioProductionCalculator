@@ -97,7 +97,6 @@ export default {
     text-align: center;
     font-family: var(--stylized-font-family);
 }
-
 .form {
     display: flex;
     flex-direction: column;

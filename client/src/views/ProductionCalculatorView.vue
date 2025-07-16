@@ -2,11 +2,13 @@
     <div class="ProductionCalculatorView-container">
 
       <div class="container__side-bar">
-        <TheSideNav/>
+        <TheSideNav @navigation-triggered="handleNavigation" :nav-items="navItems"/>
       </div>
 
-      <div class="container__main-view">
-        
+      <div class="container__main-view container--full">
+        <CalculatedDemandDisplay v-if="showDemandDisplay"/>
+        <UserInputMenu v-if="showInputMenu"/>
+        <SaveSlotMenu v-if="showSaveSlotMenu"/>
       </div>
 
     </div>
@@ -14,8 +16,9 @@
 
 <script>
   import TheSideNav from '@/components/TheSideNav.vue'
-  import SaveSlotMenu from '@/components/SaveSlotMenu.vue'
   import CalculatedDemandDisplay from '@/components/CalculatedDemandDisplay.vue'
+  import UserInputMenu from '@/components/UserInputMenu.vue'
+  import SaveSlotMenu from '@/components/SaveSlotMenu.vue'
 
   let LFS = {}
   
@@ -23,14 +26,38 @@
     name: 'Production Calculator View',
     components: {
       TheSideNav: TheSideNav,
+      CalculatedDemandDisplay: CalculatedDemandDisplay,
+      UserInputMenu: UserInputMenu,
       SaveSlotMenu: SaveSlotMenu,
-      CalculatedDemandDisplay: CalculatedDemandDisplay
     },
     data() {
       return {
-        
+        showDemandDisplay: false,
+        showInputMenu: false,
+        showSaveSlotMenu: false,
+        navItems: [
+          { name: `Demand Display`, image: 'Iron_gear_wheel.png' },
+          { name: `User Input`, image: 'Item_group.png' },
+          { name: 'Save Slots', image: 'Blueprint_book.png' },
+        ],
       }
     },
+    methods: {
+      handleNavigation(menuName) {
+        this.showDemandDisplay = false
+        this.showInputMenu = false
+        this.showSaveSlotMenu = false
+        if(menuName === 'Demand Display') {
+          this.showDemandDisplay = true
+        }
+        else if(menuName === 'User Input') {
+          this.showInputMenu = true
+        }
+        else if(menuName === 'Save Slots') {
+          this.showSaveSlotMenu = true
+        }
+      }
+    }
   }
 </script>
 
@@ -45,8 +72,7 @@
   height: 100%;
   min-height: 100%;
 }
-.container__calculator {
-  flex-grow: 1;
+.container__main-view {
 }
 </style>
   

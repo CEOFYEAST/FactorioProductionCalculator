@@ -18,32 +18,21 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { definedRoutes } from '@/scripts/router'
 
 export default defineComponent({
+    props: {
+        navItems: Array
+    },
     data() {
         return {
-            // Define nav items with images
-            navItems: [
-                { name: `Calculator`, route: definedRoutes.prodChainCalculatorRoute, image: 'Iron_gear_wheel.png' },
-                { name: `User Input`, route: definedRoutes.aboutViewRoute, image: 'Item_group.png' },
-                { name: 'Save Slots', route: definedRoutes.accountAccessRoute, image: 'Blueprint_book.png' },
-            ],
-            // Set default active item
-            activeItemName: 'Calculator'
+            activeItemName: ''
         }
     },
     methods: {
         setActive(itemName) {
-            // Update the active item name
-            this.activeItemName = itemName;
-            
-            // Find the route for the selected item
-            const selectedItem = this.navItems.find(item => item.name === itemName)
-            
-            if (selectedItem) {
-                // Navigate to the selected route
-                //this.$router.push(selectedItem.route)
+            if(this.activeItemName != itemName) {
+                this.activeItemName = itemName;
+                this.$emit('navigation-triggered', itemName);
             }
         },
         getImagePath(imageName) {
@@ -51,13 +40,12 @@ export default defineComponent({
                 return require(`@/assets/factorio-pngs/${imageName}`);
             } catch (e) {
                 console.error(`Image not found: ${imageName}`, e);
-                // Return a placeholder or default image
                 return ''; 
             }
         }
     },
     mounted() {
-        this.setActive(`Calculator`) // Update to match the name property
+        this.setActive(this.navItems[0].name) // Update to match the name property
     }
 })
 </script>
