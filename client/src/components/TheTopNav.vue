@@ -70,9 +70,9 @@ export default defineComponent({
     padding: 0px 15px 0px 15px;
     transition: .3s;
     border-bottom: var(--strong-border);
-    font-family: var(--header-font-family);
+    font-family: var(--main-font-family);
+    color: var(--main-text-color);
     font-size: var(--header-font-size);
-    color: var(--header-text-color);
     background-color: var(--secondary-color);
 }
 .container__filler {

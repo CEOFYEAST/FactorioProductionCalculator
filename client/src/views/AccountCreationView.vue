@@ -80,20 +80,22 @@ export default {
 <style scoped>
 .container__header {
     text-align: center;
+    font-family: var(--stylized-font-family);
+    margin-bottom: 10px;
 }
-
 .form {
     display: flex;
     flex-direction: column;
 }
 .form__p, .pointer-container__p {
-
+    font-family: var(--main-font-family);
+    font-size: var(--body-font-size);
+    color: var(--main-text-color);
 }
 .form__input {
     font-size: 16px;
     padding-left:5px;
 }
-
 .submit-container {
     display: flex;
 }

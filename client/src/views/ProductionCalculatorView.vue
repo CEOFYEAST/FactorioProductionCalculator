@@ -1,12 +1,12 @@
 <template>
     <div class="ProductionCalculatorView-container">
 
-      <div class="container__nav">
+      <div class="container__side-bar">
         <TheSideNav/>
       </div>
 
-      <div class="container__calculator">
-
+      <div class="container__main-view">
+        
       </div>
 
     </div>
@@ -14,75 +14,23 @@
 
 <script>
   import TheSideNav from '@/components/TheSideNav.vue'
-  import { useLoadedFactory } from '@/stores/loadedFactory'
-  import { addRecipesLoadedListener } from '@ceofyeast/prodchaincalculators/recipes'
-  import { addValidationFailedListener } from '@ceofyeast/prodchaincalculators/validators'
+  import SaveSlotMenu from '@/components/SaveSlotMenu.vue'
+  import CalculatedDemandDisplay from '@/components/CalculatedDemandDisplay.vue'
 
   let LFS = {}
   
   export default {
     name: 'Production Calculator View',
     components: {
-      TheSideNav: TheSideNav
+      TheSideNav: TheSideNav,
+      SaveSlotMenu: SaveSlotMenu,
+      CalculatedDemandDisplay: CalculatedDemandDisplay
     },
     data() {
       return {
-        validationErrorMssg: "",
-        resourcesLoaded: false,
-        selectedItemID: "inserter",
-        selectedItemIRPTU: 10,
-        requestTimeUnit: "minute",
-        selectedTimeUnit: "" // Default value for the time unit
+        
       }
     },
-    computed: {
-      userDemand(){
-        return LFS.userDemand
-      },
-      prodChain(){
-        return LFS.prodChain
-      },
-      timeUnit(){
-        return LFS.timeUnit
-      },
-    },
-    methods: {
-      clearFactory(){
-        LFS.clear()
-      },
-      addToFactory(){
-        LFS.addDemand(this.selectedItemID, this.selectedItemIRPTU, this.requestTimeUnit)
-      },
-      removeFromFactory(){
-        LFS.subtractDemand(this.selectedItemID, this.selectedItemIRPTU, this.requestTimeUnit)
-      },
-      changeTimeUnit(newTimeUnit){
-        LFS.setTimeUnit(newTimeUnit)
-      },
-      addOneOfEach(){
-        LFS.refreshStoreState()
-        for(let i = 0; i < LFS.itemIDs.length; i++){
-          LFS.addDemand(LFS.itemIDs[i], 1)
-        }
-      },
-      handleResourcesLoaded(){
-        this.resourcesLoaded = true
-      },
-      handleValiationFailed(err){
-        this.validationErrorMssg = err.message
-      }
-    },
-    beforeCreate(){
-        // essential to set before creation so that the computed properties can refer to the proper values
-        LFS = useLoadedFactory()
-    },
-    created(){
-      import('@ceofyeast/prodchaincalculators/recipes').then((recipesMod) => {
-        this.resourcesLoaded = recipesMod.recipesLoaded
-      })
-      addRecipesLoadedListener(this.handleResourcesLoaded)
-      addValidationFailedListener(this.handleValiationFailed)
-    }
   }
 </script>
 
@@ -93,7 +41,7 @@
   width: 100%;
   min-width: 100%;
 }
-.container__nav {
+.container__side-bar {
   height: 100%;
   min-height: 100%;
 }

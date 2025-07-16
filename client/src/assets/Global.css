@@ -8,10 +8,10 @@ p {
     --active-color: orange;
     --inactive-color: lightgray;
 
-    --header-font-family: 'Tahoma', sans-serif, bold;
-    --body-font-family: 'Tahoma', sans-serif;
-    --header-text-color: #555252;
-    --body-text-color: #333;
+    --stylized-font-family: 'Tahoma', sans-serif;
+    --main-font-family: 'Tahoma', sans-serif;
+    --stylized-text-color: #333;
+    --main-text-color: #555252;
     --header-font-size: 22px;
     --body-font-size: 16px;
 

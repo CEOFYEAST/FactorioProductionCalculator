@@ -95,6 +95,7 @@ export default {
 <style scoped>
 .container__header {
     text-align: center;
+    font-family: var(--stylized-font-family);
 }
 
 .form {
@@ -102,7 +103,9 @@ export default {
     flex-direction: column;
 }
 .form__p, .pointer-container__p {
-
+    font-family: var(--main-font-family);
+    font-size: var(--body-font-size);
+    color: var(--main-text-color);
 }
 .form__input {
     font-size: 16px;
