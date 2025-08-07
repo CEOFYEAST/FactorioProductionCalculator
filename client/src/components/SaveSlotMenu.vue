@@ -37,8 +37,7 @@ export default {
     data() {
         return {
             saveSlotData: UDS.saveSlotData,
-            selectedSlot: null,
-            showStatusMessage: true,
+            selectedSlot: null
         };
     },
     methods: {
@@ -54,8 +53,11 @@ export default {
     },
     computed: {
         saveSlotsStatusMessage(){
-            return UDS.saveSlotsStatusMessage
+            return UDS.saveSlotsStatusMessage;
         },
+        showStatusMessage() {
+            return this.saveSlotsStatusMessage === true;  
+        }
     },
     beforeCreate(){
         // essential to set before creation so that the computed properties can refer to the proper values

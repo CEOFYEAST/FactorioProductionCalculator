@@ -19,7 +19,7 @@ export default {
     name: 'the main',
     data() {
         return {
-            breakpoint: 820, // Mobile breakpoint in pixels
+            breakpoint: parseInt(getComputedStyle(document.documentElement).getPropertyValue('--mobile-breakpoint')),
             sizeControllers: {
                 isSmall: false,
                 isMedium: false,

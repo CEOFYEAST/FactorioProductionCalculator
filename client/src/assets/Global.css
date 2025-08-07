@@ -19,6 +19,8 @@ p {
     --weak-border: 1px solid #555252;
     --active-border: 3px solid var(--active-color);
     --active-gradient: linear-gradient(to top, rgba(255, 165, 0, 0.4), transparent);
+
+    --mobile-breakpoint: 820px;
 }
 
 .flex { display: flex; }
