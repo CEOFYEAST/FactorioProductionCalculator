@@ -8,37 +8,21 @@
         <h3 class="display__section-title">Time Unit</h3>
         <div class="display__time-unit">{{ timeUnit }}</div>
       </div>
-
-      <!-- Two-column layout for User Demand and Production Chain -->
-      <div class="display__two-column">
-        <!-- Left Column: User Demand -->
-        <div class="display__column">
-          <UserDemandDisplay :userDemand="userDemand" />
-        </div>
-
-        <!-- Right Column: Production Chain -->
-        <div class="display__column">
-          <ProductionChainDisplay :prodChain="prodChain" />
-        </div>
-      </div>
     </div>
+
+    <div class="display" v-if="resourcesLoaded"></div>
+
   </div>
 </template>
 
 <script>
 import { useLoadedFactory } from '@/stores/loadedFactory'
 import { addRecipesLoadedListener } from '@ceofyeast/prodchaincalculators/recipes'
-import UserDemandDisplay from '@/components/UserDemandDisplay.vue'
-import ProductionChainDisplay from '@/components/ProductionChainDisplay.vue'
 
 let LFS = {}
 
 export default {
   name: 'CalculatedDemandDisplay',
-  components: {
-    UserDemandDisplay,
-    ProductionChainDisplay
-  },
   data() {
     return {
       resourcesLoaded: false,
@@ -87,10 +71,6 @@ export default {
   margin-bottom: 20px;
 }
 
-.factory-data__title {
-  margin-bottom: 15px;
-}
-
 .display {
   padding: 15px;
   border-radius: 4px;
@@ -115,29 +95,5 @@ export default {
   border-radius: 4px;
   font-family: var(--main-font-family);
   font-size: var(--body-font-size);
-}
-
-/* Two-column layout container */
-.display__two-column {
-  display: flex;
-  gap: 20px; /* Space between columns */
-  width: 100%;
-}
-
-/* Each column takes up half the space */
-.display__column {
-  flex: 1;
-  min-width: 0; /* Prevents flex items from overflowing */
-}
-
-/* Responsive layout for smaller screens */
-@media (max-width: var(--mobile-breakpoint)) {
-  .display__two-column {
-    flex-direction: column;
-  }
-  
-  .display__column {
-    margin-bottom: 20px;
-  }
 }
 </style>
