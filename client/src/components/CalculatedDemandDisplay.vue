@@ -3,14 +3,24 @@
     <h1 class="container__header">Production Chain Visualizer</h1>
 
     <div class="display" v-if="resourcesLoaded">
-      <!-- Time Unit Section - Above both columns -->
-      <div class="display__time-section">
-        <h3 class="display__section-title">Time Unit</h3>
-        <div class="display__time-unit">{{ timeUnit }}</div>
+      <div class="top-row">
+        <div class="top-row__description">
+          Items per {{ timeUnit }}
+        </div>
+        <div class="top-row__filler"/>
+      </div>
+      <div class="rows">
+        <ProductionChainRow
+          v-for="(item, index) in depthwiseTraversal"
+          :key="index"
+          :icon-path="getThumbsPath(item)"
+          :demand="getItemDemand(item)"
+          :dependent-items="getDependentItems(item)"
+          :ingredient-items="getIngredientItems(item)"
+          :prod-chain="prodChain"
+        />
       </div>
     </div>
-
-    <div class="display" v-if="resourcesLoaded"></div>
 
   </div>
 </template>
@@ -18,11 +28,15 @@
 <script>
 import { useLoadedFactory } from '@/stores/loadedFactory'
 import { addRecipesLoadedListener } from '@ceofyeast/prodchaincalculators/recipes'
+import ProductionChainRow from './ProductionChainRow.vue'
 
 let LFS = {}
 
 export default {
   name: 'CalculatedDemandDisplay',
+  components: {
+    ProductionChainRow
+  },
   data() {
     return {
       resourcesLoaded: false,
@@ -40,11 +54,37 @@ export default {
     timeUnit(){
       return LFS.timeUnit
     },
+    depthwiseTraversal() {
+      return LFS.depthwiseTraversal
+    },
+    graphifiedRep() {
+      return LFS.graphifiedRep
+    }
   },
   methods: {
     handleResourcesLoaded(){
       this.resourcesLoaded = true
     },
+    getThumbsPath(item) {
+      if (!this.prodChain[item]) return '';
+      const { thumbDir, thumbName } = this.prodChain[item];
+      return `/assets/client_thumbs/${thumbDir}/${thumbName}`;
+    },
+    getItemDemand(item) {
+      if (!this.prodChain[item]) return 0;
+      const {userIRPTU, intermIRPTU } = this.prodChain[item]
+      console.log("UserIRPTU: ", userIRPTU, "intermIRPTU", intermIRPTU)
+      const total = userIRPTU + intermIRPTU
+      return parseFloat(total.toFixed(3))
+    },
+    getDependentItems(item) {
+      if (!this.prodChain[item]) return {};
+      return this.prodChain[item]["dependentItems"]
+    },
+    getIngredientItems(item) {
+      if (!this.prodChain[item]) return {};
+      return this.prodChain[item]["ingredientItems"]
+    }
   },
   beforeCreate(){
     // essential to set before creation so that the computed properties can refer to the proper values
@@ -76,24 +116,32 @@ export default {
   border-radius: 4px;
 }
 
-/* Time unit section - full width above the columns */
-.display__time-section {
-  margin-bottom: 20px;
-  width: 100%;
+.rows {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  border-top: var(--medium-border);
 }
 
-.display__section-title {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-family: var(--main-font-family);
+.top-row {
+  display: grid;
+  grid-template-columns: 50px 64px 120px 1fr;
+  height: 40px;
+  width: 500px;
+  margin-bottom: 0;
 }
 
-.display__time-unit {
-  border: 1px solid black;
-  padding: 10px;
-  background-color: var(--secondary-color);
-  border-radius: 4px;
+.top-row__description {
+  grid-column: 2 / 5;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
   font-family: var(--main-font-family);
-  font-size: var(--body-font-size);
+  color: var(--main-font-color);
+  font-size: var(--header-font-size);
+}
+
+.top-row__filler {
+  grid-column: 4;
 }
 </style>

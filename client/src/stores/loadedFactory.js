@@ -2,11 +2,16 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import * as IRPTU from "@ceofyeast/prodchaincalculators/irptu"
 import * as UTILITY from "@ceofyeast/prodchaincalculators/utility"
+import * as TRAVERSAL from "@ceofyeast/prodchaincalculators/traversal"
+import * as GRAPH from "@ceofyeast/prodchaincalculators/graph"
 import {addRecipesLoadedListener, recipesLoaded} from "@ceofyeast/prodchaincalculators/recipes"
 
 export const useLoadedFactory = defineStore('loadedFactory', () => {
     const loadedFactory = ref(UTILITY.createProductionChainObject())
     const userDemand = ref({})
+    const intermDemand = ref({})
+    const graphifiedRep = ref({})
+    const depthwiseTraversal = ref({})
     const itemIDs = ref({})
     const itemNamesAndIDs = ref({})
 
@@ -22,6 +27,8 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
     function refreshStoreState() {
         try {
             userDemand.value = UTILITY.getUserDemand(prodChain.value)
+            depthwiseTraversal.value = TRAVERSAL.buildLongestPathTraversal(prodChain.value)
+            //graphifiedRep.value = GRAPH.getProdChainAsGraph(loadedFactory)
         } catch(err) {
             if(err.name != "ValidationError") throw(err)
         }
@@ -97,6 +104,8 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         itemNamesAndIDs,
         timeUnit,
         prodChain,
+        graphifiedRep,
+        depthwiseTraversal,
         refreshStoreState,
         clear,
         setTimeUnit,
