@@ -1,22 +1,6 @@
 <template>
   <div class="sub-rows">
     <div class="sub-rows-container">
-      <!-- Ingredient relationships (this item ← ingredient) -->
-      <div 
-        v-for="[ingredientName, amount] in ingredientItemsList" 
-        :key="`ingredient-${ingredientName}`"
-        class="sub-row"
-      >
-        <div class="sub-row__icon-container">
-          <img class="sub-row__icon" :src="currentItemIconPath" />
-        </div>
-        <div class="sub-row__arrow">←</div>
-        <div class="sub-row__icon-container">
-          <img class="sub-row__icon" :src="getIngredientIconPath(ingredientName)" />
-        </div>
-        <div class="sub-row__amount">{{ parseFloat(amount.toFixed(3)) }}</div>
-      </div>
-      
       <!-- Dependent relationships (dependent ← this item) -->
       <div 
         v-for="[dependentName, amount] in dependentItemsList" 
@@ -29,6 +13,22 @@
         <div class="sub-row__arrow">←</div>
         <div class="sub-row__icon-container">
           <img class="sub-row__icon" :src="currentItemIconPath" />
+        </div>
+        <div class="sub-row__amount">{{ parseFloat(amount.toFixed(3)) }}</div>
+      </div>
+
+      <!-- Ingredient relationships (this item ← ingredient) -->
+      <div 
+        v-for="[ingredientName, amount] in ingredientItemsList" 
+        :key="`ingredient-${ingredientName}`"
+        class="sub-row"
+      >
+        <div class="sub-row__icon-container">
+          <img class="sub-row__icon" :src="currentItemIconPath" />
+        </div>
+        <div class="sub-row__arrow">←</div>
+        <div class="sub-row__icon-container">
+          <img class="sub-row__icon" :src="getIngredientIconPath(ingredientName)" />
         </div>
         <div class="sub-row__amount">{{ parseFloat(amount.toFixed(3)) }}</div>
       </div>
