@@ -9,7 +9,6 @@ import {addRecipesLoadedListener, recipesLoaded} from "@ceofyeast/prodchaincalcu
 export const useLoadedFactory = defineStore('loadedFactory', () => {
     const loadedFactory = ref(UTILITY.createProductionChainObject())
     const userDemand = ref({})
-    const intermDemand = ref({})
     const graphifiedRep = ref({})
     const depthwiseTraversal = ref({})
     const itemIDs = ref({})

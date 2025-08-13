@@ -68,13 +68,11 @@ export default {
   methods: {
     getIngredientIconPath(ingredientName) {
       if (!this.prodChain[ingredientName]) return '';
-      const { thumbDir, thumbName } = this.prodChain[ingredientName];
-      return `/assets/client_thumbs/${thumbDir}/${thumbName}`;
+      return this.prodChain[ingredientName]["thumbPath"] || '';
     },
     getDependentIconPath(dependentName) {
       if (!this.prodChain[dependentName]) return '';
-      const { thumbDir, thumbName } = this.prodChain[dependentName];
-      return `/assets/client_thumbs/${thumbDir}/${thumbName}`;
+      return this.prodChain[dependentName]["thumbPath"] || '';
     }
   }
 }

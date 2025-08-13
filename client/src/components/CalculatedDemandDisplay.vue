@@ -4,20 +4,28 @@
 
     <div class="display" v-if="resourcesLoaded">
       <div class="top-row">
-        <div class="top-row__description">
+        <div class="top-row__filler-left"></div>
+        <div class="top-row__items-header">
           Items per {{ timeUnit }}
         </div>
-        <div class="top-row__filler"/>
+        <div class="top-row__spacer"></div>
+        <div class="top-row__crafter-header">
+          Crafter Counts
+        </div>
+        <div class="top-row__filler-right"></div>
       </div>
       <div class="rows">
         <ProductionChainRow
           v-for="(item, index) in depthwiseTraversal"
           :key="index"
-          :icon-path="getThumbsPath(item)"
+          :icon-path="getThumbPath(item)"
           :demand="getItemDemand(item)"
           :dependent-items="getDependentItems(item)"
           :ingredient-items="getIngredientItems(item)"
           :prod-chain="prodChain"
+          :crafter="getCrafter(item)"
+          :crafter-count="getCrafterCount(item)"
+          :crafter-icon-path="getCrafterThumbPath(item)"
         />
       </div>
     </div>
@@ -65,10 +73,9 @@ export default {
     handleResourcesLoaded(){
       this.resourcesLoaded = true
     },
-    getThumbsPath(item) {
+    getThumbPath(item) {
       if (!this.prodChain[item]) return '';
-      const { thumbDir, thumbName } = this.prodChain[item];
-      return `/assets/client_thumbs/${thumbDir}/${thumbName}`;
+      return this.prodChain[item]["thumbPath"] || '';
     },
     getItemDemand(item) {
       if (!this.prodChain[item]) return 0;
@@ -84,6 +91,31 @@ export default {
     getIngredientItems(item) {
       if (!this.prodChain[item]) return {};
       return this.prodChain[item]["ingredientItems"]
+    },
+    getCrafter(item) {
+      if (!this.prodChain[item]) return '';
+      return this.prodChain[item]["crafter"] || '';
+    },
+    getCrafterCount(item) {
+      if (!this.prodChain[item]) return 0;
+      const count = this.prodChain[item]["crafterCount"];
+      
+      // Handle string values like "N/A"
+      if (typeof count === 'string') {
+        return count;
+      }
+      
+      // Handle numeric values
+      if (typeof count === 'number' && !isNaN(count)) {
+        return parseFloat(count.toFixed(3));
+      }
+      
+      // Fallback for other cases
+      return 0;
+    },
+    getCrafterThumbPath(item) {
+      if (!this.prodChain[item]) return '';
+      return this.prodChain[item]["crafterThumbPath"] || '';
     }
   },
   beforeCreate(){
@@ -119,29 +151,49 @@ export default {
 .rows {
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 730px;
   border-top: var(--medium-border);
 }
 
 .top-row {
   display: grid;
-  grid-template-columns: 50px 64px 120px 1fr;
+  grid-template-columns: 72px 194px 70px 170px 1fr;
   height: 40px;
-  width: 500px;
+  width: 730px;
   margin-bottom: 0;
 }
 
-.top-row__description {
-  grid-column: 2 / 5;
+.top-row__filler-left {
+  grid-column: 1;
+}
+
+.top-row__items-header {
+  grid-column: 2;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0 8px;
   font-family: var(--main-font-family);
   color: var(--main-font-color);
   font-size: var(--header-font-size);
 }
 
-.top-row__filler {
+.top-row__spacer {
+  grid-column: 3;
+}
+
+.top-row__crafter-header {
   grid-column: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  font-family: var(--main-font-family);
+  color: var(--main-font-color);
+  font-size: var(--header-font-size);
+}
+
+.top-row__filler-right {
+  grid-column: 5;
 }
 </style>

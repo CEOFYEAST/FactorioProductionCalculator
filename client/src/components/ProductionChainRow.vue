@@ -9,8 +9,21 @@
       <div class="row__icon-container">
         <img class="row__icon" :src="iconPath" />
       </div>
+      <div class="row__arrow-container">
+        <span class="row__arrow">←</span>
+      </div>
       <div class="row__demand">
         {{ demand }}
+      </div>
+      <div class="row__filler"/>
+      <div class="row__crafter-icon-container">
+        <img class="row__crafter-icon" :src="crafterIconPath" />
+      </div>
+      <div class="row__crafter-multiplier-container">
+        <span class="row__crafter-multiplier">×</span>
+      </div>
+      <div class="row__crafter-count-container">
+        <span class="row__crafter-count">{{ formattedCrafterCount }}</span>
       </div>
       <div class="row__filler"/>
     </div>
@@ -53,6 +66,18 @@ export default {
     prodChain: {
       type: Object,
       default: () => ({})
+    },
+    crafter: {
+      type: String,
+      default: ''
+    },
+    crafterCount: {
+      type: [String, Number],
+      default: 0
+    },
+    crafterIconPath: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -62,7 +87,7 @@ export default {
   },
   computed: {
     gridColumns() {
-      return '50px 64px 120px 1fr';
+      return '50px 64px 64px 64px 64px 64px 64px 64px 1fr';
     },
     showSubRows() {
       return this.hasDependent || this.hasIngredients;
@@ -72,6 +97,20 @@ export default {
     },
     hasIngredients() {
       return Object.keys(this.ingredientItems).length > 0;
+    },
+    formattedCrafterCount() {
+      // Handle string values like "N/A"
+      if (typeof this.crafterCount === 'string') {
+        return this.crafterCount;
+      }
+      
+      // Handle numeric values
+      if (typeof this.crafterCount === 'number' && !isNaN(this.crafterCount)) {
+        return parseFloat(this.crafterCount.toFixed(2));
+      }
+      
+      // Fallback for other cases
+      return '0';
     }
   },
   methods: {
@@ -132,6 +171,18 @@ export default {
   object-fit: contain;
 }
 
+.row__arrow-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.row__arrow {
+  color: var(--main-font-color);
+  font-size: var(--body-font-size);
+  font-weight: normal;
+}
+
 .row__demand {
   display: flex;
   align-items: center;
@@ -140,5 +191,43 @@ export default {
   font-family: var(--main-font-family);
   color: var(--main-font-color);
   font-size: var(--body-font-size);
+}
+
+.row__crafter-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.row__crafter-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.row__crafter-multiplier-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.row__crafter-multiplier {
+  color: var(--main-font-color);
+  font-size: var(--body-font-size);
+  font-weight: normal;
+}
+
+.row__crafter-count-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.row__crafter-count {
+  font-family: var(--main-font-family);
+  color: var(--main-font-color);
+  font-size: var(--body-font-size);
+  font-weight: normal;
 }
 </style>
