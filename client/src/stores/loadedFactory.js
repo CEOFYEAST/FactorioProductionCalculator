@@ -92,6 +92,12 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         refreshStoreState()
     }
 
+    function getItemIconPath(name) {
+        const thumbDir = name.replace(/\s+/g, '_') + '.png';
+        const thumbName = `32px-${thumbDir}`;
+        return `/assets/client_thumbs/${thumbDir}/${thumbName}`;
+    }
+
     addRecipesLoadedListener(initializeRecipesData)
 
     if(recipesLoaded) initializeRecipesData();
@@ -110,7 +116,8 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         setTimeUnit,
         addDemand,
         subtractDemand,
-        loadFactoryData
+        loadFactoryData,
+        getItemIconPath
     }
 })
 

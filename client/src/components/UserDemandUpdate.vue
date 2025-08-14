@@ -3,9 +3,42 @@
     
     <div class="container__content">
         <h3 class="container__section-title">Update User Demand</h3>
+      
       <div class="form-row">
-        <label class="form-row__label" for="itemID">Enter Item ID</label>
-        <input class="form-row__input" id="itemID" type="text" v-model="itemID" />
+        <label class="form-row__label" for="itemSelector">Select Item</label>
+        <div class="item-selector">
+          <div class="item-selector__input-container" @click="toggleDropdown">
+            <div class="item-selector__selected-item" v-if="selectedItem">
+              <img class="item-selector__icon" :src="LFS.getItemIconPath(selectedItem.name)" />
+              <span class="item-selector__name">{{ selectedItem.name }}</span>
+            </div>
+            <div class="item-selector__placeholder" v-else>
+              Select an item...
+            </div>
+            <span class="item-selector__arrow">{{ isDropdownOpen ? '▲' : '▼' }}</span>
+          </div>
+          
+          <div class="item-selector__dropdown" v-if="isDropdownOpen">
+            <input 
+              class="item-selector__search"
+              type="text" 
+              v-model="searchQuery"
+              placeholder="Search items..."
+              @click.stop
+            />
+            <div class="item-selector__options">
+              <div 
+                class="item-selector__option"
+                v-for="item in filteredItems"
+                :key="item.id"
+                @click="selectItem(item)"
+              >
+                <img class="item-selector__option-icon" :src="LFS.getItemIconPath(item.name)" />
+                <span class="item-selector__option-name">{{ item.name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="form-row">
@@ -23,14 +56,19 @@
       </div>
 
       <div class="form-row form-row--buttons">
-        <button class="form-row__button" @click="addToFactory">Add Specified Item to the Factory</button>
-        <button class="form-row__button" @click="removeFromFactory">Remove Specified Item from the Factory</button>
+        <button class="form-row__button" @click="addToFactory" :disabled="!selectedItem">Add Specified Item to the Factory</button>
+        <button class="form-row__button" @click="removeFromFactory" :disabled="!selectedItem">Remove Specified Item from the Factory</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { useLoadedFactory } from '@/stores/loadedFactory'
+import { addRecipesLoadedListener } from '@ceofyeast/prodchaincalculators/recipes'
+
+let LFS = {}
+
 export default {
   name: 'UserDemandUpdate',
   props: {
@@ -41,18 +79,89 @@ export default {
   },
   data() {
     return {
-      itemID: "inserter",
+      selectedItem: null,
+      searchQuery: '',
+      isDropdownOpen: false,
       itemIRPTU: 10,
-      timeUnit: "minute"
+      timeUnit: "minute",
+      resourcesLoaded: false
+    }
+  },
+  computed: {
+    LFS() {
+      return LFS
+    },
+    itemNamesAndIDs() {
+      return LFS.itemNamesAndIDs || {}
+    },
+    availableItems() {
+      const items = []
+      for (const [name, id] of Object.entries(this.itemNamesAndIDs)) {
+        items.push({ name, id })
+      }
+      return items.sort((a, b) => a.name.localeCompare(b.name))
+    },
+    filteredItems() {
+      if (!this.searchQuery) {
+        return this.availableItems
+      }
+      return this.availableItems.filter(item =>
+        item.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      )
     }
   },
   methods: {
+    handleResourcesLoaded() {
+      this.resourcesLoaded = true
+    },
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen
+      if (this.isDropdownOpen) {
+        this.searchQuery = ''
+        // Focus search input after dropdown opens
+        this.$nextTick(() => {
+          const searchInput = this.$el.querySelector('.item-selector__search')
+          if (searchInput) searchInput.focus()
+        })
+      }
+    },
+    selectItem(item) {
+      this.selectedItem = item
+      this.isDropdownOpen = false
+      this.searchQuery = ''
+    },
     addToFactory() {
-      this.factoryService.addDemand(this.itemID, this.itemIRPTU, this.timeUnit)
+      if (this.selectedItem) {
+        this.factoryService.addDemand(this.selectedItem.id, this.itemIRPTU, this.timeUnit)
+      }
     },
     removeFromFactory() {
-      this.factoryService.subtractDemand(this.itemID, this.itemIRPTU, this.timeUnit)
+      if (this.selectedItem) {
+        this.factoryService.subtractDemand(this.selectedItem.id, this.itemIRPTU, this.timeUnit)
+      }
+    },
+    // Close dropdown when clicking outside
+    handleClickOutside(event) {
+      if (!this.$el.contains(event.target)) {
+        this.isDropdownOpen = false
+      }
     }
+  },
+  beforeCreate() {
+    // essential to set before creation so that the computed properties can refer to the proper values
+    LFS = useLoadedFactory()
+  },
+  created() {
+    import('@ceofyeast/prodchaincalculators/recipes').then((recipesMod) => {
+      this.resourcesLoaded = recipesMod.recipesLoaded
+    })
+    addRecipesLoadedListener(this.handleResourcesLoaded)
+  },
+  mounted() {
+    document.addEventListener('click', this.handleClickOutside)
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.handleClickOutside)
   }
 }
 </script>
@@ -87,6 +196,8 @@ export default {
   font-family: var(--main-font-family);
   font-size: var(--body-font-size);
   color: var(--main-text-color);
+  display: block;
+  margin-bottom: 5px;
 }
 
 .form-row__input, .form-row__select {
@@ -96,6 +207,122 @@ export default {
   border-radius: 4px;
   font-family: var(--main-font-family);
   font-size: var(--body-font-size);
+}
+
+/* Item Selector Styles */
+.item-selector {
+  position: relative;
+  margin-left: 10px;
+}
+
+.item-selector__input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+.item-selector__input-container:hover {
+  border-color: #999;
+}
+
+.item-selector__selected-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.item-selector__icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.item-selector__name {
+  font-family: var(--main-font-family);
+  font-size: var(--body-font-size);
+  color: var(--main-text-color);
+}
+
+.item-selector__placeholder {
+  font-family: var(--main-font-family);
+  font-size: var(--body-font-size);
+  color: #999;
+}
+
+.item-selector__arrow {
+  color: #666;
+  font-size: 12px;
+}
+
+.item-selector__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.item-selector__search {
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-bottom: 1px solid #eee;
+  font-family: var(--main-font-family);
+  font-size: var(--body-font-size);
+  outline: none;
+}
+
+.item-selector__search:focus {
+  border-bottom-color: #007bff;
+}
+
+.item-selector__options {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.item-selector__option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.item-selector__option:hover {
+  background-color: #f8f9fa;
+}
+
+.item-selector__option:last-child {
+  border-bottom: none;
+}
+
+.item-selector__option-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.item-selector__option-name {
+  font-family: var(--main-font-family);
+  font-size: var(--body-font-size);
+  color: var(--main-text-color);
 }
 
 /* Center buttons in their container */
@@ -118,8 +345,14 @@ export default {
   transition: background-color 0.2s;
 }
 
-.form-row__button:hover {
+.form-row__button:hover:not(:disabled) {
   background-color: var(--active-color);
+}
+
+.form-row__button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 @media (max-width: var(--mobile-breakpoint)) {
@@ -129,7 +362,7 @@ export default {
     align-items: flex-start;
   }
   
-  .form-row__input, .form-row__select {
+  .form-row__input, .form-row__select, .item-selector {
     margin-left: 0;
     margin-top: 5px;
     width: 100%;
