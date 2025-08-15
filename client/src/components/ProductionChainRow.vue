@@ -7,7 +7,9 @@
         </button>
       </div>
       <div class="row__icon-container">
-        <img class="row__icon" :src="iconPath" />
+        <ItemTooltip :item-id="getItemIdFromPath(iconPath)">
+          <img class="row__icon" :src="iconPath" />
+        </ItemTooltip>
       </div>
       <div class="row__arrow-container">
         <span class="row__arrow">←</span>
@@ -17,7 +19,9 @@
       </div>
       <div class="row__filler"/>
       <div class="row__crafter-icon-container">
-        <img class="row__crafter-icon" :src="crafterIconPath" />
+        <ItemTooltip :item-id="getItemIdFromPath(crafterIconPath)">
+          <img class="row__crafter-icon" :src="crafterIconPath" />
+        </ItemTooltip>
       </div>
       <div class="row__crafter-multiplier-container">
         <span class="row__crafter-multiplier">×</span>
@@ -40,11 +44,13 @@
 
 <script>
 import ProductionChainSubRows from './ProductionChainSubRows.vue'
+import ItemTooltip from './ItemTooltip.vue'
 
 export default {
   name: 'ProductionChainRow',
   components: {
-    ProductionChainSubRows
+    ProductionChainSubRows,
+    ItemTooltip
   },
   props: {
     iconPath: {
@@ -116,6 +122,22 @@ export default {
   methods: {
     toggleExpanded() {
       this.isExpanded = !this.isExpanded;
+    },
+    getItemIdFromPath(imagePath) {
+      if (!imagePath) return '';
+      
+      // Extract filename from path
+      const fileName = imagePath.split('/').pop();
+      if (!fileName) return '';
+      
+      // Remove file extension and any prefix like "32px-"
+      let itemId = fileName.replace(/\.(png|jpg|jpeg|gif)$/i, '');
+      itemId = itemId.replace(/^32px-/, '');
+      itemId = itemId.replace(/\.png$/, '');
+      
+      // Convert from filename format to item ID format
+      // This handles cases where spaces might have been converted to underscores
+      return itemId.toLowerCase().replace(/_/g, '-');
     }
   }
 }

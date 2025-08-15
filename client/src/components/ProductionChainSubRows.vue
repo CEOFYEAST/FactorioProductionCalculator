@@ -8,11 +8,15 @@
         class="sub-row"
       >
         <div class="sub-row__icon-container">
-          <img class="sub-row__icon" :src="getDependentIconPath(dependentName)" />
+          <ItemTooltip :item-id="getItemIdFromPath(getDependentIconPath(dependentName))">
+            <img class="sub-row__icon" :src="getDependentIconPath(dependentName)" />
+          </ItemTooltip>
         </div>
         <div class="sub-row__arrow">←</div>
         <div class="sub-row__icon-container">
-          <img class="sub-row__icon" :src="currentItemIconPath" />
+          <ItemTooltip :item-id="getItemIdFromPath(currentItemIconPath)">
+            <img class="sub-row__icon" :src="currentItemIconPath" />
+          </ItemTooltip>
         </div>
         <div class="sub-row__amount">{{ parseFloat(amount.toFixed(3)) }}</div>
       </div>
@@ -24,11 +28,15 @@
         class="sub-row"
       >
         <div class="sub-row__icon-container">
-          <img class="sub-row__icon" :src="currentItemIconPath" />
+          <ItemTooltip :item-id="getItemIdFromPath(currentItemIconPath)">
+            <img class="sub-row__icon" :src="currentItemIconPath" />
+          </ItemTooltip>
         </div>
         <div class="sub-row__arrow">←</div>
         <div class="sub-row__icon-container">
-          <img class="sub-row__icon" :src="getIngredientIconPath(ingredientName)" />
+          <ItemTooltip :item-id="getItemIdFromPath(getIngredientIconPath(ingredientName))">
+            <img class="sub-row__icon" :src="getIngredientIconPath(ingredientName)" />
+          </ItemTooltip>
         </div>
         <div class="sub-row__amount">{{ parseFloat(amount.toFixed(3)) }}</div>
       </div>
@@ -37,8 +45,13 @@
 </template>
 
 <script>
+import ItemTooltip from './ItemTooltip.vue'
+
 export default {
   name: 'ProductionChainSubRows',
+  components: {
+    ItemTooltip
+  },
   props: {
     dependentItems: {
       type: Object,
@@ -73,6 +86,22 @@ export default {
     getDependentIconPath(dependentName) {
       if (!this.prodChain[dependentName]) return '';
       return this.prodChain[dependentName]["thumbPath"] || '';
+    },
+    getItemIdFromPath(imagePath) {
+      if (!imagePath) return '';
+      
+      // Extract filename from path
+      const fileName = imagePath.split('/').pop();
+      if (!fileName) return '';
+      
+      // Remove file extension and any prefix like "32px-"
+      let itemId = fileName.replace(/\.(png|jpg|jpeg|gif)$/i, '');
+      itemId = itemId.replace(/^32px-/, '');
+      itemId = itemId.replace(/\.png$/, '');
+      
+      // Convert from filename format to item ID format
+      // This handles cases where spaces might have been converted to underscores
+      return itemId.toLowerCase().replace(/_/g, '-');
     }
   }
 }
