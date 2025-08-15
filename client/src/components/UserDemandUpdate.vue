@@ -41,23 +41,41 @@
         </div>
       </div>
 
-      <div class="form-row">
-        <label class="form-row__label" for="itemIRPTU">Enter Item IRPTU</label>
-        <input class="form-row__input" id="itemIRPTU" type="number" v-model="itemIRPTU" />
-      </div>
-
-      <div class="form-row">
-        <label class="form-row__label" for="requestTimeUnit">Select Request Time Unit</label>
-        <select class="form-row__select" id="requestTimeUnit" v-model="timeUnit">
-          <option value="second">Second</option>
-          <option value="minute">Minute</option>
-          <option value="hour">Hour</option>
-        </select>
+      <div class="form-row form-row--horizontal">
+        <div class="form-row__field">
+          <label class="form-row__label" for="itemIRPTU">Items Per Time Unit</label>
+          <input class="form-row__input" id="itemIRPTU" type="number" v-model="itemIRPTU" />
+        </div>
+        <div class="form-row__field">
+          <label class="form-row__label" for="requestTimeUnit">Request Time Unit</label>
+          <select class="form-row__select" id="requestTimeUnit" v-model="timeUnit">
+            <option value="second">Second</option>
+            <option value="minute">Minute</option>
+            <option value="hour">Hour</option>
+          </select>
+        </div>
       </div>
 
       <div class="form-row form-row--buttons">
         <button class="form-row__button" @click="addToFactory" :disabled="!selectedItem">Add Specified Item to the Factory</button>
         <button class="form-row__button" @click="removeFromFactory" :disabled="!selectedItem">Remove Specified Item from the Factory</button>
+      </div>
+
+      <!-- Status Message -->
+      <div 
+        class="status-message" 
+        :class="{ 
+          'status-message--visible': statusMessage.visible,
+          'status-message--success': statusMessage.type === 'success',
+          'status-message--error': statusMessage.type === 'error'
+        }"
+        v-if="statusMessage.visible"
+      >
+        <div class="status-message__content">
+          <span class="status-message__icon">{{ statusMessage.type === 'success' ? '✓' : '✗' }}</span>
+          <img class="status-message__item-icon" :src="LFS.getItemIconPath(statusMessage.itemName)" v-if="statusMessage.itemName" />
+          <span class="status-message__text">{{ statusMessage.text }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -84,7 +102,14 @@ export default {
       isDropdownOpen: false,
       itemIRPTU: 10,
       timeUnit: "minute",
-      resourcesLoaded: false
+      resourcesLoaded: false,
+      statusMessage: {
+        visible: false,
+        type: '', // 'success' or 'error'
+        text: '',
+        itemName: ''
+      },
+      statusTimeout: null
     }
   },
   computed: {
@@ -132,13 +157,58 @@ export default {
     },
     addToFactory() {
       if (this.selectedItem) {
-        this.factoryService.addDemand(this.selectedItem.id, this.itemIRPTU, this.timeUnit)
+        try {
+          this.factoryService.addDemand(this.selectedItem.id, this.itemIRPTU, this.timeUnit)
+          this.showStatusMessage(
+            'success',
+            `Added ${this.itemIRPTU} ${this.selectedItem.name} per ${this.timeUnit} to factory`,
+            this.selectedItem.name
+          )
+        } catch (error) {
+          this.showStatusMessage(
+            'error',
+            `Failed to add ${this.selectedItem.name} to factory`,
+            this.selectedItem.name
+          )
+        }
       }
     },
     removeFromFactory() {
       if (this.selectedItem) {
-        this.factoryService.subtractDemand(this.selectedItem.id, this.itemIRPTU, this.timeUnit)
+        try {
+          this.factoryService.subtractDemand(this.selectedItem.id, this.itemIRPTU, this.timeUnit)
+          this.showStatusMessage(
+            'error',
+            `Removed ${this.itemIRPTU} ${this.selectedItem.name} per ${this.timeUnit} from factory`,
+            this.selectedItem.name
+          )
+        } catch (error) {
+          this.showStatusMessage(
+            'error',
+            `Failed to remove ${this.selectedItem.name} from factory`,
+            this.selectedItem.name
+          )
+        }
       }
+    },
+    showStatusMessage(type, text, itemName) {
+      // Clear any existing timeout
+      if (this.statusTimeout) {
+        clearTimeout(this.statusTimeout)
+      }
+
+      // Set new message
+      this.statusMessage = {
+        visible: true,
+        type: type,
+        text: text,
+        itemName: itemName
+      }
+
+      // Auto-hide after 4 seconds
+      this.statusTimeout = setTimeout(() => {
+        this.statusMessage.visible = false
+      }, 4000)
     },
     // Close dropdown when clicking outside
     handleClickOutside(event) {
@@ -162,6 +232,9 @@ export default {
   },
   beforeUnmount() {
     document.removeEventListener('click', this.handleClickOutside)
+    if (this.statusTimeout) {
+      clearTimeout(this.statusTimeout)
+    }
   }
 }
 </script>
@@ -207,6 +280,31 @@ export default {
   border-radius: 4px;
   font-family: var(--main-font-family);
   font-size: var(--body-font-size);
+  height: 40px;
+  box-sizing: border-box;
+}
+
+/* Horizontal form row styles */
+.form-row--horizontal {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.form-row__field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row--horizontal .form-row__label {
+  margin-bottom: 5px;
+}
+
+.form-row--horizontal .form-row__input,
+.form-row--horizontal .form-row__select {
+  margin-left: 0;
+  width: 100%;
 }
 
 /* Item Selector Styles */
@@ -355,6 +453,58 @@ export default {
   opacity: 0.6;
 }
 
+/* Status Message Styles */
+.status-message {
+  margin-top: 15px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border: 1px solid;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  font-family: var(--main-font-family);
+  font-size: var(--body-font-size);
+}
+
+.status-message--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.status-message--success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.status-message--error {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+.status-message__content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-message__icon {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.status-message__item-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.status-message__text {
+  flex: 1;
+}
+
 @media (max-width: var(--mobile-breakpoint)) {
   .form-row {
     display: flex;
@@ -367,6 +517,17 @@ export default {
     margin-top: 5px;
     width: 100%;
   }
+
+  /* Make horizontal form rows stack on mobile */
+  .form-row--horizontal {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+
+  .form-row__field {
+    width: 100%;
+  }
   
   /* Make buttons stack vertically but stay centered on mobile */
   .form-row--buttons {
@@ -377,6 +538,21 @@ export default {
   .form-row__button {
     margin: 5px 0; /* Vertical spacing between stacked buttons */
     width: 80%; /* Not 100% width to maintain some whitespace on sides */
+  }
+
+  .status-message {
+    margin-top: 10px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .status-message__content {
+    gap: 6px;
+  }
+
+  .status-message__item-icon {
+    width: 18px;
+    height: 18px;
   }
 }
 </style>
