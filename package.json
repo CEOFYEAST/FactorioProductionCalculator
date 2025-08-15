@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/CEOFYEAST/FactorioProductionCalculator#readme",
   "dependencies": {
-    "@ceofyeast/fpc-server": "^1.1.0"
+    "@ceofyeast/fpc-server": "^1.2.0"
   }
 }

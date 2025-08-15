@@ -78,17 +78,24 @@
         </div>
       </div>
     </div>
+
+    <!-- Crafter Configuration Menu -->
+    <CrafterConfigMenu />
   </div>
 </template>
 
 <script>
 import { useLoadedFactory } from '@/stores/loadedFactory'
 import { addRecipesLoadedListener } from '@ceofyeast/prodchaincalculators/recipes'
+import CrafterConfigMenu from './CrafterConfigMenu.vue'
 
 let LFS = {}
 
 export default {
   name: 'UserDemandUpdate',
+  components: {
+    CrafterConfigMenu
+  },
   props: {
     factoryService: {
       type: Object,
@@ -115,6 +122,9 @@ export default {
   computed: {
     LFS() {
       return LFS
+    },
+    recipes() {
+      return LFS.recipes || {}
     },
     itemNamesAndIDs() {
       return LFS.itemNamesAndIDs || {}

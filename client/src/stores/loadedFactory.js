@@ -5,6 +5,7 @@ import * as UTILITY from "@ceofyeast/prodchaincalculators/utility"
 import * as TRAVERSAL from "@ceofyeast/prodchaincalculators/traversal"
 import * as GRAPH from "@ceofyeast/prodchaincalculators/graph"
 import {addRecipesLoadedListener, recipesLoaded} from "@ceofyeast/prodchaincalculators/recipes"
+import recipes from "@ceofyeast/prodchaincalculators/recipes"
 
 export const useLoadedFactory = defineStore('loadedFactory', () => {
     const loadedFactory = ref(UTILITY.createProductionChainObject())
@@ -13,6 +14,7 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
     const depthwiseTraversal = ref({})
     const itemIDs = ref({})
     const itemNamesAndIDs = ref({})
+    const recipesData = ref(recipes)
 
     const timeUnit = computed(() => loadedFactory.value.timeUnit)
     const prodChain = computed(() => loadedFactory.value.prodChain)
@@ -107,6 +109,7 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         userDemand,
         itemIDs,
         itemNamesAndIDs,
+        recipes: recipesData,
         timeUnit,
         prodChain,
         graphifiedRep,
