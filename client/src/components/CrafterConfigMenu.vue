@@ -291,7 +291,7 @@ export default {
   margin-top: 0;
   margin-bottom: 15px;
   font-family: var(--main-font-family);
-  color: var(--main-text-color);
+  color: var(--stylized-text-color);
 }
 
 .container__content {

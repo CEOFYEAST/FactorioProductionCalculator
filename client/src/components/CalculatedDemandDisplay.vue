@@ -3,46 +3,60 @@
     <h1 class="container__header">Production Chain Visualizer</h1>
 
     <div class="display" v-if="resourcesLoaded">
-      <!-- Search Section -->
-      <div class="search-section">
-        <div class="search-container">
-          <input 
-            class="search-input"
-            type="text" 
-            v-model="searchQuery"
-            placeholder="Search items..."
-          />
-          <span class="search-icon">🔍</span>
-        </div>
-        <div class="search-results-info" v-if="searchQuery">
-          Showing {{ filteredDepthwiseTraversal.length }} of {{ depthwiseTraversal.length }} items
+      <!-- No Items Message -->
+      <div v-if="!hasItems" class="no-items-message">
+        <div class="no-items-content">
+          <h3>No items have been added to the factory</h3>
+          <p>Add some items to your production demand to see the production chain.</p>
         </div>
       </div>
 
-      <div class="top-row">
-        <div class="top-row__filler-left"></div>
-        <div class="top-row__items-header">
-          Items per {{ timeUnit }}
+      <!-- Production Chain Display -->
+      <div v-else>
+        <!-- Search Section -->
+        <div class="search-section">
+          <div class="search-container">
+            <input 
+              class="search-input"
+              type="text" 
+              v-model="searchQuery"
+              placeholder="Search items..."
+            />
+            <span class="search-icon">🔍</span>
+          </div>
+          <div class="search-results-info" v-if="searchQuery">
+            Showing {{ filteredDepthwiseTraversal.length }} of {{ depthwiseTraversal.length }} items
+          </div>
         </div>
-        <div class="top-row__spacer"></div>
-        <div class="top-row__crafter-header">
-          Crafter Counts
+
+        <div class="production-chain-wrapper">
+          <div class="top-row">
+            <div class="top-row__filler-left"></div>
+            <div class="top-row__items-header">
+              Items per {{ timeUnit }}
+            </div>
+            <div class="top-row__spacer"></div>
+            <div class="top-row__crafter-header">
+              Crafter Counts
+            </div>
+            <div class="top-row__filler-right"></div>
+          </div>
+          <div class="rows">
+            <ProductionChainRow
+              v-for="(item, index) in filteredDepthwiseTraversal"
+              :key="index"
+              :class="{ 'first-row': index === 0 }"
+              :icon-path="getThumbPath(item)"
+              :demand="getItemDemand(item)"
+              :dependent-items="getDependentItems(item)"
+              :ingredient-items="getIngredientItems(item)"
+              :prod-chain="prodChain"
+              :crafter="getCrafter(item)"
+              :crafter-count="getCrafterCount(item)"
+              :crafter-icon-path="getCrafterThumbPath(item)"
+            />
+          </div>
         </div>
-        <div class="top-row__filler-right"></div>
-      </div>
-      <div class="rows">
-        <ProductionChainRow
-          v-for="(item, index) in filteredDepthwiseTraversal"
-          :key="index"
-          :icon-path="getThumbPath(item)"
-          :demand="getItemDemand(item)"
-          :dependent-items="getDependentItems(item)"
-          :ingredient-items="getIngredientItems(item)"
-          :prod-chain="prodChain"
-          :crafter="getCrafter(item)"
-          :crafter-count="getCrafterCount(item)"
-          :crafter-icon-path="getCrafterThumbPath(item)"
-        />
       </div>
     </div>
 
@@ -92,6 +106,9 @@ export default {
     },
     graphifiedRep() {
       return LFS.graphifiedRep
+    },
+    hasItems() {
+      return this.depthwiseTraversal && this.depthwiseTraversal.length > 0
     }
   },
   methods: {
@@ -178,6 +195,36 @@ export default {
   margin-bottom: 20px;
 }
 
+/* No Items Message Styles */
+.no-items-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  padding: 40px 20px;
+}
+
+.no-items-content {
+  text-align: center;
+  max-width: 500px;
+}
+
+.no-items-content h3 {
+  font-family: var(--main-font-family);
+  font-size: 1.5em;
+  color: var(--main-text-color);
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.no-items-content p {
+  font-family: var(--main-font-family);
+  font-size: var(--body-font-size);
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
 .search-container {
   position: relative;
   width: 300px;
@@ -221,13 +268,21 @@ export default {
   font-style: italic;
 }
 
+.production-chain-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
 .rows {
   display: flex;
   flex-direction: column;
   width: 730px;
-  border-top: var(--medium-border);
   max-height: 1000px;
   overflow-y: auto;
+  padding-top: 40px;
+  margin-top: -40px;
 }
 
 .top-row {
@@ -270,5 +325,10 @@ export default {
 
 .top-row__filler-right {
   grid-column: 5;
+}
+
+/* First row styling */
+.first-row {
+  border-top: var(--medium-border);
 }
 </style>
