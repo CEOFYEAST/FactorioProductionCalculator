@@ -212,7 +212,7 @@ export default {
       try {
         // Update the loaded factory store with new crafter config
         if (LFS.loadedFactory) {
-          LFS.loadedFactory.crafterConfig = { ...this.localCrafterConfig }
+          LFS.setCrafterConfig(this.localCrafterConfig)
           
           this.showStatusMessage('success', 'Crafter configuration saved successfully!')
         } else {

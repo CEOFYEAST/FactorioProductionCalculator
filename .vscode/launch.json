@@ -1,0 +1,44 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Chrome against localhost",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3001",
+      "webRoot": "${workspaceFolder}/client/src",
+      "sourceMaps": true,
+      "trace": true
+    },
+    {
+      "name": "Attach to Chrome",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}/client/src",
+      "sourceMaps": true
+    },
+    {
+      "name": "Debug Vue.js App",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/client/node_modules/@vue/cli-service/bin/vue-cli-service.js",
+      "args": ["serve", "--port", "3001", "--mode", "development"],
+      "cwd": "${workspaceFolder}/client",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Debug PCC Module",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/PCC/scripts/prod-chain-utility.module.js",
+      "cwd": "${workspaceFolder}/PCC",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}

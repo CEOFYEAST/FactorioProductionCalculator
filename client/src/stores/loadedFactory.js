@@ -17,6 +17,7 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
     const recipesData = ref(recipes)
 
     const timeUnit = computed(() => loadedFactory.value.timeUnit)
+    const crafterConfig = computed(() => loadedFactory.value.crafterConfig)
     const prodChain = computed(() => loadedFactory.value.prodChain)
 
     function initializeRecipesData(){
@@ -94,6 +95,11 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         refreshStoreState()
     }
 
+    function setCrafterConfig(newConfig) {
+        loadedFactory.value = UTILITY.setCrafterConfigOfProdChain(newConfig, loadedFactory.value)
+        refreshStoreState()
+    }
+
     function getItemIconPath(name) {
         const thumbDir = name.replace(/\s+/g, '_') + '.png';
         const thumbName = `32px-${thumbDir}`;
@@ -120,7 +126,8 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         addDemand,
         subtractDemand,
         loadFactoryData,
-        getItemIconPath
+        getItemIconPath,
+        setCrafterConfig
     }
 })
 
