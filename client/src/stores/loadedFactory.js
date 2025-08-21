@@ -3,7 +3,6 @@ import { ref, computed } from 'vue'
 import * as IRPTU from "@ceofyeast/prodchaincalculators/irptu"
 import * as UTILITY from "@ceofyeast/prodchaincalculators/utility"
 import * as TRAVERSAL from "@ceofyeast/prodchaincalculators/traversal"
-import * as GRAPH from "@ceofyeast/prodchaincalculators/graph"
 import {addRecipesLoadedListener, recipesLoaded} from "@ceofyeast/prodchaincalculators/recipes"
 import recipes from "@ceofyeast/prodchaincalculators/recipes"
 
@@ -19,6 +18,8 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
     const timeUnit = computed(() => loadedFactory.value.timeUnit)
     const crafterConfig = computed(() => loadedFactory.value.crafterConfig)
     const prodChain = computed(() => loadedFactory.value.prodChain)
+
+    addDemand("advanced-circuit", 10)
 
     function initializeRecipesData(){
         console.log("Recipes loaded listener called")

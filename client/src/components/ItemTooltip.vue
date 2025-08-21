@@ -67,7 +67,16 @@ export default {
 <style scoped>
 .item-tooltip-wrapper {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-tooltip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .item-tooltip {

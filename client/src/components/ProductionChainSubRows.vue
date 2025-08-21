@@ -7,6 +7,7 @@
         :key="`dependent-${dependentName}`"
         class="sub-row"
       >
+        <div class="sub-row__filler"></div>
         <div class="sub-row__icon-container">
           <ItemTooltip :item-id="getItemIdFromPath(getDependentIconPath(dependentName))">
             <img class="sub-row__icon" :src="getDependentIconPath(dependentName)" />
@@ -39,6 +40,7 @@
         :key="`ingredient-${ingredientName}`"
         class="sub-row"
       >
+        <div class="sub-row__filler"></div>
         <div class="sub-row__icon-container">
           <ItemTooltip :item-id="getItemIdFromPath(currentItemIconPath)">
             <img class="sub-row__icon" :src="currentItemIconPath" />
@@ -147,24 +149,24 @@ export default {
 
 <style scoped>
 .sub-rows {
-  padding-left: 25px;
-  width: 50%;
-  margin-top: 8px;
+  width: 100%;
+  background-color: ghostwhite
 }
 
 .sub-rows-container {
   display: flex;
   flex-direction: column;
-  padding-left: 10px;
-  margin-bottom: 15px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  border-top: var(--medium-border);
 }
 
 .sub-row {
   display: grid;
-  grid-template-columns: 40px 32px 40px 80px 50px 40px 24px 60px;
+  grid-template-columns: 90px 40px 32px 40px 70px 40px 40px 24px 80px;
   height: 40px;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   border-bottom: var(--weak-border);
 }
 

@@ -206,7 +206,7 @@ export default {
 
 .no-items-content {
   text-align: center;
-  max-width: 500px;
+  max-width: 600px;
 }
 
 .no-items-content h3 {
@@ -278,8 +278,8 @@ export default {
 .rows {
   display: flex;
   flex-direction: column;
-  width: 730px;
-  max-height: 1000px;
+  width: 900px;
+  max-height: 500px;
   overflow-y: auto;
   padding-top: 40px;
   margin-top: -40px;
@@ -289,8 +289,11 @@ export default {
   display: grid;
   grid-template-columns: 72px 194px 70px 170px 1fr;
   height: 40px;
-  width: 730px;
+  width: 900px;
   margin-bottom: 0;
+  z-index: 10;
+  background: white;
+  border-bottom: var(--medium-border);
 }
 
 .top-row__filler-left {
@@ -327,8 +330,4 @@ export default {
   grid-column: 5;
 }
 
-/* First row styling */
-.first-row {
-  border-top: var(--medium-border);
-}
 </style>
