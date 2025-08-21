@@ -175,6 +175,7 @@ export default {
             this.selectedItem.name
           )
         } catch (error) {
+          console.log(error)
           this.showStatusMessage(
             'error',
             `Failed to add ${this.selectedItem.name} to factory`,

@@ -3,7 +3,7 @@
     <div class="sub-rows-container">
       <!-- Dependent relationships (dependent ← this item) -->
       <div 
-        v-for="[dependentName, amount] in dependentItemsList" 
+        v-for="[dependentName, dependentData] in dependentItemsList" 
         :key="`dependent-${dependentName}`"
         class="sub-row"
       >
@@ -18,12 +18,24 @@
             <img class="sub-row__icon" :src="currentItemIconPath" />
           </ItemTooltip>
         </div>
-        <div class="sub-row__amount">{{ parseFloat(amount.toFixed(3)) }}</div>
+        <div class="sub-row__amount">{{ parseFloat(dependentData["IRPTU"].toFixed(3)) }}</div>
+        <div class="sub-row__spacer"></div>
+        <div class="sub-row__crafter-icon-container">
+          <ItemTooltip :item-id="getItemIdFromPath(dependentData.crafterThumbPath)">
+            <img class="sub-row__crafter-icon" :src="dependentData.crafterThumbPath" />
+          </ItemTooltip>
+        </div>
+        <div class="sub-row__crafter-multiplier-container">
+          <span class="sub-row__crafter-multiplier">×</span>
+        </div>
+        <div class="sub-row__crafter-count-container">
+          <span class="sub-row__crafter-count">{{ formatCrafterCount(dependentData.crafterCount) }}</span>
+        </div>
       </div>
 
       <!-- Ingredient relationships (this item ← ingredient) -->
       <div 
-        v-for="[ingredientName, amount] in ingredientItemsList" 
+        v-for="[ingredientName, ingredData] in ingredientItemsList" 
         :key="`ingredient-${ingredientName}`"
         class="sub-row"
       >
@@ -38,7 +50,19 @@
             <img class="sub-row__icon" :src="getIngredientIconPath(ingredientName)" />
           </ItemTooltip>
         </div>
-        <div class="sub-row__amount">{{ parseFloat(amount.toFixed(3)) }}</div>
+        <div class="sub-row__amount">{{ parseFloat(ingredData["IRPTU"].toFixed(3)) }}</div>
+        <div class="sub-row__spacer"></div>
+        <div class="sub-row__crafter-icon-container">
+          <ItemTooltip :item-id="getItemIdFromPath(ingredData.crafterThumbPath)">
+            <img class="sub-row__crafter-icon" :src="ingredData.crafterThumbPath" />
+          </ItemTooltip>
+        </div>
+        <div class="sub-row__crafter-multiplier-container">
+          <span class="sub-row__crafter-multiplier">×</span>
+        </div>
+        <div class="sub-row__crafter-count-container">
+          <span class="sub-row__crafter-count">{{ formatCrafterCount(ingredData.crafterCount) }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -87,6 +111,20 @@ export default {
       if (!this.prodChain[dependentName]) return '';
       return this.prodChain[dependentName]["thumbPath"] || '';
     },
+    formatCrafterCount(count) {
+      // Handle string values like "N/A"
+      if (typeof count === 'string') {
+        return count;
+      }
+      
+      // Handle numeric values
+      if (typeof count === 'number' && !isNaN(count)) {
+        return parseFloat(count.toFixed(3));
+      }
+      
+      // Fallback for other cases
+      return '0';
+    },
     getItemIdFromPath(imagePath) {
       if (!imagePath) return '';
       
@@ -123,7 +161,7 @@ export default {
 
 .sub-row {
   display: grid;
-  grid-template-columns: 40px 32px 40px 80px;
+  grid-template-columns: 40px 32px 40px 80px 50px 40px 24px 60px;
   height: 40px;
   align-items: center;
   gap: 12px;
@@ -162,5 +200,43 @@ export default {
   font-family: var(--main-font-family);
   color: var(--main-font-color);
   font-size: var(--main-font-size)
+}
+
+.sub-row__crafter-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sub-row__crafter-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.sub-row__crafter-multiplier-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sub-row__crafter-multiplier {
+  color: var(--main-font-color);
+  font-size: var(--body-font-size);
+  font-weight: normal;
+}
+
+.sub-row__crafter-count-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sub-row__crafter-count {
+  font-family: var(--main-font-family);
+  color: var(--main-font-color);
+  font-size: var(--body-font-size);
+  font-weight: normal;
 }
 </style>
