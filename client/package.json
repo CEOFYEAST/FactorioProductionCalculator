@@ -7,20 +7,20 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@ceofyeast/prodchaincalculators": "9.8.0",
-    "@floating-ui/vue": "^1.1.8",
+    "@ceofyeast/prodchaincalculators": "^9.9.0",
+    "@floating-ui/vue": "^1.1.9",
     "axios": "^1.11.0",
     "bootstrap": "^5.3.7",
-    "core-js": "^3.45.0",
+    "core-js": "^3.45.1",
     "node-polyfill-webpack-plugin": "^4.1.0",
     "pinia": "^3.0.3",
-    "vue": "^3.5.18",
+    "vue": "^3.5.19",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.28.3",
-    "@vue/cli-plugin-babel": "^5.0.8",
-    "@vue/cli-service": "^5.0.8",
+    "@vue/cli-plugin-babel": "^5.0.9",
+    "@vue/cli-service": "^5.0.9",
     "serve": "^14.2.4"
   }
 }

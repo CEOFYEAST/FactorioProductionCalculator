@@ -19,12 +19,11 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
     const crafterConfig = computed(() => loadedFactory.value.crafterConfig)
     const prodChain = computed(() => loadedFactory.value.prodChain)
 
-    addDemand("advanced-circuit", 10)
-
-    function initializeRecipesData(){
+    function initializeFactoryData(){
         console.log("Recipes loaded listener called")
         itemIDs.value = UTILITY.getItemIDs()
         itemNamesAndIDs.value = UTILITY.getItemNamesAndIDs()
+        refreshStoreState()
     }
 
     function refreshStoreState() {
@@ -97,8 +96,12 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
     }
 
     function setCrafterConfig(newConfig) {
-        loadedFactory.value = UTILITY.setCrafterConfigOfProdChain(newConfig, loadedFactory.value)
+        loadedFactory.value = UTILITY.setCrafterConfig(newConfig, loadedFactory.value)
         refreshStoreState()
+    }
+
+    function setBeltConfig(newConfig) {
+        loadedFactory.value = UTILITY.setBeltConfig(newConfig, loadedFactory.value)
     }
 
     function getItemIconPath(name) {
@@ -107,9 +110,9 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         return `/assets/client_thumbs/${thumbDir}/${thumbName}`;
     }
 
-    addRecipesLoadedListener(initializeRecipesData)
+    addRecipesLoadedListener(initializeFactoryData)
 
-    if(recipesLoaded) initializeRecipesData();
+    if(recipesLoaded) initializeFactoryData();
 
     return {
         loadedFactory,
@@ -128,7 +131,8 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         subtractDemand,
         loadFactoryData,
         getItemIconPath,
-        setCrafterConfig
+        setCrafterConfig,
+        setBeltConfig
     }
 })
 

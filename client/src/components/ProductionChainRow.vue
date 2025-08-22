@@ -30,6 +30,18 @@
         <span class="row__crafter-count">{{ formattedCrafterCount }}</span>
       </div>
       <div class="row__filler"/>
+      <div class="row__belt-icon-container">
+        <ItemTooltip :item-id="getItemIdFromPath(beltIconPath)">
+          <img class="row__belt-icon" :src="beltIconPath" />
+        </ItemTooltip>
+      </div>
+      <div class="row__belt-multiplier-container">
+        <span class="row__belt-multiplier">×</span>
+      </div>
+      <div class="row__belt-count-container">
+        <span class="row__belt-count">{{ formattedBeltCount }}</span>
+      </div>
+      <div class="row__filler"/>
     </div>
     
     <ProductionChainSubRows
@@ -84,6 +96,18 @@ export default {
     crafterIconPath: {
       type: String,
       default: ''
+    },
+    belt: {
+      type: String,
+      default: ''
+    },
+    beltCount: {
+      type: [String, Number],
+      default: 0
+    },
+    beltIconPath: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -93,7 +117,7 @@ export default {
   },
   computed: {
     gridColumns() {
-      return '50px 64px 64px 64px 64px 64px 64px 64px 1fr';
+      return '50px 64px 64px 64px 64px 64px 64px 64px 64px 64px 64px 64px 1fr';
     },
     showSubRows() {
       return this.hasDependent || this.hasIngredients;
@@ -113,6 +137,20 @@ export default {
       // Handle numeric values
       if (typeof this.crafterCount === 'number' && !isNaN(this.crafterCount)) {
         return parseFloat(this.crafterCount.toFixed(2));
+      }
+      
+      // Fallback for other cases
+      return '0';
+    },
+    formattedBeltCount() {
+      // Handle string values like "N/A"
+      if (typeof this.beltCount === 'string') {
+        return this.beltCount;
+      }
+      
+      // Handle numeric values
+      if (typeof this.beltCount === 'number' && !isNaN(this.beltCount)) {
+        return parseFloat(this.beltCount.toFixed(2));
       }
       
       // Fallback for other cases
@@ -247,6 +285,44 @@ export default {
 }
 
 .row__crafter-count {
+  font-family: var(--main-font-family);
+  color: var(--main-font-color);
+  font-size: var(--body-font-size);
+  font-weight: normal;
+}
+
+.row__belt-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.row__belt-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.row__belt-multiplier-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.row__belt-multiplier {
+  color: var(--main-font-color);
+  font-size: var(--body-font-size);
+  font-weight: normal;
+}
+
+.row__belt-count-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.row__belt-count {
   font-family: var(--main-font-family);
   color: var(--main-font-color);
   font-size: var(--body-font-size);

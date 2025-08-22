@@ -13,22 +13,6 @@
 
       <!-- Production Chain Display -->
       <div v-else>
-        <!-- Search Section -->
-        <div class="search-section">
-          <div class="search-container">
-            <input 
-              class="search-input"
-              type="text" 
-              v-model="searchQuery"
-              placeholder="Search items..."
-            />
-            <span class="search-icon">🔍</span>
-          </div>
-          <div class="search-results-info" v-if="searchQuery">
-            Showing {{ filteredDepthwiseTraversal.length }} of {{ depthwiseTraversal.length }} items
-          </div>
-        </div>
-
         <div class="production-chain-wrapper">
           <div class="top-row">
             <div class="top-row__filler-left"></div>
@@ -54,7 +38,26 @@
               :crafter="getCrafter(item)"
               :crafter-count="getCrafterCount(item)"
               :crafter-icon-path="getCrafterThumbPath(item)"
+              :belt="getBelt(item)"
+              :belt-count="getBeltCount(item)"
+              :belt-icon-path="getBeltThumbPath(item)"
             />
+          </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+          <div class="search-container">
+            <input 
+              class="search-input"
+              type="text" 
+              v-model="searchQuery"
+              placeholder="Search items..."
+            />
+            <span class="search-icon">🔍</span>
+          </div>
+          <div class="search-results-info" v-if="searchQuery">
+            Showing {{ filteredDepthwiseTraversal.length }} of {{ depthwiseTraversal.length }} items
           </div>
         </div>
       </div>
@@ -158,6 +161,31 @@ export default {
     getCrafterThumbPath(item) {
       if (!this.prodChain[item]) return '';
       return this.prodChain[item]["crafterThumbPath"] || '';
+    },
+    getBelt(item) {
+      if (!this.prodChain[item]) return '';
+      return this.prodChain[item]["belt"] || '';
+    },
+    getBeltCount(item) {
+      if (!this.prodChain[item]) return 0;
+      const count = this.prodChain[item]["beltCount"];
+      
+      // Handle string values like "N/A"
+      if (typeof count === 'string') {
+        return count;
+      }
+      
+      // Handle numeric values
+      if (typeof count === 'number' && !isNaN(count)) {
+        return parseFloat(count.toFixed(3));
+      }
+      
+      // Fallback for other cases
+      return 0;
+    },
+    getBeltThumbPath(item) {
+      if (!this.prodChain[item]) return '';
+      return this.prodChain[item]["beltThumbPath"] || '';
     }
   },
   beforeCreate(){
@@ -182,17 +210,12 @@ export default {
 .container__header {
   text-align: center;
   font-family: var(--stylized-font-family);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .display {
   padding: 15px;
   border-radius: 4px;
-}
-
-/* Search Section Styles */
-.search-section {
-  margin-bottom: 20px;
 }
 
 /* No Items Message Styles */
@@ -273,13 +296,15 @@ export default {
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
+  margin-bottom: 35px;
 }
 
 .rows {
   display: flex;
   flex-direction: column;
   width: 900px;
-  max-height: 500px;
+  min-height: 450px;
+  max-height: 450px;
   overflow-y: auto;
   padding-top: 40px;
   margin-top: -40px;

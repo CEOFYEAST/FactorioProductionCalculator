@@ -32,6 +32,17 @@
         <div class="sub-row__crafter-count-container">
           <span class="sub-row__crafter-count">{{ formatCrafterCount(dependentData.crafterCount) }}</span>
         </div>
+        <div class="sub-row__belt-icon-container">
+          <ItemTooltip :item-id="getItemIdFromPath(dependentData.beltThumbPath)">
+            <img class="sub-row__belt-icon" :src="dependentData.beltThumbPath" />
+          </ItemTooltip>
+        </div>
+        <div class="sub-row__belt-multiplier-container">
+          <span class="sub-row__belt-multiplier">×</span>
+        </div>
+        <div class="sub-row__belt-count-container">
+          <span class="sub-row__belt-count">{{ formatBeltCount(dependentData.beltCount) }}</span>
+        </div>
       </div>
 
       <!-- Ingredient relationships (this item ← ingredient) -->
@@ -64,6 +75,17 @@
         </div>
         <div class="sub-row__crafter-count-container">
           <span class="sub-row__crafter-count">{{ formatCrafterCount(ingredData.crafterCount) }}</span>
+        </div>
+        <div class="sub-row__belt-icon-container">
+          <ItemTooltip :item-id="getItemIdFromPath(ingredData.beltThumbPath)">
+            <img class="sub-row__belt-icon" :src="ingredData.beltThumbPath" />
+          </ItemTooltip>
+        </div>
+        <div class="sub-row__belt-multiplier-container">
+          <span class="sub-row__belt-multiplier">×</span>
+        </div>
+        <div class="sub-row__belt-count-container">
+          <span class="sub-row__belt-count">{{ formatBeltCount(ingredData.beltCount) }}</span>
         </div>
       </div>
     </div>
@@ -127,6 +149,20 @@ export default {
       // Fallback for other cases
       return '0';
     },
+    formatBeltCount(count) {
+      // Handle string values like "N/A"
+      if (typeof count === 'string') {
+        return count;
+      }
+      
+      // Handle numeric values
+      if (typeof count === 'number' && !isNaN(count)) {
+        return parseFloat(count.toFixed(3));
+      }
+      
+      // Fallback for other cases
+      return '0';
+    },
     getItemIdFromPath(imagePath) {
       if (!imagePath) return '';
       
@@ -163,7 +199,7 @@ export default {
 
 .sub-row {
   display: grid;
-  grid-template-columns: 90px 40px 32px 40px 70px 40px 40px 24px 80px;
+  grid-template-columns: 90px 40px 32px 40px 70px 40px 40px 24px 80px 40px 24px 80px;
   height: 40px;
   align-items: center;
   gap: 8px;
@@ -236,6 +272,44 @@ export default {
 }
 
 .sub-row__crafter-count {
+  font-family: var(--main-font-family);
+  color: var(--main-font-color);
+  font-size: var(--body-font-size);
+  font-weight: normal;
+}
+
+.sub-row__belt-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sub-row__belt-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.sub-row__belt-multiplier-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sub-row__belt-multiplier {
+  color: var(--main-font-color);
+  font-size: var(--body-font-size);
+  font-weight: normal;
+}
+
+.sub-row__belt-count-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sub-row__belt-count {
   font-family: var(--main-font-family);
   color: var(--main-font-color);
   font-size: var(--body-font-size);
