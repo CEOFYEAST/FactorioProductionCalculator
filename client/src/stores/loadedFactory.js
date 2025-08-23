@@ -17,6 +17,7 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
 
     const timeUnit = computed(() => loadedFactory.value.timeUnit)
     const crafterConfig = computed(() => loadedFactory.value.crafterConfig)
+    const beltConfig = computed(() => loadedFactory.value.beltConfig)
     const prodChain = computed(() => loadedFactory.value.prodChain)
 
     function initializeFactoryData(){
@@ -102,6 +103,7 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
 
     function setBeltConfig(newConfig) {
         loadedFactory.value = UTILITY.setBeltConfig(newConfig, loadedFactory.value)
+        refreshStoreState()
     }
 
     function getItemIconPath(name) {
@@ -121,6 +123,8 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
         itemNamesAndIDs,
         recipes: recipesData,
         timeUnit,
+        crafterConfig,
+        beltConfig,
         prodChain,
         graphifiedRep,
         depthwiseTraversal,

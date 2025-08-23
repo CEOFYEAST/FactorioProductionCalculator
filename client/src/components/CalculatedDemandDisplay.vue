@@ -19,9 +19,13 @@
             <div class="top-row__items-header">
               Items per {{ timeUnit }}
             </div>
-            <div class="top-row__spacer"></div>
+            <div class="top-row__spacer-1"></div>
             <div class="top-row__crafter-header">
-              Crafter Counts
+              Crafers Required
+            </div>
+            <div class="top-row__spacer-2"></div>
+            <div class="top-row__belts-header">
+              Belts Required
             </div>
             <div class="top-row__filler-right"></div>
           </div>
@@ -312,7 +316,7 @@ export default {
 
 .top-row {
   display: grid;
-  grid-template-columns: 72px 194px 70px 170px 1fr;
+  grid-template-columns: 72px 194px 70px 194px 70px 194px 1fr;
   height: 40px;
   width: 900px;
   margin-bottom: 0;
@@ -321,38 +325,42 @@ export default {
   border-bottom: var(--medium-border);
 }
 
-.top-row__filler-left {
-  grid-column: 1;
+.top-row__items-header, .top-row__crafter-header, .top-row__belts-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  font-family: var(--main-font-family);
+  color: var(--main-font-color);
+  font-size: var(--header-font-size);
 }
 
 .top-row__items-header {
   grid-column: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 8px;
-  font-family: var(--main-font-family);
-  color: var(--main-font-color);
-  font-size: var(--header-font-size);
-}
-
-.top-row__spacer {
-  grid-column: 3;
 }
 
 .top-row__crafter-header {
   grid-column: 4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 8px;
-  font-family: var(--main-font-family);
-  color: var(--main-font-color);
-  font-size: var(--header-font-size);
+}
+
+.top-row__belts-header {
+  grid-column: 6;
+}
+
+.top-row__filler-left {
+  grid-column: 1;
+}
+
+.top-row__spacer-1 {
+  grid-column: 3;
+}
+
+.top-row__spacer-2 {
+  grid-column: 5;
 }
 
 .top-row__filler-right {
-  grid-column: 5;
+  grid-column: 7;
 }
 
 </style>
