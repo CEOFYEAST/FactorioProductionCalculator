@@ -197,6 +197,7 @@ export default {
   grid-template-columns: v-bind(gridColumns);
   height: 40px;
   align-items: center;
+  border-left: 4px solid transparent;
 }
 
 .row__expander-container {
@@ -336,7 +337,7 @@ export default {
 /* User demand highlighting */
 .production-chain-row.user-demand-item .main-row-content {
   background-color: #e8f4f8;
-  border-left: 4px solid #007acc;
+  border-left-color: #007acc;
   box-shadow: 0 2px 4px rgba(0, 122, 204, 0.1);
 }
 </style>
