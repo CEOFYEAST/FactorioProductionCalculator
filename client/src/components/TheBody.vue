@@ -16,6 +16,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: auto;
+    max-height: none;
+    min-height: 100vh;
   }
   </style>
   

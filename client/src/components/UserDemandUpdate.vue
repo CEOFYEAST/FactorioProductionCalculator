@@ -79,28 +79,18 @@
       </div>
     </div>
 
-    <!-- Crafter Configuration Menu -->
-    <CrafterConfigMenu />
-
-    <!-- Belt Configuration Menu -->
-    <BeltConfigMenu />
+    
   </div>
 </template>
 
 <script>
 import { useLoadedFactory } from '@/stores/loadedFactory'
 import { addRecipesLoadedListener } from '@ceofyeast/prodchaincalculators/recipes'
-import CrafterConfigMenu from './CrafterConfigMenu.vue'
-import BeltConfigMenu from './BeltConfigMenu.vue'
 
 let LFS = {}
 
 export default {
   name: 'UserDemandUpdate',
-  components: {
-    CrafterConfigMenu,
-    BeltConfigMenu
-  },
   props: {
     factoryService: {
       type: Object,

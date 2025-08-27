@@ -55,9 +55,13 @@ export default defineComponent({
     max-width: 50px;
     width: 50px;
     min-width: 50px;
-    max-height: 100%;
-    height: 100%;
-    min-height: 100%;
+    height: calc(100vh - 45px);
+    max-height: calc(100vh - 45px);
+    min-height: calc(100vh - 45px);
+    position: fixed;
+    top: 45px;
+    left: 0;
+    z-index: 99;
     display: flex;
     flex-direction: column;
     background-color: var(--secondary-color);

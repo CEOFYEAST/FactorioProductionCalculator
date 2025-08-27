@@ -20,9 +20,9 @@ export default {
   max-width: 100%;
   width: 100%;
   min-width: 100%;
-  max-height: 100%;
-  height: 100%;
-  min-height: 100%;
+  height: auto;
+  max-height: none;
+  min-height: 100vh;
 }
 </style>
 

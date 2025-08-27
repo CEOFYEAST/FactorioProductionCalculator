@@ -105,9 +105,11 @@ export default {
     max-width: 50%;
     width: 50%;
     min-width: 50%;
-    max-height: 100%;
-    /* TO-DO Find better solution for main window encroaching over the body window*/
-    min-height: 95%;
+    height: 100vh;
+    max-height: 100vh;
+    min-height: 100vh;
+    padding-top: 45px;
+    box-sizing: border-box;
     background-color: white;
     border-left: var(--strong-border);
     border-right: var(--strong-border);
@@ -116,16 +118,31 @@ export default {
     max-width: 40%;
     width: 40%;
     min-width: 40%;
+    height: 100vh;
+    max-height: 100vh;
+    min-height: 100vh;
+    padding-top: 45px;
+    box-sizing: border-box;
 }
 .TheMain-container.medium {
     max-width: 60%;
     width: 60%;
     min-width: 60%;
+    height: 100vh;
+    max-height: 100vh;
+    min-height: 100vh;
+    padding-top: 45px;
+    box-sizing: border-box;
 }
 .TheMain-container.large {
     max-width: 80%;
     width: 80%;
     min-width: 80%;
+    height: 100vh;
+    max-height: 100vh;
+    min-height: 100vh;
+    padding-top: 45px;
+    box-sizing: border-box;
 }
 .TheMain-container.full {
     border-left: none;
@@ -133,6 +150,11 @@ export default {
     max-width: 100%;
     width: 100%;
     min-width: 100%;
+    height: auto;
+    max-height: none;
+    min-height: 100vh;
+    padding-top: 45px;
+    box-sizing: border-box;
 }
 .TheMain-container > * {
     padding-left: 20px;

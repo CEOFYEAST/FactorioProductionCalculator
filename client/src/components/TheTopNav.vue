@@ -60,6 +60,11 @@ export default defineComponent({
     min-height: 45px;
     height: 45px;
     max-height: 45px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
     display: flex;
     flex-direction: row;
     background-color: var(--secondary-color);

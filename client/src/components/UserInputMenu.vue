@@ -12,6 +12,8 @@
     <div class="display" v-if="resourcesLoaded">
       <UserDemandUpdate :factoryService="factoryService" />
       <TimeUnitRecalculation :factoryService="factoryService" :currentTimeUnit="timeUnit" />
+      <CrafterConfigMenu />
+      <BeltConfigMenu />
       <MiscControls :factoryService="factoryService" />
     </div>
   </div>
@@ -24,6 +26,8 @@ import { addValidationFailedListener } from '@ceofyeast/prodchaincalculators/val
 import UserDemandUpdate from '@/components/UserDemandUpdate.vue'
 import TimeUnitRecalculation from '@/components/TimeUnitRecalculation.vue'
 import MiscControls from '@/components/MiscControls.vue'
+import CrafterConfigMenu from './CrafterConfigMenu.vue'
+import BeltConfigMenu from './BeltConfigMenu.vue'
 
 let LFS = {}
 
@@ -32,7 +36,9 @@ export default {
   components: {
     UserDemandUpdate,
     TimeUnitRecalculation,
-    MiscControls
+    MiscControls,
+    CrafterConfigMenu,
+    BeltConfigMenu
   },
   data() {
     return {
