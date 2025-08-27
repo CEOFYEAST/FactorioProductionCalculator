@@ -11,8 +11,24 @@
         </div>
       </div>
 
-      <!-- Production Chain Display -->
       <div v-else>
+
+        <div class="search-section">
+          <div class="search-container">
+            <input 
+              class="search-input"
+              type="text" 
+              v-model="searchQuery"
+              placeholder="Search items..."
+            />
+            <span class="search-icon">🔍</span>
+          </div>
+          <div class="search-results-info" v-if="searchQuery">
+            Showing {{ filteredDepthwiseTraversal.length }} of {{ depthwiseTraversal.length }} items
+          </div>
+        </div>
+
+      <!-- Production Chain Display -->
         <div class="production-chain-wrapper">
           <div class="top-row">
             <div class="top-row__filler-left"></div>
@@ -45,25 +61,12 @@
               :belt="getBelt(item)"
               :belt-count="getBeltCount(item)"
               :belt-icon-path="getBeltThumbPath(item)"
+              :has-user-demand="hasUserDemand(item)"
             />
           </div>
         </div>
+      
 
-        <!-- Search Section -->
-        <div class="search-section">
-          <div class="search-container">
-            <input 
-              class="search-input"
-              type="text" 
-              v-model="searchQuery"
-              placeholder="Search items..."
-            />
-            <span class="search-icon">🔍</span>
-          </div>
-          <div class="search-results-info" v-if="searchQuery">
-            Showing {{ filteredDepthwiseTraversal.length }} of {{ depthwiseTraversal.length }} items
-          </div>
-        </div>
       </div>
     </div>
 
@@ -190,6 +193,11 @@ export default {
     getBeltThumbPath(item) {
       if (!this.prodChain[item]) return '';
       return this.prodChain[item]["beltThumbPath"] || '';
+    },
+    hasUserDemand(item) {
+      if (!this.prodChain[item]) return false;
+      const userIRPTU = this.prodChain[item]["userIRPTU"] || 0;
+      return userIRPTU > 0;
     }
   },
   beforeCreate(){
@@ -252,6 +260,10 @@ export default {
   margin: 0;
 }
 
+.search-section {
+  margin-bottom: 20px;
+}
+
 .search-container {
   position: relative;
   width: 300px;
@@ -307,9 +319,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: 900px;
-  min-height: 450px;
-  max-height: 450px;
-  overflow-y: auto;
   padding-top: 40px;
   margin-top: -40px;
 }

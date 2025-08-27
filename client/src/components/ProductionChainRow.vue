@@ -1,5 +1,5 @@
 <template>
-  <div class="production-chain-row">
+  <div class="production-chain-row" :class="{ 'user-demand-item': hasUserDemand }">
     <div class="main-row-content">
       <div class="row__expander-container">
         <button @click="toggleExpanded" class="expand-button">
@@ -108,6 +108,10 @@ export default {
     beltIconPath: {
       type: String,
       default: ''
+    },
+    hasUserDemand: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -327,5 +331,12 @@ export default {
   color: var(--main-font-color);
   font-size: var(--body-font-size);
   font-weight: normal;
+}
+
+/* User demand highlighting */
+.production-chain-row.user-demand-item .main-row-content {
+  background-color: #e8f4f8;
+  border-left: 4px solid #007acc;
+  box-shadow: 0 2px 4px rgba(0, 122, 204, 0.1);
 }
 </style>

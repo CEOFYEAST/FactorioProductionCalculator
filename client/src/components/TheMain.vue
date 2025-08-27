@@ -102,17 +102,18 @@ export default {
 .TheMain-container {
     display: flex;
     justify-content: center;
-    max-width: 50%;
-    width: 50%;
-    min-width: 50%;
+    max-width: calc(100% - 50px);
+    width: calc(100% - 50px);
+    min-width: calc(100% - 50px);
     height: 100vh;
     max-height: 100vh;
     min-height: 100vh;
     padding-top: 45px;
+    margin-left: 50px;
     box-sizing: border-box;
     background-color: white;
     border-left: var(--strong-border);
-    border-right: var(--strong-border);
+    border-right: none;
 }
 .TheMain-container.small {
     max-width: 40%;

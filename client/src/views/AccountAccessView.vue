@@ -121,4 +121,12 @@ export default {
     height: 25px;
     width: 200px;
 }
+
+.status-container__p {
+    font-family: var(--main-font-family);
+    font-size: var(--body-font-size);
+    color: var(--main-text-color);
+    text-align: center;
+    margin: 10px 0;
+}
 </style>

@@ -19,6 +19,7 @@
     height: auto;
     max-height: none;
     min-height: 100vh;
+    overflow-x: hidden;
   }
   </style>
   

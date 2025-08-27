@@ -23,6 +23,13 @@ export default {
   height: auto;
   max-height: none;
   min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Global overflow control */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 </style>
 
