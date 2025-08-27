@@ -22,6 +22,7 @@ export const useLoadedFactory = defineStore('loadedFactory', () => {
 
     function initializeFactoryData(){
         console.log("Recipes loaded listener called")
+        addDemand("advanced-circuit", 10)
         itemIDs.value = UTILITY.getItemIDs()
         itemNamesAndIDs.value = UTILITY.getItemNamesAndIDs()
         refreshStoreState()
