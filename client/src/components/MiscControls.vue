@@ -6,10 +6,6 @@
       <div class="form-row">
         <button class="form-row__button" @click="clearFactory">Clear Factory</button>
       </div>
-
-      <div class="form-row">
-        <button class="form-row__button" @click="addOneOfEach">Add One of Each Item to the Factory</button>
-      </div>
     </div>
   </div>
 </template>

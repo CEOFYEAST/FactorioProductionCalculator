@@ -105,7 +105,7 @@ export default {
       
       // Traverse recipes to find items with throughput property (belts)
       for (const [itemId, itemData] of Object.entries(this.recipes)) {
-        if (itemData.throughput) {
+        if (itemData.throughput && itemId !== 'pipe') {
           belts.push({
             id: itemId,
             name: itemData.name,
