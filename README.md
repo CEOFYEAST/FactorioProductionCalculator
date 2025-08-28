@@ -16,13 +16,13 @@ However, I plan to implement user profiles; this will allow users to continue mo
 
 ## Current Release
 
-The current release is the Save Slots & Security release; this release includes a system for editing and saving calculated production data across sessions for up to three factories. This release also takes steps to increase the overall security of the site; passwords are now hashed upon entering the server, and user sessions are stored in a secure fashion on the backend. 
+The current release is the Visualizers and Beautification release; this release includes a table-based visualizer for calculated factory data including item, crafter, and belt demand. This release also makes strides in modernizing the site's visuals as a whole. 
 
-Creating this release involved implementing secure server sessions, adding hashing and length requirements for passwords, writing APIs for save slots and user account functionality, creating a package and manual testing dashboard for the backend route handlers, and designing a visual interface for the save slots menu. I hope you enjoy!
+Creating this release involved lots of front-end work; I had to find a way to translate all of my calculated values into helpful visuals for the end user. I hope you enjoy!
 
 ## Next Steps
 
-My plan going forwards is to create a better visual interface for the calculator, and add crafter and energy use calculations to the package.
+My plan going forwards is to add a graph-based visualizer for a user's factory data.
 
 ## Keep Up With Updates
 
