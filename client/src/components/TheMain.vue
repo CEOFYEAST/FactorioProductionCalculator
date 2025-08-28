@@ -26,12 +26,14 @@ export default {
                 isLarge: false,
                 isFull: false
             },
-            smallRoutes: [],
-            mediumRoutes: [
+            smallRoutes: [
                 definedRoutes.aboutViewRoute,
                 definedRoutes.accountAccessRoute,
                 definedRoutes.accountCreationRoute,
                 definedRoutes.userDataRoute
+            ],
+            mediumRoutes: [
+                
             ],
             largeRoutes: [],
             fullRoutes: [

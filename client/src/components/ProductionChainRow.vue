@@ -140,7 +140,7 @@ export default {
       
       // Handle numeric values
       if (typeof this.crafterCount === 'number' && !isNaN(this.crafterCount)) {
-        return parseFloat(this.crafterCount.toFixed(2));
+        return parseFloat(this.crafterCount.toFixed(3));
       }
       
       // Fallback for other cases
@@ -154,7 +154,7 @@ export default {
       
       // Handle numeric values
       if (typeof this.beltCount === 'number' && !isNaN(this.beltCount)) {
-        return parseFloat(this.beltCount.toFixed(2));
+        return parseFloat(this.beltCount.toFixed(3));
       }
       
       // Fallback for other cases

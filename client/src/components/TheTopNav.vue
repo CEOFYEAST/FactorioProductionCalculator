@@ -12,6 +12,13 @@
         >
             {{ item.name }}
         </button>
+        
+        <!-- User Display -->
+        <div v-if="signedIn" class="user-display">
+            <span class="user-display__username">{{ username }}</span>
+            <button class="user-display__logout-btn" @click="logout">Logout</button>
+        </div>
+        
         <div class="container__filler"></div>
     </div>
 </template>
@@ -19,6 +26,9 @@
 <script>
 import { defineComponent } from 'vue'
 import { definedRoutes } from '@/scripts/router'
+import { useUserStore } from '@/stores/user'
+
+let UDS = {}
 
 export default defineComponent({
     data() {
@@ -34,6 +44,14 @@ export default defineComponent({
             activeItemName: 'About'
         }
     },
+    computed: {
+        signedIn() {
+            return UDS.signedIn
+        },
+        username() {
+            return UDS.username
+        }
+    },
     methods: {
         setActive(itemName) {
             // Update the active item name
@@ -46,7 +64,13 @@ export default defineComponent({
                 // Navigate to the selected route
                 this.$router.push(selectedItem.route)
             }
+        },
+        logout() {
+            UDS.tryLogout()
         }
+    },
+    beforeCreate() {
+        UDS = useUserStore()
     },
     mounted() {
         this.setActive('About')
@@ -93,5 +117,44 @@ export default defineComponent({
 }
 .container__item:hover {
     background-color: var(--active-color);
+}
+
+.user-display {
+    position: absolute;
+    right: 50px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 15px;
+    height: 42px;
+    border-bottom: var(--strong-border);
+    background-color: var(--secondary-color);
+}
+
+.user-display__username {
+    font-family: var(--main-font-family);
+    color: var(--main-text-color);
+    font-size: var(--body-font-size);
+    font-weight: 500;
+}
+
+.user-display__logout-btn {
+    height: 30px;
+    padding: 5px 10px;
+    border: 1px solid var(--main-text-color);
+    border-radius: 3px;
+    background-color: transparent;
+    color: var(--main-text-color);
+    font-family: var(--main-font-family);
+    font-size: var(--body-font-size);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.user-display__logout-btn:hover {
+    background-color: var(--active-color);
+    color: white;
+    border-color: var(--active-color);
 }
 </style>

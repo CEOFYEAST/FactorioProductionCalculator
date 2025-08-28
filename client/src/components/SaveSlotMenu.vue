@@ -3,24 +3,36 @@
 
         <h1 class="container__header">Save Slots</h1>
 
-        <div class="save-slots">
-            <div
-                v-for="slotID in Object.keys(saveSlotData)"
-                :key="slotID"
-                :class="['save-slots__save-slot', { 'save-slots__save-slot--active': selectedSlot === slotID }]"
-                @click="selectSlot(slotID)"
-            >
-                Save Slot {{ slotID }}
+        <div v-if="!signedIn" class="logged-out-message">
+            <div class="logged-out-content">
+            <h3>The user is not logged in</h3>
+            <p>Log in using the "Sign In" tab in the top nav to use the save slots feature.</p>
             </div>
         </div>
-        <div class="controls">
-            <button class="controls__button" :disabled="!selectedSlot" @click="save">Save</button>
-            <button class="controls__button" :disabled="!selectedSlot" @click="load">Load</button>
+
+        <div v-else >
+
+            <div class="save-slots">
+                <div
+                    v-for="slotID in Object.keys(saveSlotData)"
+                    :key="slotID"
+                    :class="['save-slots__save-slot', { 'save-slots__save-slot--active': selectedSlot === slotID }]"
+                    @click="selectSlot(slotID)"
+                >
+                    Save Slot {{ slotID }}
+                </div>
+            </div>
+            <div class="controls">
+                <button class="controls__button" :disabled="!selectedSlot" @click="save">Save</button>
+                <button class="controls__button" :disabled="!selectedSlot" @click="load">Load</button>
+            </div>
+            <div class="status" v-show="showStatusMessage">
+                <h3 class="status__header">Status</h3>
+                <p class="status__p">{{ saveSlotsStatusMessage }}</p>
+            </div>
+
         </div>
-        <div class="status" v-show="showStatusMessage">
-            <h3 class="status__header">Status</h3>
-            <p class="status__p">{{ saveSlotsStatusMessage }}</p>
-        </div>
+        
     </div>
 </template>
 
@@ -57,6 +69,9 @@ export default {
         },
         showStatusMessage() {
             return this.saveSlotsStatusMessage === true;  
+        },
+        signedIn() {
+            return UDS.signedIn;
         }
     },
     beforeCreate(){
@@ -79,6 +94,31 @@ export default {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+}
+.logged-out-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  padding: 40px 20px;
+}
+.logged-out-content {
+  text-align: center;
+  max-width: 600px;
+}
+.logged-out-content h3 {
+  font-family: var(--main-font-family);
+  font-size: 1.5em;
+  color: var(--main-text-color);
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+.logged-out-content p {
+  font-family: var(--main-font-family);
+  font-size: var(--body-font-size);
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
 }
 .save-slots__save-slot {
     font-family: var(--main-font-family);
